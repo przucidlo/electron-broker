@@ -1,0 +1,24 @@
+{
+  "name": "electron-dove",
+  "version": "0.5.0",
+  "description": "Library that makes electron ipc communication simple and effective.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abbl/electron-dove.git"
+  },
+  "keywords": [
+    "electron",
+    "ipc",
+    "library"
+  ],
+  "author": "Abbl (Patryk Rzucidło)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abbl/electron-dove/issues"
+  },
+  "homepage": "https://github.com/abbl/electron-dove#readme"
+}
