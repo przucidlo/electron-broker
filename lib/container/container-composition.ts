@@ -4,7 +4,7 @@ import { AbstractContainerComposer } from './abstract/abstract-container-compose
 import ControllerMiddlewareComposer from './composers/controller-middleware.composer';
 import { ControllersMatadataComposer } from './composers/controllers-metadata.composer';
 import { InternalMiddlewareComposer } from './composers/internal-middleware.composer';
-import { IpcClientComposer } from './composers/ipc-client.composer';
+import { DoveClientComposer } from './composers/dove-client.composer';
 import { IpcTransportComposer } from './composers/ipc-transport.composer';
 import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareExecutorComposer } from './composers/middleware-executor.composer';
@@ -16,7 +16,7 @@ type Composers = { new (container: Container): AbstractContainerComposer }[];
 export class ContainerComposition {
   private static composersOrder: Composers = [
     IpcTransportComposer,
-    IpcClientComposer,
+    DoveClientComposer,
     MetadataReadersComposer,
     ControllersMatadataComposer,
     ControllerMiddlewareComposer,
