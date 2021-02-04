@@ -2,7 +2,7 @@
   "name": "electron-dove",
   "version": "0.5.0",
   "description": "Library that makes electron ipc communication simple and effective.",
-  "main": "index.ts",
+  "main": "lib/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +20,17 @@
   "bugs": {
     "url": "https://github.com/abbl/electron-dove/issues"
   },
-  "homepage": "https://github.com/abbl/electron-dove#readme"
+  "homepage": "https://github.com/abbl/electron-dove#readme",
+  "dependencies": {
+    "date-fns": "^2.16.1",
+    "electron": "^11.2.2",
+    "inversify": "^5.0.5",
+    "lodash": "^4.17.20",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0",
+    "typescript": "^4.1.3"
+  }
 }
