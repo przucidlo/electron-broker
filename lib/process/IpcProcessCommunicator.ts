@@ -73,7 +73,7 @@ export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
   }
 
   private isChannelFree(channel: string): boolean {
-    let channelListener: Listener | null = this.findChannelListener(channel);
+    const channelListener: Listener | null = this.findChannelListener(channel);
 
     if (!channelListener) {
       return true;
@@ -82,7 +82,7 @@ export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
   }
 
   private findChannelListener(channelName: string): Listener | null {
-    for (let key of Object.keys(this.channels)) {
+    for (const key of Object.keys(this.channels)) {
       if (key === channelName) {
         return this.channels[key];
       }

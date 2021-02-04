@@ -11,7 +11,7 @@ export class ControllersRegistrator {
   ) {}
 
   public register(): void {
-    for (let controllerMetadata of this.controllersMetadata) {
+    for (const controllerMetadata of this.controllersMetadata) {
       this.registerMessageHandlers(controllerMetadata);
     }
   }
@@ -19,7 +19,7 @@ export class ControllersRegistrator {
   private registerMessageHandlers(controllerMetadata: ControllerMetadata) {
     const messageHandlers = controllerMetadata.messageHandlers;
 
-    for (let pattern of Object.keys(messageHandlers)) {
+    for (const pattern of Object.keys(messageHandlers)) {
       this.ipcTransport.register(pattern, messageHandlers[pattern]);
     }
   }

@@ -17,7 +17,7 @@ export class ModuleBrokerMode implements ModuleMode {
   }
 
   private sortAdapters(adapters: IpcTransport[]): void {
-    for (let adapter of adapters) {
+    for (const adapter of adapters) {
       if (adapter instanceof BrokerProcessAdapter) {
         this.processAdapters.push(adapter);
       }
@@ -33,7 +33,7 @@ export class ModuleBrokerMode implements ModuleMode {
   }
 
   private registerProcessAdapters(): void {
-    for (let adapter of this.processAdapters) {
+    for (const adapter of this.processAdapters) {
       adapter.register(BROKER_EVENT, (data: BrokerEventData) => {
         this.distributeEvent(data);
       });
@@ -47,7 +47,7 @@ export class ModuleBrokerMode implements ModuleMode {
   }
 
   private distributeEvent(brokerEvent: BrokerEventData): void {
-    for (let adapter of this.processAdapters) {
+    for (const adapter of this.processAdapters) {
       // console.log('-----------In ModuleBroker:-----------');
       // console.log(brokerEvent);
       // console.log('--------------------------------------');

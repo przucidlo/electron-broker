@@ -12,9 +12,9 @@ export default abstract class AbstractSerialization {
 
     private static doDeserialization<T>(object: any): T | T[] {
         if (isPlainObject(object)) {
-            let objectCopy: { [key: string]: any } = {};
+            const objectCopy: { [key: string]: any } = {};
 
-            for (let key of Object.keys(object)) {
+            for (const key of Object.keys(object)) {
                 if (isPlainObject(object[key])) {
                     objectCopy[key] = this.doDeserialization(object[key]);
                 } else if (isArray(object[key])) {

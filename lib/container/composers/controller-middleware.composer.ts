@@ -19,7 +19,7 @@ export default class ControllerMiddlewareComposer extends ContainerConfiguarable
     if (this.isModuleUsingControllers()) {
       const controllersMetadata: ControllerMetadata[] = this.container.get(Symbols.ControllerMetadata);
 
-      for (let controllerMetadata of controllersMetadata) {
+      for (const controllerMetadata of controllersMetadata) {
         controllerMetadata.messageHandlers = this.injectContextTriggerIntoEndpoints(controllerMetadata.messageHandlers);
       }
 
@@ -28,9 +28,9 @@ export default class ControllerMiddlewareComposer extends ContainerConfiguarable
   }
 
   private injectContextTriggerIntoEndpoints(messageHandlers: Record<string, any>): Record<string, any> {
-    let messageHandlersWithContext: Record<string, any> = {};
+    const messageHandlersWithContext: Record<string, any> = {};
 
-    for (let messageHandlerKey of Object.keys(messageHandlers)) {
+    for (const messageHandlerKey of Object.keys(messageHandlers)) {
       messageHandlersWithContext[messageHandlerKey] = this.createContextAndExecuteIt(
         messageHandlers[messageHandlerKey],
       );

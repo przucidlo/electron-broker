@@ -7,11 +7,11 @@ import { AbstractMetadataReader } from './abstract-metadata.reader';
 @injectable()
 export class ControllerMetadataReader extends AbstractMetadataReader {
   public read<T extends object, U extends keyof T>(controller: U): ControllerMetadata {
-    let controllerMetadata: ControllerMetadata = {
+    const controllerMetadata: ControllerMetadata = {
       messageHandlers: {},
     };
 
-    for (let propertyKey of Object.getOwnPropertyNames(Object.getPrototypeOf(controller))) {
+    for (const propertyKey of Object.getOwnPropertyNames(Object.getPrototypeOf(controller))) {
       const property = (controller as any)[propertyKey].bind(controller);
 
       if (this.isFunction(property) && propertyKey !== 'constructor') {

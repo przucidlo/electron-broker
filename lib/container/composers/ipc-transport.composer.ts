@@ -31,7 +31,7 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
   }
 
   private bindProcessAdapters(processes: ChildProcess[]): void {
-    for (let process of processes) {
+    for (const process of processes) {
       this.container.bind(Symbols.IpcTransport).toConstantValue(new BrokerProcessAdapter(process));
     }
   }

@@ -8,9 +8,9 @@ export class MiddlewareExecutor {
   constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: IpcMiddleware[]) {}
 
   public async executeMiddlewareContext(middlewareContext: MiddlewareContext): Promise<void> {
-    let context: MiddlewareContext = middlewareContext;
+    const context: MiddlewareContext = middlewareContext;
 
-    for (let middleware of this.ipcMiddlewares) {
+    for (const middleware of this.ipcMiddlewares) {
       if (middleware.onRequest) {
         context.args = await middleware.onRequest(context.args);
       }
@@ -18,7 +18,7 @@ export class MiddlewareExecutor {
 
     const result = await context.messageHandler(context.args);
 
-    for (let middleware of this.ipcMiddlewares.reverse()) {
+    for (const middleware of this.ipcMiddlewares.reverse()) {
       if (middleware.onResponse) {
         middleware.onResponse(result);
       }
