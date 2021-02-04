@@ -1,5 +1,7 @@
 import { Symbols } from '../../constants/symbols';
+import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { IpcMiddleware } from '../../interfaces/ipc-middleware.interface';
+import { MessageHandler } from '../../interfaces/message-handler.type';
 import { PayloadMiddleware } from '../../middleware/internal/payload.middleware';
 import { ResultBroadcastMiddleware } from '../../middleware/internal/result-broadcast.middleware';
 import { MiddlewareContext } from '../../middleware/middleware-context';
@@ -19,7 +21,8 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
   }
 
   private bindMiddlewareExecutor() {
-    this.container.bind(Symbols.MiddlewareExecutor).to(MiddlewareExecutor).inRequestScope();
+    this.container.bind(MiddlewareExecutor).to(MiddlewareExecutor).inRequestScope();
+    this.container.bind(Symbols.MiddlewareExecutorFactory).toAutoFactory(MiddlewareExecutor);
   }
 
   private bindInternalMiddleware() {
@@ -29,6 +32,15 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
   }
 
   private bindMiddlewareContext() {
-    this.container.bind(Symbols.MiddlewareContext).to(MiddlewareContext).inRequestScope();
+    this.container.bind(Symbols.MiddlewareContextFactory).toFactory((context) => {
+      return (messageHandler: MessageHandler, data: BrokerEventData) => {
+        const middlewareContext = new MiddlewareContext();
+
+        middlewareContext.messageHandler = messageHandler;
+        middlewareContext.args = data;
+
+        return middlewareContext;
+      };
+    });
   }
 }
