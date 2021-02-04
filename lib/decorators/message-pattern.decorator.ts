@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { PATTERN_METADATA } from '../constants/Constants';
+import { PATTERN_METADATA } from '../constants/constants';
 
 export default function MessagePattern(pattern: string): MethodDecorator {
   return (target: object, propertyKey: string) => {
