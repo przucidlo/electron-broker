@@ -1,3 +1,1 @@
-export interface IpcRendererOptions {
-  messageControllers: (new (...args: any[]) => {})[];
-}
+export interface IpcRendererOptions {}
