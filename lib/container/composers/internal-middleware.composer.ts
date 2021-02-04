@@ -11,9 +11,7 @@ export class InternalMiddlewareComposer extends ContainerConfiguarableComposer {
   ];
 
   public compose(): void {
-    if (this.isModuleUsingControllers()) {
-      this.bindMiddlewaresInRequestScope();
-    }
+    this.bindMiddlewaresInRequestScope();
   }
 
   private bindMiddlewaresInRequestScope(): void {
