@@ -1,11 +1,11 @@
 export const Symbols = {
-  IpcModuleConfig: Symbol.for('IpcModuleConfig'),
   ControllerMetadata: Symbol.for('ControllerMetadata'),
-  Controllers: Symbol.for('Controllers'),
+  ControllersMetadataFactory: Symbol.for('ControllersMetadataFactory'),
+  ControllerMetadataReader: Symbol.for('ControllerMetadataReader'),
+  IpcMiddleware: Symbol.for('IpcMiddleware'),
+  IpcModuleConfig: Symbol.for('IpcModuleConfig'),
   IpcTransport: Symbol.for('IpcTransport'),
   ModuleMode: Symbol.for('ModuleMode'),
-  MiddlewareContext: Symbol.for('MiddlewareContext'),
-  MiddlewareExecutor: Symbol.for('MiddlewareExecutor'),
-  IpcMiddleware: Symbol.for('IpcMiddleware'),
-  ControllerMetadataReader: Symbol.for('ControllerMetadataReader'),
+  MiddlewareContextFactory: Symbol.for('MiddlewareContext'),
+  MiddlewareExecutorFactory: Symbol.for('MiddlewareExecutor'),
 };
