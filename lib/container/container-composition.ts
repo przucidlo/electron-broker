@@ -1,7 +1,6 @@
 import { Container } from 'inversify';
 import { IpcModuleConfig } from '../interfaces/ipc-module-config.type';
 import { AbstractContainerComposer } from './abstract/abstract-container-composer';
-import ControllerMiddlewareComposer from './composers/controller-middleware.composer';
 import { ControllersMetadataFactoryComposer } from './composers/factory/controllers-metadata-factory.composer';
 import { DoveClientComposer } from './composers/dove-client.composer';
 import { IpcTransportComposer } from './composers/ipc-transport.composer';
@@ -18,7 +17,6 @@ export class ContainerComposition {
     DoveClientComposer,
     MetadataReadersComposer,
     ControllersMetadataFactoryComposer,
-    ControllerMiddlewareComposer,
     MiddlewareComposer,
     ModuleModeComposer,
   ];
