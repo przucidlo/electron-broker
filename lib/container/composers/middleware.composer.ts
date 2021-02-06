@@ -32,7 +32,7 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
   }
 
   private bindMiddlewareContext() {
-    this.container.bind(Symbols.MiddlewareContextFactory).toFactory((context) => {
+    this.container.bind(Symbols.MiddlewareContextFactory).toFactory(() => {
       return (messageHandler: MessageHandler, data: BrokerEventData) => {
         const middlewareContext = new MiddlewareContext();
 
