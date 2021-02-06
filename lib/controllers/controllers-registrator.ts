@@ -1,4 +1,4 @@
-import { inject, injectable } from 'inversify';
+import { inject, injectable, interfaces } from 'inversify';
 import { Symbols } from '../constants/symbols';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
@@ -7,11 +7,14 @@ import { IpcTransport } from '../interfaces/ipc-transport.interface';
 export class ControllersRegistrator {
   constructor(
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
-    @inject(Symbols.ControllerMetadata) private controllersMetadata: ControllerMetadata[],
+    @inject(Symbols.ControllersMetadataFactory)
+    private controllersMetadataFactory: () => ControllerMetadata[],
   ) {}
 
   public register(): void {
-    for (const controllerMetadata of this.controllersMetadata) {
+    const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>this.controllersMetadataFactory();
+
+    for (const controllerMetadata of controllersMetadata) {
       this.registerMessageHandlers(controllerMetadata);
     }
   }
