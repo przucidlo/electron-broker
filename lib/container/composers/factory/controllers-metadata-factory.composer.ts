@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { Symbols } from '../../../constants/symbols';
 import { ControllerMetadata } from '../../../interfaces/controller-metadata.interface';
-import { Controller } from '../../../interfaces/controller.type';
+import { Controller } from '../../../types/controller.type';
 import { AbstractMetadataReader } from '../../../metadata-readers/abstract-metadata.reader';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
 

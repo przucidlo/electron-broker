@@ -1,7 +1,7 @@
 import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { IpcMiddleware } from '../../interfaces/ipc-middleware.interface';
-import { MessageHandler } from '../../interfaces/message-handler.type';
+import { MessageHandler } from '../../types/message-handler.type';
 import { PayloadMiddleware } from '../../middleware/internal/payload.middleware';
 import { ResultBroadcastMiddleware } from '../../middleware/internal/result-broadcast.middleware';
 import { MiddlewareContext } from '../../middleware/middleware-context';

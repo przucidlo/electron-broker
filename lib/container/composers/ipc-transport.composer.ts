@@ -5,7 +5,7 @@ import { ProcessTransportAdapter } from '../../adapters/process-transport.adapte
 import { RendererTransportAdapter } from '../../adapters/renderer-transport.adapter';
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
-import { IpcRendererSendFunction } from '../../interfaces/options/ipc-renderer-send-function.type';
+import { IpcRendererSendFunction } from '../../types/ipc-renderer-send-function.type';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class IpcTransportComposer extends ContainerConfiguarableComposer {

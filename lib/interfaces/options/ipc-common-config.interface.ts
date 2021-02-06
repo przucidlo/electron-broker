@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Controller } from '../controller.type';
+import { Controller } from '../../types/controller.type';
 
 export interface IpcCommonConfig {
   parentContainer?: Container;

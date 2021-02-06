@@ -2,10 +2,10 @@ import { inject, injectable } from 'inversify';
 import { Symbols } from '../constants/symbols';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
-import { MessageHandler } from '../interfaces/message-handler.type';
-import { MiddlewareContextFactory } from '../interfaces/middleware-context-factory.type';
+import { MessageHandler } from '../types/message-handler.type';
 import { MiddlewareContext } from '../middleware/middleware-context';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
+import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
 
 @injectable()
 export class ControllersMiddlewareInjector {

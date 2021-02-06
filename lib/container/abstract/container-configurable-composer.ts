@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
-import { IpcModuleConfig } from '../../interfaces/ipc-module-config.type';
+import { IpcModuleConfig } from '../../types/ipc-module-config.type';
 import { AbstractContainerComposer } from './abstract-container-composer';
 
 export abstract class ContainerConfiguarableComposer extends AbstractContainerComposer {

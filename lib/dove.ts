@@ -1,8 +1,8 @@
 import { Container } from 'inversify';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
-import { IpcModuleConfig } from './interfaces/ipc-module-config.type';
 import { ModuleMode } from './interfaces/module-mode.interface';
+import { IpcModuleConfig } from './types/ipc-module-config.type';
 
 export default class Dove {
   private container: Container;
