@@ -24,7 +24,7 @@ export class ControllersMiddlewareInjector {
     const messageHandlersWithContext: Record<string, any> = {};
 
     for (const messageHandlerKey of Object.keys(messageHandlers)) {
-      messageHandlersWithContext[messageHandlerKey] = this.createContextAndExecuteIt(
+      messageHandlersWithContext[messageHandlerKey] = this.createAndWrapWithMiddlewareContext(
         messageHandlers[messageHandlerKey],
       );
     }
@@ -32,7 +32,7 @@ export class ControllersMiddlewareInjector {
     return messageHandlersWithContext;
   }
 
-  private createContextAndExecuteIt(messageHandler: MessageHandler): MessageHandler {
+  private createAndWrapWithMiddlewareContext(messageHandler: MessageHandler): MessageHandler {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
         const middlewareExecutor: MiddlewareExecutor = this.middlewareExecutorFactory() as MiddlewareExecutor;
