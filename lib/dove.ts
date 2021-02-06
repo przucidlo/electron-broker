@@ -1,10 +1,8 @@
-import { Container } from "inversify";
-import { Symbols } from "./constants/symbols";
-import { ContainerComposition } from "./container/container-composition";
-import { IpcModuleConfig } from "./interfaces/ipc-module-config.type";
-import { ModuleMode } from "./interfaces/module-mode.interface";
-
-export type Constructor = new (...args: any[]) => {};
+import { Container } from 'inversify';
+import { Symbols } from './constants/symbols';
+import { ContainerComposition } from './container/container-composition';
+import { IpcModuleConfig } from './interfaces/ipc-module-config.type';
+import { ModuleMode } from './interfaces/module-mode.interface';
 
 export default class Dove {
   private container: Container;
@@ -13,15 +11,12 @@ export default class Dove {
   constructor(config: IpcModuleConfig) {
     this.createModuleContainer();
     this.setParentContainer(config);
-    this.containerComposition = new ContainerComposition(
-      this.container,
-      config
-    );
+    this.containerComposition = new ContainerComposition(this.container, config);
     this.containerComposition.composeDependencies();
   }
 
   private createModuleContainer() {
-    this.container = new Container();
+    this.container = new Container({ autoBindInjectable: true });
   }
 
   private setParentContainer(config: IpcModuleConfig) {
@@ -31,9 +26,7 @@ export default class Dove {
   }
 
   public start(): void {
-    const moduleMode: ModuleMode = this.container.get<ModuleMode>(
-      Symbols.ModuleMode
-    );
+    const moduleMode: ModuleMode = this.container.get<ModuleMode>(Symbols.ModuleMode);
 
     moduleMode.start();
   }
