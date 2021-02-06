@@ -1,4 +1,4 @@
-import { Container } from 'inversify';
+import { Container, interfaces } from 'inversify';
 import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../../interfaces/controller-metadata.interface';
@@ -11,19 +11,19 @@ type MessageHandler = (...args: any[]) => any;
 export default class ControllerMiddlewareComposer extends ContainerConfiguarableComposer {
   constructor(container: Container) {
     super(container);
-
-    this.container.bind(Symbols.MiddlewareContext).to(MiddlewareContext).inRequestScope();
   }
 
   public compose(): void {
     if (this.isModuleUsingControllers()) {
-      const controllersMetadata: ControllerMetadata[] = this.container.get(Symbols.ControllerMetadata);
+      const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>(
+        this.container.get<interfaces.Factory<ControllerMetadata[]>>(Symbols.ControllersMetadataFactory)()
+      );
 
       for (const controllerMetadata of controllersMetadata) {
         controllerMetadata.messageHandlers = this.injectContextTriggerIntoEndpoints(controllerMetadata.messageHandlers);
       }
 
-      this.container.rebind(Symbols.ControllerMetadata).toConstantValue(controllersMetadata);
+      this.container.bind(Symbols.ControllerMetadata).toConstantValue(controllersMetadata);
     }
   }
 
@@ -42,8 +42,8 @@ export default class ControllerMiddlewareComposer extends ContainerConfiguarable
   private createContextAndExecuteIt(messageHandler: MessageHandler): MessageHandler {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
-        const middlewareContext: MiddlewareContext = this.container.get(Symbols.MiddlewareContext);
-        const middlewareExecutor: MiddlewareExecutor = this.container.get(Symbols.MiddlewareExecutor);
+        const middlewareContext: MiddlewareContext = this.container.get(Symbols.MiddlewareContextFactory);
+        const middlewareExecutor: MiddlewareExecutor = this.container.get(Symbols.MiddlewareExecutorFactory);
 
         middlewareContext.args = data;
         middlewareContext.messageHandler = messageHandler;
