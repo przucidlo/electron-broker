@@ -15,7 +15,7 @@ export class ControllersMetadataFactoryComposer extends ContainerConfiguarableCo
   }
 
   public compose(): void {
-    this.container.bind(Symbols.ControllerMetadata).toFactory(() => {
+    this.container.bind(Symbols.ControllersMetadataFactory).toFactory(() => {
       return () => this.getControllersMetadata(this.getControllers());
     });
   }
