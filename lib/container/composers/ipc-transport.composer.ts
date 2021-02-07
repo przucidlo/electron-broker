@@ -1,6 +1,8 @@
 import { ChildProcess } from 'child_process';
+import { BrokerMainAdapter } from '../../adapters/broker-main.adapter';
 import { BrokerProcessAdapter } from '../../adapters/broker-process.adapter';
 import { BrokerRendererAdapter } from '../../adapters/broker-renderer.adapter';
+import { MainTransportAdapter } from '../../adapters/main-transport.adapter';
 import { ProcessTransportAdapter } from '../../adapters/process-transport.adapter';
 import { RendererTransportAdapter } from '../../adapters/renderer-transport.adapter';
 import { DoveMode } from '../../constants/dove-mode.enum';
@@ -19,6 +21,7 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
         break;
       case DoveMode.BROKER:
         this.bindBrokerIpcTransport();
+        this.container.bind(Symbols.IpcTransport).to(MainTransportAdapter).inSingletonScope();
         break;
     }
   }
@@ -27,6 +30,7 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
     if (this.config.mode === DoveMode.BROKER) {
       this.bindProcessAdapters(this.config.options.processes);
       this.bindRendererAdapters(this.config.options.rendererSend);
+      this.container.bind(Symbols.BrokerIpcTransport).to(BrokerMainAdapter);
     }
   }
 
