@@ -12,7 +12,7 @@ export class ModuleBrokerMode implements ModuleMode {
   private processAdapters: BrokerProcessAdapter[] = [];
   private rendererAdapter: BrokerRendererAdapter;
 
-  constructor(@multiInject(Symbols.IpcTransport) adapters: IpcTransport[]) {
+  constructor(@multiInject(Symbols.BrokerIpcTransport) adapters: IpcTransport[]) {
     this.sortAdapters(adapters);
   }
 
