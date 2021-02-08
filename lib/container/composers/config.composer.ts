@@ -3,7 +3,7 @@ import { Symbols } from '../../constants/symbols';
 import { IpcModuleConfig } from '../../types/ipc-module-config.type';
 import { AbstractContainerComposer } from '../abstract/abstract-container-composer';
 
-export class ModuleConfigComposer extends AbstractContainerComposer {
+export class ConfigComposer extends AbstractContainerComposer {
   constructor(container: Container, private config: IpcModuleConfig) {
     super(container);
   }

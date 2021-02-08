@@ -5,7 +5,7 @@ import { DoveClientComposer } from './composers/dove-client.composer';
 import { IpcTransportComposer } from './composers/ipc-transport.composer';
 import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
-import { ModuleConfigComposer } from './composers/module-config.composer';
+import { ConfigComposer } from './composers/config.composer';
 import { ModeComposer } from './composers/mode.composer';
 import { IpcModuleConfig } from '../types/ipc-module-config.type';
 
@@ -29,7 +29,7 @@ export class ContainerComposition {
   }
 
   private composeConfigDependency(): void {
-    new ModuleConfigComposer(this.container, this.config).compose();
+    new ConfigComposer(this.container, this.config).compose();
   }
 
   private composeDependenciesInOrder(): void {
