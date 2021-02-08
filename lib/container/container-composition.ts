@@ -6,7 +6,7 @@ import { IpcTransportComposer } from './composers/ipc-transport.composer';
 import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
 import { ModuleConfigComposer } from './composers/module-config.composer';
-import { ModuleModeComposer } from './composers/module-mode.composer';
+import { ModeComposer } from './composers/mode.composer';
 import { IpcModuleConfig } from '../types/ipc-module-config.type';
 
 type Composers = { new (container: Container): AbstractContainerComposer }[];
@@ -18,7 +18,7 @@ export class ContainerComposition {
     MetadataReadersComposer,
     ControllersMetadataFactoryComposer,
     MiddlewareComposer,
-    ModuleModeComposer,
+    ModeComposer,
   ];
 
   constructor(private container: Container, private config: IpcModuleConfig) {}

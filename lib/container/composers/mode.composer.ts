@@ -5,7 +5,7 @@ import { ProcessMode } from '../../modes/process.mode';
 import { RendererMode } from '../../modes/renderer.mode';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
-export class ModuleModeComposer extends ContainerConfiguarableComposer {
+export class ModeComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     switch (this.config.mode) {
       case DoveMode.PROCESS:
