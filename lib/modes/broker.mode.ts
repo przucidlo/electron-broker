@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import { ControllersRegistrator } from '../controllers/controllers-registrator';
 import { EventDistributorAdapterRegistrator } from '../event-distributor/event-distributor-adapter-registator';
-import { ModuleBaseMode } from './module-base.mode';
+import { BaseMode } from './base.mode';
 
 @injectable()
-export class ModuleBrokerMode extends ModuleBaseMode {
+export class BrokerMode extends BaseMode {
   constructor(
     @inject(EventDistributorAdapterRegistrator) private eventDistributorRegistrator: EventDistributorAdapterRegistrator,
     @inject(ControllersRegistrator) controllersRegistrator: ControllersRegistrator,

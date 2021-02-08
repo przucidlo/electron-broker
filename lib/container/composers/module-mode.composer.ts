@@ -1,21 +1,21 @@
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
-import { ModuleBrokerMode } from '../../modes/module-broker.mode';
-import { ModuleProcessMode } from '../../modes/module-process.mode';
-import { ModuleRendererMode } from '../../modes/module-renderer.mode';
+import { BrokerMode } from '../../modes/broker.mode';
+import { ProcessMode } from '../../modes/process.mode';
+import { RendererMode } from '../../modes/renderer.mode';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class ModuleModeComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     switch (this.config.mode) {
       case DoveMode.PROCESS:
-        this.container.bind(Symbols.ModuleMode).to(ModuleProcessMode);
+        this.container.bind(Symbols.ModuleMode).to(ProcessMode);
         break;
       case DoveMode.RENDERER:
-        this.container.bind(Symbols.ModuleMode).to(ModuleRendererMode);
+        this.container.bind(Symbols.ModuleMode).to(RendererMode);
         break;
       case DoveMode.BROKER:
-        this.container.bind(Symbols.ModuleMode).to(ModuleBrokerMode);
+        this.container.bind(Symbols.ModuleMode).to(BrokerMode);
         break;
       default:
         throw new Error('Missing ModuleMode implementation for provided IpcMode');

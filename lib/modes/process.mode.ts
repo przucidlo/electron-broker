@@ -2,10 +2,10 @@ import { injectable } from 'inversify';
 import { ProcessTransportAdapter } from '../adapters/process-transport.adapter';
 import { ControllersRegistrator } from '../controllers/controllers-registrator';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
-import { ModuleBaseMode } from './module-base.mode';
+import { BaseMode } from './base.mode';
 
 @injectable()
-export class ModuleProcessMode extends ModuleBaseMode {
+export class ProcessMode extends BaseMode {
   constructor(controllersRegistrator: ControllersRegistrator) {
     super(controllersRegistrator);
   }

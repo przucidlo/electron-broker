@@ -4,7 +4,7 @@ import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { ModuleMode } from '../interfaces/module-mode.interface';
 
 @injectable()
-export abstract class ModuleBaseMode implements ModuleMode {
+export abstract class BaseMode implements ModuleMode {
   protected ipcTransport: IpcTransport;
 
   constructor(private controllersRegistrator: ControllersRegistrator) {}
