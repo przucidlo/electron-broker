@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { DoveClient } from '.';
+import DoveClient from './client/dove.client';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
@@ -8,23 +8,22 @@ import { ModuleConfig } from './types/ipc-module-config.type';
 
 export default class Dove {
   private container: Container;
-  private containerComposition: ContainerComposition;
 
   constructor(config: ModuleConfig) {
-    this.createModuleContainer();
-    this.setParentContainer(config);
-    this.containerComposition = new ContainerComposition(this.container, config);
-    this.containerComposition.composeDependencies();
+    this.setContainer(config);
+    this.composeDependencies(config);
   }
 
-  private createModuleContainer() {
-    this.container = new Container({ autoBindInjectable: true });
-  }
-
-  private setParentContainer(config: ModuleConfig) {
+  private setContainer(config: ModuleConfig) {
     if (config.container) {
       this.container = config.container;
+    } else {
+      this.container = new Container({ autoBindInjectable: true });
     }
+  }
+
+  private composeDependencies(config: ModuleConfig): void {
+    new ContainerComposition(this.container, config).composeDependencies();
   }
 
   public start(): void {
