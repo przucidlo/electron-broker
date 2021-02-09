@@ -20,8 +20,8 @@ export default class Dove {
   }
 
   private setParentContainer(config: ModuleConfig) {
-    if (config.parentContainer) {
-      this.container = config.parentContainer;
+    if (config.container) {
+      this.container = config.container;
     }
   }
 

@@ -2,6 +2,6 @@ import { Container } from 'inversify';
 import { Controller } from '../../types/controller.type';
 
 export interface CommonConfig {
-  parentContainer?: Container;
+  container?: Container;
   controllers: Controller[];
 }
