@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import { DoveClient } from '.';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
@@ -29,5 +30,11 @@ export default class Dove {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(Symbols.ModuleMode);
 
     moduleMode.start();
+  }
+
+  public setControllers(controllers: Controller[]): void {
+    const moduleConfig: ModuleConfig = this.container.get(Symbols.IpcModuleConfig);
+
+    moduleConfig.controllers = [...controllers];
   }
 }
