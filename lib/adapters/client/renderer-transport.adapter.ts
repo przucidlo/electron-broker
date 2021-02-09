@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import { injectable } from 'inversify';
-import { IpcTransport } from '../interfaces/ipc-transport.interface';
+import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 
 @injectable()
 export class RendererTransportAdapter implements IpcTransport {

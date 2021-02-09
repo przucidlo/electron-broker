@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { IpcTransport } from '../interfaces/ipc-transport.interface';
+import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 
 export class BrokerRendererAdapter implements IpcTransport {
   constructor(private rendererSend: (pattern: string, data: any) => void) {}

@@ -1,10 +1,10 @@
 import { ChildProcess } from 'child_process';
-import { BrokerMainAdapter } from '../../adapters/broker-main.adapter';
-import { BrokerProcessAdapter } from '../../adapters/broker-process.adapter';
-import { BrokerRendererAdapter } from '../../adapters/broker-renderer.adapter';
-import { MainTransportAdapter } from '../../adapters/main-transport.adapter';
-import { ProcessTransportAdapter } from '../../adapters/process-transport.adapter';
-import { RendererTransportAdapter } from '../../adapters/renderer-transport.adapter';
+import { BrokerMainAdapter } from '../../adapters/broker/broker-main.adapter';
+import { BrokerProcessAdapter } from '../../adapters/broker/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../adapters/broker/broker-renderer.adapter';
+import { MainTransportAdapter } from '../../adapters/client/main-transport.adapter';
+import { ProcessTransportAdapter } from '../../adapters/client/process-transport.adapter';
+import { RendererTransportAdapter } from '../../adapters/client/renderer-transport.adapter';
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
 import { IpcRendererSendFunction } from '../../types/ipc-renderer-send-function.type';

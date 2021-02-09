@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron';
 import { inject, injectable } from 'inversify';
-import { EventDistributor } from '../event-distributor/event-distributor';
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
-import { IpcTransport } from '../interfaces/ipc-transport.interface';
+import { EventDistributor } from '../../event-distributor/event-distributor';
+import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
+import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 
 @injectable()
 export class MainTransportAdapter implements IpcTransport {

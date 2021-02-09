@@ -1,6 +1,6 @@
 import { ChildProcess } from 'child_process';
-import { IpcTransport } from '../interfaces/ipc-transport.interface';
-import IpcProcessCommunicator from '../process/IpcProcessCommunicator';
+import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import IpcProcessCommunicator from '../../process/IpcProcessCommunicator';
 
 export class BrokerProcessAdapter implements IpcTransport {
   private processCommunicator: IpcProcessCommunicator;
