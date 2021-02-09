@@ -9,6 +9,18 @@ export class ConfigComposer extends AbstractContainerComposer {
   }
 
   public compose(): void {
+    this.fillOptionalOptions();
+
     this.container.bind(Symbols.IpcModuleConfig).toConstantValue(this.config);
+  }
+
+  private fillOptionalOptions(): void {
+    this.fillControllersIfNotProvided();
+  }
+
+  private fillControllersIfNotProvided(): void {
+    if (!this.config.controllers) {
+      this.config.controllers = [];
+    }
   }
 }
