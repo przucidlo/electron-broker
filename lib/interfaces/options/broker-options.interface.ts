@@ -1,7 +1,7 @@
 import { ChildProcess } from 'child_process';
 import { BrowserWindow } from 'electron';
 
-export interface IpcBrokerOptions {
+export interface BrokerOptions {
   processes: ChildProcess[];
   browserWindows: BrowserWindow[];
 }

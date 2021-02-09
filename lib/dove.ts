@@ -2,13 +2,13 @@ import { Container } from 'inversify';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
-import { IpcModuleConfig } from './types/ipc-module-config.type';
+import { ModuleConfig } from './types/ipc-module-config.type';
 
 export default class Dove {
   private container: Container;
   private containerComposition: ContainerComposition;
 
-  constructor(config: IpcModuleConfig) {
+  constructor(config: ModuleConfig) {
     this.createModuleContainer();
     this.setParentContainer(config);
     this.containerComposition = new ContainerComposition(this.container, config);
@@ -19,7 +19,7 @@ export default class Dove {
     this.container = new Container({ autoBindInjectable: true });
   }
 
-  private setParentContainer(config: IpcModuleConfig) {
+  private setParentContainer(config: ModuleConfig) {
     if (config.parentContainer) {
       this.container = config.parentContainer;
     }

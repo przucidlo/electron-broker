@@ -7,7 +7,7 @@ import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
 import { ConfigComposer } from './composers/config.composer';
 import { ModeComposer } from './composers/mode.composer';
-import { IpcModuleConfig } from '../types/ipc-module-config.type';
+import { ModuleConfig } from '../types/ipc-module-config.type';
 
 type Composers = { new (container: Container): AbstractContainerComposer }[];
 
@@ -21,7 +21,7 @@ export class ContainerComposition {
     ModeComposer,
   ];
 
-  constructor(private container: Container, private config: IpcModuleConfig) {}
+  constructor(private container: Container, private config: ModuleConfig) {}
 
   public composeDependencies(): void {
     this.composeConfigDependency();

@@ -1,21 +1,21 @@
 import { DoveMode } from '../constants/dove-mode.enum';
-import { IpcBrokerOptions } from '../interfaces/options/ipc-broker-options.interface';
-import { IpcCommonConfig } from '../interfaces/options/ipc-common-config.interface';
-import { IpcProcessOptions } from '../interfaces/options/ipc-process-options.interface';
-import { IpcRendererOptions } from '../interfaces/options/ipc-renderer-options.interface';
+import { BrokerOptions } from '../interfaces/options/broker-options.interface';
+import { CommonConfig } from '../interfaces/options/common-config.interface';
+import { ProcessOptions } from '../interfaces/options/process-options.interface';
+import { RendererOptions } from '../interfaces/options/renderer-options.interface';
 
-export type IpcModuleConfig = IpcCommonConfig &
+export type ModuleConfig = CommonConfig &
   (
     | {
         mode: DoveMode.PROCESS;
-        options: IpcProcessOptions;
+        options: ProcessOptions;
       }
     | {
         mode: DoveMode.BROKER;
-        options: IpcBrokerOptions;
+        options: BrokerOptions;
       }
     | {
         mode: DoveMode.RENDERER;
-        options: IpcRendererOptions;
+        options: RendererOptions;
       }
   );
