@@ -1,4 +1,5 @@
 import { ChildProcess } from 'child_process';
+import { BrowserWindow } from 'electron';
 import { BrokerMainAdapter } from '../../adapters/broker/broker-main.adapter';
 import { BrokerProcessAdapter } from '../../adapters/broker/broker-process.adapter';
 import { BrokerRendererAdapter } from '../../adapters/broker/broker-renderer.adapter';
@@ -7,7 +8,6 @@ import { ProcessTransportAdapter } from '../../adapters/client/process-transport
 import { RendererTransportAdapter } from '../../adapters/client/renderer-transport.adapter';
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
-import { IpcRendererSendFunction } from '../../types/ipc-renderer-send-function.type';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class IpcTransportComposer extends ContainerConfiguarableComposer {
@@ -29,7 +29,7 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
   private bindBrokerIpcTransport(): void {
     if (this.config.mode === DoveMode.BROKER) {
       this.bindProcessAdapters(this.config.options.processes);
-      this.bindRendererAdapters(this.config.options.rendererSend);
+      this.bindRendererAdapters(this.config.options.browserWindows);
       this.container.bind(Symbols.BrokerIpcTransport).to(BrokerMainAdapter);
     }
   }
@@ -40,7 +40,9 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
     }
   }
 
-  private bindRendererAdapters(rendererSend: IpcRendererSendFunction): void {
-    this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerRendererAdapter(rendererSend));
+  private bindRendererAdapters(browserWindows: BrowserWindow[]): void {
+    for (const browserWindow of browserWindows) {
+      this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerRendererAdapter(browserWindow));
+    }
   }
 }
