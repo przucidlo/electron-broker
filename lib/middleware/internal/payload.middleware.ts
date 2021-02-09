@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
-import { IpcMiddleware } from '../../interfaces/ipc-middleware.interface';
+import { Middleware } from '../../interfaces/middleware.interface';
 
 @injectable()
-export class PayloadMiddleware implements IpcMiddleware {
+export class PayloadMiddleware implements Middleware {
   onRequest(args: any): any[] {
     return args.data;
   }

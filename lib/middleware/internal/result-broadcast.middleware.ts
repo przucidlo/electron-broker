@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import { BROKER_EVENT } from '../../constants/constants';
 import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
-import { IpcMiddleware } from '../../interfaces/ipc-middleware.interface';
+import { Middleware } from '../../interfaces/middleware.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 
 @injectable()
-export class ResultBroadcastMiddleware implements IpcMiddleware {
+export class ResultBroadcastMiddleware implements Middleware {
   private brokerEventData: BrokerEventData;
 
   constructor(@inject(Symbols.IpcTransport) private icpTransport: IpcTransport) {}

@@ -1,11 +1,11 @@
 import { injectable, multiInject } from 'inversify';
 import { Symbols } from '../constants/symbols';
-import { IpcMiddleware } from '../interfaces/ipc-middleware.interface';
+import { Middleware } from '../interfaces/middleware.interface';
 import { MiddlewareContext } from './middleware-context';
 
 @injectable()
 export class MiddlewareExecutor {
-  constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: IpcMiddleware[]) {}
+  constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: Middleware[]) {}
 
   public async executeMiddlewareContext(middlewareContext: MiddlewareContext): Promise<void> {
     const context: MiddlewareContext = middlewareContext;
