@@ -3,6 +3,7 @@ import { DoveClient } from '.';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
+import { Controller } from './types/controller.type';
 import { ModuleConfig } from './types/ipc-module-config.type';
 
 export default class Dove {
@@ -36,5 +37,9 @@ export default class Dove {
     const moduleConfig: ModuleConfig = this.container.get(Symbols.IpcModuleConfig);
 
     moduleConfig.controllers = [...controllers];
+  }
+
+  public getDoveClient(): DoveClient {
+    return this.container.get(DoveClient);
   }
 }
