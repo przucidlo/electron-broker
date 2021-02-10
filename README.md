@@ -73,4 +73,41 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 ```
+### Setting-up client instance in Renderer/ChildProcess
+
+##### index.tsx
+```
+import "reflect-metadata";
+import { Dove, DoveClient, DoveMode } from "electron-dove";
+import { Container } from "inversify";
+import React from "react";
+import ReactDOM from "react-dom";
+
+const dove = new Dove({
+  mode: DoveMode.RENDERER,
+  controllers: [],
+  options: {},
+});
+
+export const doveClient = dove.getDoveClient();
+
+dove.start();
+
+ReactDOM.render(<div></div>, document.getElementById("root"));
+```
+### Adding your first controller
+
+```
+import { MessagePattern } from "electron-dove";
+
+export class MyFirstController {
+  
+  @MessagePattern("ping")
+  public pong(): string {
+    return "pong";
+  }
+}
+
+```
+
 #### More docs coming soon.
