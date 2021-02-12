@@ -1,6 +1,6 @@
 {
   "name": "electron-dove",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Library that makes electron ipc communication simple and effective.",
   "main": "dist/index.js",
   "module": "dist/index.js",
