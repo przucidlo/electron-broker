@@ -12,7 +12,9 @@ export default abstract class IpcProcessTransportLayer {
 
   public send(channelName: string, payload: any): void {
     this.process.send(<IpcProcessPayload>{ messageId: uuid(), channelName: channelName, payload: payload }, (error) => {
-      console.error(error);
+      if (error) {
+        console.error(error);
+      }
     });
   }
 }
