@@ -1,6 +1,6 @@
 {
   "name": "electron-dove",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Library that makes electron ipc communication simple and effective.",
   "main": "lib/index.ts",
   "scripts": {
@@ -21,6 +21,10 @@
     "url": "https://github.com/abbl/electron-dove/issues"
   },
   "homepage": "https://github.com/abbl/electron-dove#readme",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "peerDependencies": {
     "electron": "^8.5.0",
     "reflect-metadata": "^0.1.0"
