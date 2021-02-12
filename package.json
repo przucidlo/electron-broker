@@ -21,13 +21,17 @@
     "url": "https://github.com/abbl/electron-dove/issues"
   },
   "homepage": "https://github.com/abbl/electron-dove#readme",
+  "peerDependencies": {
+    "electron": "^8.5.0",
+    "reflect-metadata": "^0.1.0"
+  },
   "dependencies": {
     "date-fns": "^2.16.1",
-    "electron": "^11.2.2",
     "inversify": "^5.0.5",
     "lodash": "^4.17.20",
-    "reflect-metadata": "^0.1.13",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "electron": "^11.2.2",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
