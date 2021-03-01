@@ -30,7 +30,7 @@ npm install inversify
 #### Typescript configuration
 
 Enable these options in tsconfig.json.
-```
+```typescript
 "emitDecoratorMetadata": true,
 "experimentalDecorators": true,
 ```
@@ -42,7 +42,7 @@ Enable these options in tsconfig.json.
 Electron-Dove uses main process as a "bridge" between Renderer/s and ChildProcess/es of your electron app, this is essential part of the library and ignoring it will result in messages not leaving their origin.
 
 ##### main.ts 
-``` 
+```typescript
 import "reflect-metadata";
 import {Dove, DoveMode} from "electron-dove";
 import {app, BrowserWindow} from "electron";
@@ -76,7 +76,7 @@ app.whenReady().then(createWindow);
 ### Setting-up client instance in Renderer/ChildProcess
 
 ##### index.tsx
-```
+```typescript
 import "reflect-metadata";
 import { Dove, DoveClient, DoveMode } from "electron-dove";
 import { Container } from "inversify";
@@ -97,7 +97,7 @@ ReactDOM.render(<div></div>, document.getElementById("root"));
 ```
 ### Adding your first controller
 
-```
+```typescript
 import { MessagePattern } from "electron-dove";
 
 export class MyFirstController {
