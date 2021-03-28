@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { BROKER_EVENT } from '../../constants/constants';
+import { BROKER_EVENT } from '../../constants/channels';
 import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { Middleware } from '../../interfaces/middleware.interface';

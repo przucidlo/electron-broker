@@ -1,2 +1,1 @@
 export const PATTERN_METADATA = 'PATTERN_METADATA';
-export const BROKER_EVENT = 'BROKER_EVENT';

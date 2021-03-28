@@ -1,7 +1,7 @@
 import { inject, injectable, multiInject } from 'inversify';
 import { BrokerProcessAdapter } from '../adapters/broker/broker-process.adapter';
 import { BrokerRendererAdapter } from '../adapters/broker/broker-renderer.adapter';
-import { BROKER_EVENT } from '../constants/constants';
+import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';

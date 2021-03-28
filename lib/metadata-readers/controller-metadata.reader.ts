@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { PATTERN_METADATA } from '../constants/constants';
+import { PATTERN_METADATA } from '../constants/decorators';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { AbstractMetadataReader } from './abstract-metadata.reader';
 
