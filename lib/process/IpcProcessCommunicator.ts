@@ -1,5 +1,4 @@
 import ChildProcess from 'child_process';
-import { IpcMessageSerialization } from './IpcMessageSerialization';
 import { IpcProcessPayload } from './IpcProcessPayload';
 import IpcProcessTransportLayer from './IpcProcessTransportLayer';
 
@@ -48,9 +47,7 @@ export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
     let result: any;
 
     if (channelListener) {
-      const deserializedMessage = IpcMessageSerialization.deserialize(message.payload);
-
-      result = await Promise.resolve(channelListener(deserializedMessage));
+      result = await Promise.resolve(channelListener(message.payload));
 
       // Setting the channelName to undefined to make sure
       // the message won't be forwarded to any channel.
