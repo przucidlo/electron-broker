@@ -1,7 +1,6 @@
 import ChildProcess from 'child_process';
 import { IpcProcessPayload } from './IpcProcessPayload';
-import IpcProcessTransportLayer from './IpcProcessTransportLayer';
-
+import { v4 as uuid } from 'uuid';
 export type Listener = (...args: any[]) => unknown;
 
 /**
@@ -15,23 +14,14 @@ interface ChannelCollection {
  * Reusuable module that allows bidirectional communication
  * between fork process and It's father by usage of process ipc.
  */
-export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
+export default class IpcProcessCommunicator {
+  protected readonly process: NodeJS.Process | ChildProcess.ChildProcess;
   private channels: ChannelCollection = {};
 
   constructor(childProcess?: NodeJS.Process | ChildProcess.ChildProcess) {
-    super(childProcess);
+    this.process = childProcess ? childProcess : process;
 
     this.listenAndForward();
-  }
-
-  public on(channel: string, listener: Listener): void {
-    if (this.isChannelFree(channel)) {
-      this.addChannel(channel, listener);
-    }
-  }
-
-  private addChannel(channel: string, listener: Listener): void {
-    this.channels = { ...this.channels, [channel]: listener };
   }
 
   public listenAndForward(): void {
@@ -40,6 +30,33 @@ export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
         this.forwardToChannel(message);
       }
     });
+  }
+
+  public send(channelName: string, payload: unknown): void {
+    this.process.send(<IpcProcessPayload>{ messageId: uuid(), channelName: channelName, payload: payload }, (error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
+  }
+
+  public on(channel: string, listener: Listener): void {
+    if (this.isChannelFree(channel)) {
+      this.addChannel(channel, listener);
+    }
+  }
+
+  private isChannelFree(channel: string): boolean {
+    const channelListener: Listener | null = this.findChannelListener(channel);
+
+    if (!channelListener) {
+      return true;
+    }
+    throw new Error('Handler for channel ' + channel + ' already exists.');
+  }
+
+  private addChannel(channel: string, listener: Listener): void {
+    this.channels = { ...this.channels, [channel]: listener };
   }
 
   private async forwardToChannel(message: IpcProcessPayload): Promise<void> {
@@ -56,26 +73,8 @@ export default class IpcProcessCommunicator extends IpcProcessTransportLayer {
     }
   }
 
-  /**
-   * Sends a response to parent process.
-   *
-   * @arg payload data that will be converted to JSON and stringified after.
-   */
   private respond(payload: any): void {
-    if (this.process.send) {
-      this.process.send(payload);
-    } else {
-      console.log('Send object doesnt exists in given process');
-    }
-  }
-
-  private isChannelFree(channel: string): boolean {
-    const channelListener: Listener | null = this.findChannelListener(channel);
-
-    if (!channelListener) {
-      return true;
-    }
-    throw new Error('Handler for channel ' + channel + ' already exists.');
+    this.process.send(payload);
   }
 
   private findChannelListener(channelName: string): Listener | null {
