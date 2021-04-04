@@ -9,13 +9,13 @@ import { BrokerResponseListener } from './response-listener/broker-response-list
 export default class DoveClient {
   constructor(@inject(Symbols.IpcTransport) private ipcTransport: IpcTransport) {}
 
-  public send(pattern: string, data: any): void {
+  public send(pattern: string, data: unknown): void {
     const brokerEvent: BrokerEvent = BrokerEventConverter.createOrConvert(pattern, data);
 
     this.ipcTransport.send(brokerEvent.pattern, brokerEvent.data);
   }
 
-  public async invoke<T>(pattern: string, data: any): Promise<T> {
+  public async invoke<T>(pattern: string, data: unknown): Promise<T> {
     const brokerEvent: BrokerEvent = BrokerEventConverter.createOrConvert(pattern, data);
 
     this.ipcTransport.send(brokerEvent.pattern, brokerEvent.data);
@@ -26,12 +26,12 @@ export default class DoveClient {
   private async listenForResponse<T>(brokerEvent: BrokerEvent): Promise<T> {
     const brokerResponseListener = new BrokerResponseListener(brokerEvent);
 
-    return (await brokerResponseListener.listen()).data;
+    return <T>(await brokerResponseListener.listen()).data;
   }
 
   public subscribe<T>(pattern: string, listener: (data: T) => void): BrokerEventSubscriber {
     return new BrokerEventSubscriber(pattern, (event) => {
-      listener(event.data);
+      listener(<T>event.data);
     });
   }
 }

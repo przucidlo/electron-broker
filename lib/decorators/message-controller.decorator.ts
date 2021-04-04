@@ -1,7 +1,5 @@
 import { injectable } from 'inversify';
 
-export type Constructor = new (...args: any[]) => {};
-
-export function MessageController() {
+export function MessageController(): (target: any) => void {
   return injectable();
 }

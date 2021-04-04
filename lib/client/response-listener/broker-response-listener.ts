@@ -22,7 +22,7 @@ export class BrokerResponseListener {
 
         return <BrokerEventData>value;
       },
-      (reason: any) => {
+      () => {
         this.cleanUp();
 
         throw new RequestTimeoutError();

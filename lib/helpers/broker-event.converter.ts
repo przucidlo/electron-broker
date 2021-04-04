@@ -3,7 +3,7 @@ import { BrokerEventData, isBrokerEventData } from '../interfaces/broker-event-d
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 
 export class BrokerEventConverter {
-  public static createOrConvert(pattern: string, data: any): BrokerEvent {
+  public static createOrConvert(pattern: string, data: unknown): BrokerEvent {
     let brokerEvent: BrokerEvent;
 
     if (isBrokerEventData(data)) {
@@ -15,7 +15,7 @@ export class BrokerEventConverter {
     return brokerEvent;
   }
 
-  public static createBrokerEvent(pattern: string, data: any): BrokerEvent {
+  public static createBrokerEvent(pattern: string, data: unknown): BrokerEvent {
     return {
       pattern: 'BROKER_EVENT',
       data: {

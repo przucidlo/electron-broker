@@ -3,6 +3,7 @@ import { inject, injectable } from 'inversify';
 import { EventDistributor } from '../../event-distributor/event-distributor';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
 export class MainTransportAdapter implements IpcTransport {
@@ -12,7 +13,7 @@ export class MainTransportAdapter implements IpcTransport {
     this.eventDistributor.broadcast(data);
   }
 
-  register(pattern: string, handler: any): void | Promise<void> {
+  register(pattern: string, handler: MessageHandler): void {
     ipcMain.on(pattern, (data) => {
       handler(data);
     });

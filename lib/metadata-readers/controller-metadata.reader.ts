@@ -6,7 +6,7 @@ import { AbstractMetadataReader } from './abstract-metadata.reader';
 
 @injectable()
 export class ControllerMetadataReader extends AbstractMetadataReader {
-  public read<T extends object, U extends keyof T>(controller: U): ControllerMetadata {
+  public read<T extends Record<string, unknown>>(controller: T): ControllerMetadata {
     const controllerMetadata: ControllerMetadata = {
       messageHandlers: {},
     };

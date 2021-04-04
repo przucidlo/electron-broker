@@ -11,7 +11,7 @@ export class BrokerEventSubscriber {
     this.listenerAdapter.listen(pattern, listener);
   }
 
-  public unsubscribe() {
+  public unsubscribe(): void {
     this.listenerAdapter.removeListener();
   }
 }

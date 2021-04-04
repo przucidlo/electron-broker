@@ -3,7 +3,7 @@ import { IpcMessageSerialization } from './IpcMessageSerialization';
 import { IpcProcessPayload } from './IpcProcessPayload';
 import IpcProcessTransportLayer from './IpcProcessTransportLayer';
 
-type Listener = (...args: any[]) => void;
+export type Listener = (...args: any[]) => unknown;
 
 /**
  * Describes how channels are stored inside of IpcProcessReceiver.

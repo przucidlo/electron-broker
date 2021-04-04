@@ -17,7 +17,7 @@ export class ResultBroadcastMiddleware implements Middleware {
     return args;
   }
 
-  public onResponse(data: any): void {
+  public onResponse(data: unknown): void {
     this.combineEventData(data);
     this.broadcastResponse();
   }

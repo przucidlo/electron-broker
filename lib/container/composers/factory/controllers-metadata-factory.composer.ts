@@ -35,6 +35,6 @@ export class ControllersMetadataFactoryComposer extends ContainerConfiguarableCo
   }
 
   private getControllersMetadata(controllers: Record<string, unknown>[]): ControllerMetadata[] {
-    return controllers.map((controller) => this.metadataReader.read(controller as never));
+    return controllers.map((controller) => this.metadataReader.read(controller));
   }
 }
