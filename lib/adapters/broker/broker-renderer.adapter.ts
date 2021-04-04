@@ -10,6 +10,6 @@ export class BrokerRendererAdapter implements IpcTransport {
   }
 
   public register(pattern: string, handler: MessageHandler): void {
-    ipcMain.handle(pattern, handler);
+    ipcMain.on(pattern, handler);
   }
 }

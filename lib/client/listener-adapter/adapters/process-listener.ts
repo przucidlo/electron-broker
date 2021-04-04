@@ -14,7 +14,7 @@ export class ProcessListener implements ListenerAdapter {
   private injectPatternMatcher(pattern: string, listener: (response: BrokerEventData) => void) {
     return (response: IpcProcessPayload) => {
       if (pattern === response.channelName) {
-        listener(response.payload);
+        listener(<BrokerEventData>response.payload);
       }
     };
   }
