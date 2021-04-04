@@ -24,7 +24,6 @@ export class ResultBroadcastMiddleware implements Middleware {
 
   private combineEventData(data: any): void {
     this.brokerEventData.data = data;
-    this.brokerEventData.pid = process.pid;
     this.brokerEventData.type = 'RESPONSE';
   }
 

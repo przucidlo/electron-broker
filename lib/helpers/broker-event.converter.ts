@@ -22,7 +22,6 @@ export class BrokerEventConverter {
         type: 'REQUEST',
         eventId: uuid(),
         pattern: pattern,
-        pid: process.pid,
         data: data,
       },
     };
