@@ -1,4 +1,4 @@
-export interface IpcProcessPayload {
+export interface IpcProcessMessage {
   channelName: string;
   messageId: string;
   payload: unknown;

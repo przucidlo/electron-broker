@@ -1,5 +1,5 @@
 import ChildProcess from 'child_process';
-import { IpcProcessPayload } from './IpcProcessPayload';
+import { IpcProcessMessage } from './ipc-process-message.interface';
 import { v4 as uuid } from 'uuid';
 import { IpcProcessChannels } from './ipc-process-channels';
 import { MessageHandler } from '../types/message-handler.type';
@@ -14,14 +14,14 @@ export default class IpcProcessCommunicator {
   }
 
   public listenAndForward(): void {
-    this.process.on('message', (message: IpcProcessPayload) => {
+    this.process.on('message', (message: IpcProcessMessage) => {
       if (message.channelName && message.messageId) {
         this.forwardToChannel(message);
       }
     });
   }
 
-  private async forwardToChannel(message: IpcProcessPayload): Promise<void> {
+  private async forwardToChannel(message: IpcProcessMessage): Promise<void> {
     const channelListener = this.channels.getChannelListenerByName(message.channelName);
 
     if (channelListener) {
@@ -39,7 +39,7 @@ export default class IpcProcessCommunicator {
   }
 
   public send(channelName: string, payload: unknown): void {
-    this.process.send(<IpcProcessPayload>{ messageId: uuid(), channelName: channelName, payload: payload }, (error) => {
+    this.process.send(<IpcProcessMessage>{ messageId: uuid(), channelName: channelName, payload: payload }, (error) => {
       if (error) {
         console.error(error);
       }
