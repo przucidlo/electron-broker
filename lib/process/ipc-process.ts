@@ -14,7 +14,7 @@ export default class IpcProcess {
     this.listenAndForward();
   }
 
-  public listenAndForward(): void {
+  private listenAndForward(): void {
     this.process.on('message', (message: any) => {
       if (isIpcProcessMessage(message)) {
         this.forwardToChannel(message);
