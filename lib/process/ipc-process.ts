@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { IpcProcessChannels } from './ipc-process-channels';
 import { MessageHandler } from '../types/message-handler.type';
 
-export default class IpcProcessCommunicator {
+export default class IpcProcess {
   private readonly process: NodeJS.Process | ChildProcess.ChildProcess;
   private readonly channels: IpcProcessChannels;
 
