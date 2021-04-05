@@ -1,8 +1,9 @@
 import ChildProcess from 'child_process';
-import { IpcProcessMessage } from './ipc-process-message.interface';
+import { IpcProcessMessage, isIpcProcessMessage } from './ipc-process-message.interface';
 import { v4 as uuid } from 'uuid';
 import { IpcProcessChannels } from './ipc-process-channels';
 import { MessageHandler } from '../types/message-handler.type';
+
 export default class IpcProcessCommunicator {
   private readonly process: NodeJS.Process | ChildProcess.ChildProcess;
   private readonly channels: IpcProcessChannels;
@@ -14,8 +15,8 @@ export default class IpcProcessCommunicator {
   }
 
   public listenAndForward(): void {
-    this.process.on('message', (message: IpcProcessMessage) => {
-      if (message.channelName && message.messageId) {
+    this.process.on('message', (message: any) => {
+      if (isIpcProcessMessage(message)) {
         this.forwardToChannel(message);
       }
     });
@@ -25,17 +26,24 @@ export default class IpcProcessCommunicator {
     const channelListener = this.channels.getChannelListenerByName(message.channelName);
 
     if (channelListener) {
-      const result = await Promise.resolve(channelListener(message.payload));
-
-      // Setting the channelName to undefined to make sure
-      // the message won't be forwarded to any channel.
-      // Which would create an infinite loop.
-      this.respond({ ...message, channelName: undefined, payload: result });
+      await this.callListenerAndRespond(channelListener, message);
     }
   }
 
-  private respond(payload: any): void {
-    this.process.send(payload);
+  private async callListenerAndRespond(channelListener: MessageHandler, message: IpcProcessMessage): Promise<void> {
+    const response = await Promise.resolve(channelListener(message.payload));
+
+    this.respond(message.messageId, response);
+  }
+
+  private respond(messageId: string, response: any): void {
+    // To avoid infinite loop in main process, we skip channelName property, when sending a response.
+    const responseMessage: Omit<IpcProcessMessage, 'channelName'> = {
+      messageId: messageId,
+      payload: response,
+    };
+
+    this.process.send(responseMessage);
   }
 
   public send(channelName: string, payload: unknown): void {
