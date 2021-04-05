@@ -1,49 +1,22 @@
 import ChildProcess from 'child_process';
-import { IpcProcessMessage, isIpcProcessMessage } from './ipc-process-message.interface';
+import { IpcProcessMessage } from './ipc-process-message.interface';
 import { v4 as uuid } from 'uuid';
 import { IpcProcessChannels } from './ipc-process-channels';
 import { MessageHandler } from '../types/message-handler.type';
+import { IpcProcessMessageListener } from './ipc-process-message.listener';
 
 export default class IpcProcess {
-  private readonly process: NodeJS.Process | ChildProcess.ChildProcess;
-  private readonly channels: IpcProcessChannels;
+  private process: NodeJS.Process | ChildProcess.ChildProcess;
+  private channels: IpcProcessChannels;
+  private messageListener: IpcProcessMessageListener;
 
   constructor(childProcess?: NodeJS.Process | ChildProcess.ChildProcess) {
     this.process = childProcess ? childProcess : process;
 
-    this.listenAndForward();
-  }
+    this.channels = new IpcProcessChannels();
+    this.messageListener = new IpcProcessMessageListener(this.process, this.channels);
 
-  private listenAndForward(): void {
-    this.process.on('message', (message: any) => {
-      if (isIpcProcessMessage(message)) {
-        this.forwardToChannel(message);
-      }
-    });
-  }
-
-  private async forwardToChannel(message: IpcProcessMessage): Promise<void> {
-    const channelListener = this.channels.getChannelListenerByName(message.channelName);
-
-    if (channelListener) {
-      await this.callListenerAndRespond(channelListener, message);
-    }
-  }
-
-  private async callListenerAndRespond(channelListener: MessageHandler, message: IpcProcessMessage): Promise<void> {
-    const response = await Promise.resolve(channelListener(message.payload));
-
-    this.respond(message.messageId, response);
-  }
-
-  private respond(messageId: string, response: any): void {
-    // To avoid infinite loop in main process, we skip channelName property, when sending a response.
-    const responseMessage: Omit<IpcProcessMessage, 'channelName'> = {
-      messageId: messageId,
-      payload: response,
-    };
-
-    this.process.send(responseMessage);
+    this.messageListener.start();
   }
 
   public send(channelName: string, payload: unknown): void {
