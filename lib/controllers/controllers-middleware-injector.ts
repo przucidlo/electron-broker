@@ -6,6 +6,7 @@ import { MessageHandler } from '../types/message-handler.type';
 import { MiddlewareContext } from '../middleware/middleware-context';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
 import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
+import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 
 @injectable()
 export class ControllersMiddlewareInjector {
@@ -16,20 +17,16 @@ export class ControllersMiddlewareInjector {
 
   public inject(controllersMetadata: ControllerMetadata[]): void {
     for (const controllerMetadata of controllersMetadata) {
-      controllerMetadata.messageHandlers = this.wrapEndpointsWithMiddlewareContext(controllerMetadata.messageHandlers);
+      this.wrapEndpointsWithMiddlewareContext(controllerMetadata.messageHandlers);
     }
   }
 
-  private wrapEndpointsWithMiddlewareContext(messageHandlers: Record<string, any>): Record<string, any> {
-    const messageHandlersWithContext: Record<string, any> = {};
+  private wrapEndpointsWithMiddlewareContext(messageHandlers: Record<string, ControllerHandlerMetadata>): void {
+    for (const pattern of Object.keys(messageHandlers)) {
+      const handler = messageHandlers[pattern].handler;
 
-    for (const messageHandlerKey of Object.keys(messageHandlers)) {
-      messageHandlersWithContext[messageHandlerKey] = this.createAndWrapWithMiddlewareContext(
-        messageHandlers[messageHandlerKey],
-      );
+      messageHandlers[pattern].handler = this.createAndWrapWithMiddlewareContext(handler);
     }
-
-    return messageHandlersWithContext;
   }
 
   private createAndWrapWithMiddlewareContext(messageHandler: MessageHandler): MessageHandler {

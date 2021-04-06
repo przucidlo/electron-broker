@@ -27,7 +27,9 @@ export class ControllersRegistrator {
     const messageHandlers = controllerMetadata.messageHandlers;
 
     for (const pattern of Object.keys(messageHandlers)) {
-      this.ipcTransport.register(pattern, messageHandlers[pattern]);
+      const messageHandler = messageHandlers[pattern].handler;
+
+      this.ipcTransport.register(pattern, messageHandler);
     }
   }
 }

@@ -1,6 +1,6 @@
-import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { PATTERN_METADATA } from '../constants/decorators';
+import { injectable } from 'inversify';
+import { HANDLER_ARGS_METADATA, PATTERN_METADATA } from '../constants/decorators';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { AbstractMetadataReader } from './abstract-metadata.reader';
 
@@ -12,13 +12,18 @@ export class ControllerMetadataReader extends AbstractMetadataReader {
     };
 
     for (const propertyKey of Object.getOwnPropertyNames(Object.getPrototypeOf(controller))) {
-      const property = (controller as any)[propertyKey].bind(controller);
+      const messageHandler = (controller as any)[propertyKey].bind(controller);
 
-      if (this.isFunction(property) && propertyKey !== 'constructor') {
+      if (this.isFunction(messageHandler) && propertyKey !== 'constructor') {
         const pattern = Reflect.getMetadata(PATTERN_METADATA, controller, propertyKey);
 
         if (this.isMessageHandler(pattern)) {
-          controllerMetadata.messageHandlers[pattern] = property;
+          const handlerParamMetadata = Reflect.getMetadata(HANDLER_ARGS_METADATA, controller, propertyKey);
+
+          controllerMetadata.messageHandlers[pattern] = {
+            handler: messageHandler,
+            paramsMetadata: handlerParamMetadata,
+          };
         }
       }
     }

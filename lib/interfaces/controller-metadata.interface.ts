@@ -1,5 +1,7 @@
+import { ControllerHandlerMetadata } from './controller-handler-metadata.interface';
+
 type Pattern = string;
 
 export interface ControllerMetadata {
-  messageHandlers: Record<Pattern, any[string]>;
+  messageHandlers: Record<Pattern, ControllerHandlerMetadata>;
 }
