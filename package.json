@@ -36,15 +36,17 @@
   },
   "dependencies": {
     "date-fns": "^2.16.1",
+    "electron": "^11.2.2",
     "inversify": "^5.0.5",
     "lodash": "^4.17.20",
-    "uuid": "^8.3.2",
-    "electron": "^11.2.2",
-    "reflect-metadata": "^0.1.13"
+    "lodash.clonedeep": "^4.5.0",
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
+    "@types/lodash.clonedeep": "^4.5.6",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
