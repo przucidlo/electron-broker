@@ -4,7 +4,7 @@ import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 import { ExecutionContext } from '../middleware/execution-context';
-import { MiddlewareExecutor } from '../middleware/middleware-executor';
+import { RequestExecutor } from '../middleware/request-executor';
 import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import cloneDeep from 'lodash.clonedeep';
@@ -12,8 +12,8 @@ import cloneDeep from 'lodash.clonedeep';
 @injectable()
 export class ControllersMiddlewareInjector {
   constructor(
-    @inject(Symbols.ExecutionContextFactory) private middlewareContextFactory: MiddlewareContextFactory,
-    @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: () => MiddlewareExecutor,
+    @inject(Symbols.ExecutionContextFactory) private executorContextFactory: MiddlewareContextFactory,
+    @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,
   ) {}
 
   public inject(controllersMetadata: ControllerMetadata[]): void {
@@ -33,10 +33,10 @@ export class ControllersMiddlewareInjector {
   private createAndWrapWithMiddlewareContext(metadata: ControllerHandlerMetadata): MessageHandler {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
-        const middlewareExecutor: MiddlewareExecutor = this.middlewareExecutorFactory() as MiddlewareExecutor;
-        const middlewareContext: ExecutionContext = this.middlewareContextFactory(metadata, data);
+        const requestExecutor: RequestExecutor = this.requestExecutorFactory() as RequestExecutor;
+        const executionContext: ExecutionContext = this.executorContextFactory(metadata, data);
 
-        middlewareExecutor.executeMiddlewareContext(middlewareContext);
+        requestExecutor.executeRequest(executionContext);
       }
     };
   }

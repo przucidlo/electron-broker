@@ -4,10 +4,10 @@ import { Middleware } from '../interfaces/middleware.interface';
 import { ExecutionContext } from './execution-context';
 
 @injectable()
-export class MiddlewareExecutor {
+export class RequestExecutor {
   constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: Middleware[]) {}
 
-  public async executeMiddlewareContext(context: ExecutionContext): Promise<void> {
+  public async executeRequest(context: ExecutionContext): Promise<void> {
     for (const middleware of this.ipcMiddlewares) {
       if (middleware.onRequest) {
         await middleware.onRequest(context);

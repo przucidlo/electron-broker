@@ -1,7 +1,6 @@
 import { Symbols } from '../../constants/symbols';
 import { Middleware } from '../../interfaces/middleware.interface';
 import { ResultBroadcastMiddleware } from '../../middleware/internal/result-broadcast.middleware';
-import { MiddlewareExecutor } from '../../middleware/middleware-executor';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class MiddlewareComposer extends ContainerConfiguarableComposer {
@@ -10,13 +9,7 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
   ];
 
   public compose(): void {
-    this.bindMiddlewareExecutor();
     this.bindInternalMiddleware();
-  }
-
-  private bindMiddlewareExecutor() {
-    this.container.bind(MiddlewareExecutor).to(MiddlewareExecutor).inRequestScope();
-    this.container.bind(Symbols.MiddlewareExecutorFactory).toAutoFactory(MiddlewareExecutor);
   }
 
   private bindInternalMiddleware() {
