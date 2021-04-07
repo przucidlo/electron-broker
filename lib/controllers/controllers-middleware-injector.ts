@@ -3,7 +3,7 @@ import { Symbols } from '../constants/symbols';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
-import { MiddlewareContext } from '../middleware/middleware-context';
+import { ExecutionContext } from '../middleware/execution-context';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
 import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
@@ -33,7 +33,7 @@ export class ControllersMiddlewareInjector {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
         const middlewareExecutor: MiddlewareExecutor = this.middlewareExecutorFactory() as MiddlewareExecutor;
-        const middlewareContext: MiddlewareContext = this.middlewareContextFactory(messageHandler, data);
+        const middlewareContext: ExecutionContext = this.middlewareContextFactory(messageHandler, data);
 
         middlewareExecutor.executeMiddlewareContext(middlewareContext);
       }
