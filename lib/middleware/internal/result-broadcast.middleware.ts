@@ -4,7 +4,7 @@ import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { Middleware } from '../../interfaces/middleware.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
-import { ExecutionContext } from '../execution-context';
+import { ExecutionContext } from '../../controllers/execution-context';
 
 @injectable()
 export class ResultBroadcastMiddleware implements Middleware {

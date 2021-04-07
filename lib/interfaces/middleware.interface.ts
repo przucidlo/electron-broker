@@ -1,4 +1,4 @@
-import { ExecutionContext } from '../middleware/execution-context';
+import { ExecutionContext } from '../controllers/execution-context';
 
 export interface Middleware {
   onRequest?: (context: ExecutionContext) => void | Promise<void>;

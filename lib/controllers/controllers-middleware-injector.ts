@@ -3,7 +3,7 @@ import { Symbols } from '../constants/symbols';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
-import { ExecutionContext } from '../middleware/execution-context';
+import { ExecutionContext } from './execution-context';
 import { RequestExecutor } from '../middleware/request-executor';
 import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
