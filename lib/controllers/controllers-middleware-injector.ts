@@ -23,17 +23,17 @@ export class ControllersMiddlewareInjector {
 
   private wrapEndpointsWithMiddlewareContext(messageHandlers: Record<string, ControllerHandlerMetadata>): void {
     for (const pattern of Object.keys(messageHandlers)) {
-      const handler = messageHandlers[pattern].handler;
+      const handlerMetadata = messageHandlers[pattern];
 
-      messageHandlers[pattern].handler = this.createAndWrapWithMiddlewareContext(handler);
+      messageHandlers[pattern].handler = this.createAndWrapWithMiddlewareContext(handlerMetadata);
     }
   }
 
-  private createAndWrapWithMiddlewareContext(messageHandler: MessageHandler): MessageHandler {
+  private createAndWrapWithMiddlewareContext(metadata: ControllerHandlerMetadata): MessageHandler {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
         const middlewareExecutor: MiddlewareExecutor = this.middlewareExecutorFactory() as MiddlewareExecutor;
-        const middlewareContext: ExecutionContext = this.middlewareContextFactory(messageHandler, data);
+        const middlewareContext: ExecutionContext = this.middlewareContextFactory(metadata, data);
 
         middlewareExecutor.executeMiddlewareContext(middlewareContext);
       }

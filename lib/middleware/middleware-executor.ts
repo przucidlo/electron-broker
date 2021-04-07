@@ -12,11 +12,11 @@ export class MiddlewareExecutor {
 
     for (const middleware of this.ipcMiddlewares) {
       if (middleware.onRequest) {
-        context.args = await middleware.onRequest(context.args);
+        context.brokerEventData = await middleware.onRequest(context.brokerEventData);
       }
     }
 
-    const result = await context.messageHandler(context.args);
+    const result = await context.getHandler()(context.brokerEventData);
 
     for (const middleware of this.ipcMiddlewares.reverse()) {
       if (middleware.onResponse) {
