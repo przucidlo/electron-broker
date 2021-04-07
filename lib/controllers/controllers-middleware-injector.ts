@@ -7,6 +7,7 @@ import { ExecutionContext } from '../middleware/execution-context';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
 import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
+import cloneDeep from 'lodash.clonedeep';
 
 @injectable()
 export class ControllersMiddlewareInjector {
@@ -25,7 +26,7 @@ export class ControllersMiddlewareInjector {
     for (const pattern of Object.keys(messageHandlers)) {
       const handlerMetadata = messageHandlers[pattern];
 
-      messageHandlers[pattern].handler = this.createAndWrapWithMiddlewareContext(handlerMetadata);
+      handlerMetadata.handler = this.createAndWrapWithMiddlewareContext(cloneDeep(handlerMetadata));
     }
   }
 
