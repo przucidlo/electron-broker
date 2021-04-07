@@ -8,7 +8,7 @@ export abstract class AbstractMetadataReader {
     const metadata: any[] = [];
 
     for (const object of objects) {
-      metadata.push(object);
+      metadata.push(this.read(object));
     }
 
     return metadata;

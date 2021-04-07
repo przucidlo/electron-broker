@@ -10,7 +10,7 @@ export class ControllerMetadataReader extends AbstractMetadataReader {
     super();
   }
 
-  public read<T extends Record<any, unknown>>(controller: T): ControllerMetadata {
+  public read<T extends Record<any, unknown>, U extends keyof T>(controller: U): ControllerMetadata {
     const controllerMetadata: ControllerMetadata = {
       messageHandlers: {},
     };
