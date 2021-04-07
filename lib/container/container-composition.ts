@@ -8,6 +8,7 @@ import { MiddlewareComposer } from './composers/middleware.composer';
 import { ConfigComposer } from './composers/config.composer';
 import { ModeComposer } from './composers/mode.composer';
 import { ModuleConfig } from '../types/ipc-module-config.type';
+import { ExecutionContextFactoryComposer } from './composers/factory/execution-context-factory.composer';
 
 type Composers = { new (container: Container): AbstractContainerComposer }[];
 
@@ -16,6 +17,7 @@ export class ContainerComposition {
     IpcTransportComposer,
     DoveClientComposer,
     MetadataReadersComposer,
+    ExecutionContextFactoryComposer,
     ControllersMetadataFactoryComposer,
     MiddlewareComposer,
     ModeComposer,
