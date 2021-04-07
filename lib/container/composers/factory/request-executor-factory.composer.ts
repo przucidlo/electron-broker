@@ -1,5 +1,5 @@
 import { Symbols } from '../../../constants/symbols';
-import { RequestExecutor } from '../../../middleware/request-executor';
+import { RequestExecutor } from '../../../controllers/request-executor';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
 
 export class RequestExecutorFactoryComposer extends ContainerConfiguarableComposer {
