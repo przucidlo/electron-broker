@@ -18,6 +18,14 @@ describe('ControllersMetadataReader', () => {
 
       expect(readerSpy).toBeCalled();
     });
+
+    it('Should save the type of the constructor', () => {
+      class Test {}
+
+      const metadata = controllerMetadataReader.read(new Test());
+
+      expect(metadata).toEqual(expect.objectContaining({ type: Test }));
+    });
   });
 
   describe('readAll', () => {
