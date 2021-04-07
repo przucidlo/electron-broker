@@ -7,16 +7,14 @@ import { ExecutionContext } from './execution-context';
 export class MiddlewareExecutor {
   constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: Middleware[]) {}
 
-  public async executeMiddlewareContext(middlewareContext: ExecutionContext): Promise<void> {
-    const context: ExecutionContext = middlewareContext;
-
+  public async executeMiddlewareContext(context: ExecutionContext): Promise<void> {
     for (const middleware of this.ipcMiddlewares) {
       if (middleware.onRequest) {
-        context.brokerEventData = await middleware.onRequest(context.brokerEventData);
+        await middleware.onRequest(context);
       }
     }
 
-    const result = await context.getHandler()(context.brokerEventData);
+    const result = await context.getHandler()(context.brokerEventData.data);
 
     for (const middleware of this.ipcMiddlewares.reverse()) {
       if (middleware.onResponse) {

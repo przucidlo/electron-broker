@@ -4,6 +4,7 @@ import { Symbols } from '../../constants/symbols';
 import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
 import { Middleware } from '../../interfaces/middleware.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import { ExecutionContext } from '../execution-context';
 
 @injectable()
 export class ResultBroadcastMiddleware implements Middleware {
@@ -11,10 +12,8 @@ export class ResultBroadcastMiddleware implements Middleware {
 
   constructor(@inject(Symbols.IpcTransport) private icpTransport: IpcTransport) {}
 
-  public onRequest(args: BrokerEventData): any {
-    this.brokerEventData = args;
-
-    return args;
+  public onRequest(context: ExecutionContext): any {
+    this.brokerEventData = context.brokerEventData;
   }
 
   public onResponse(data: unknown): void {

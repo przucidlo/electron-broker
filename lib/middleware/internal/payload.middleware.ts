@@ -4,7 +4,7 @@ import { Middleware } from '../../interfaces/middleware.interface';
 
 @injectable()
 export class PayloadMiddleware implements Middleware {
-  onRequest(args: BrokerEventData): unknown {
-    return args.data;
-  }
+  // onRequest(args: BrokerEventData): unknown {
+  //   return args.data;
+  // }
 }

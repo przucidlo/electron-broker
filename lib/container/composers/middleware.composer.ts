@@ -1,6 +1,5 @@
 import { Symbols } from '../../constants/symbols';
 import { Middleware } from '../../interfaces/middleware.interface';
-import { PayloadMiddleware } from '../../middleware/internal/payload.middleware';
 import { ResultBroadcastMiddleware } from '../../middleware/internal/result-broadcast.middleware';
 import { MiddlewareExecutor } from '../../middleware/middleware-executor';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
@@ -8,7 +7,6 @@ import { ContainerConfiguarableComposer } from '../abstract/container-configurab
 export class MiddlewareComposer extends ContainerConfiguarableComposer {
   private static readonly INTERNAL_MIDDLEWARE_ORDER: (new (...any: any[]) => Middleware)[] = [
     ResultBroadcastMiddleware,
-    PayloadMiddleware,
   ];
 
   public compose(): void {
