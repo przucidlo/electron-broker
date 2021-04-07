@@ -55,6 +55,14 @@ describe('ControllersHandlersMetadataReader', () => {
 
         expect(isHandlerParamMetadata(paramsHandlersMetadata[0])).toBe(true);
       });
+
+      it('Should read and save type of the controller the handler belongs to', () => {
+        const testClassObject = new Test();
+
+        const handlersMetadata = metadataReader.read(testClassObject);
+
+        expect(handlersMetadata[pattern].controller).toBe(testClassObject.constructor);
+      });
     });
   });
 });
