@@ -11,7 +11,7 @@ import { ControllerHandlerMetadata } from '../interfaces/controller-handler-meta
 @injectable()
 export class ControllersMiddlewareInjector {
   constructor(
-    @inject(Symbols.MiddlewareContextFactory) private middlewareContextFactory: MiddlewareContextFactory,
+    @inject(Symbols.ExecutionContextFactory) private middlewareContextFactory: MiddlewareContextFactory,
     @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: () => MiddlewareExecutor,
   ) {}
 

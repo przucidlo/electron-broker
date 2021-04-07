@@ -7,7 +7,6 @@ import { ResultBroadcastMiddleware } from '../../middleware/internal/result-broa
 import { ExecutionContext } from '../../middleware/execution-context';
 import { MiddlewareExecutor } from '../../middleware/middleware-executor';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
-import { HandlerParamMetadata } from '../../interfaces/handler-param-metadata.interface';
 import { ControllerHandlerMetadata } from '../../interfaces/controller-handler-metadata.interface';
 
 export class MiddlewareComposer extends ContainerConfiguarableComposer {
@@ -34,7 +33,7 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
   }
 
   private bindMiddlewareContext() {
-    this.container.bind(Symbols.MiddlewareContextFactory).toFactory(() => {
+    this.container.bind(Symbols.ExecutionContextFactory).toFactory(() => {
       return (metadata: ControllerHandlerMetadata, data: BrokerEventData) => {
         const middlewareContext = new ExecutionContext(metadata, data);
 

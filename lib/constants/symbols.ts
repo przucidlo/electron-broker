@@ -7,6 +7,6 @@ export const Symbols = {
   IpcModuleConfig: Symbol.for('IpcModuleConfig'),
   IpcTransport: Symbol.for('IpcTransport'),
   ModuleMode: Symbol.for('ModuleMode'),
-  MiddlewareContextFactory: Symbol.for('MiddlewareContext'),
+  ExecutionContextFactory: Symbol.for('MiddlewareContext'),
   MiddlewareExecutorFactory: Symbol.for('MiddlewareExecutor'),
 };
