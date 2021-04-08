@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
+import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 
 @injectable()
@@ -14,5 +15,9 @@ export class ExecutionContext {
 
   public getHandler(): MessageHandler {
     return this.metadata.handler;
+  }
+
+  public getParamsMetadata(): HandlerParamMetadata<any>[] {
+    return this.metadata.paramsMetadata;
   }
 }
