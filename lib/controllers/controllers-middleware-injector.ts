@@ -5,14 +5,14 @@ import { ControllerMetadata } from '../interfaces/controller-metadata.interface'
 import { MessageHandler } from '../types/message-handler.type';
 import { ExecutionContext } from './execution-context';
 import { RequestExecutor } from './request-executor';
-import { MiddlewareContextFactory } from '../types/middleware-context-factory.type';
+import { ExecutionContextFactory } from '../types/execution-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import cloneDeep from 'lodash.clonedeep';
 
 @injectable()
 export class ControllersMiddlewareInjector {
   constructor(
-    @inject(Symbols.ExecutionContextFactory) private executorContextFactory: MiddlewareContextFactory,
+    @inject(Symbols.ExecutionContextFactory) private executorContextFactory: ExecutionContextFactory,
     @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,
   ) {}
 
