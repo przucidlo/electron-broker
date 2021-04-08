@@ -1,39 +1,26 @@
 import { RequestExecutorInjector } from '../../../lib/controllers/request-executor-injector';
 import { ExecutionContext } from '../../../lib/controllers/execution-context';
 import { RequestExecutor } from '../../../lib/controllers/request-executor';
-import MessagePattern from '../../../lib/decorators/message-pattern.decorator';
 import { BrokerEventData } from '../../../lib/interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
-import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
-import { ControllerMetadataReader } from '../../../lib/metadata-readers/controller-metadata.reader';
+import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
+import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
 
 describe('RequestExecutorInjector', () => {
-  class TestController {
-    @MessagePattern('test')
-    public test(): string {
-      return '';
-    }
-  }
-
   let requestInjector: RequestExecutorInjector;
-  let controllersMetadata: ControllerMetadata[];
+  let controllerMetadata: ControllerMetadata;
   let executionContext: ExecutionContext;
   let requestExecutor: RequestExecutor;
   let mockEventData: BrokerEventData;
 
   beforeEach(() => {
-    mockEventData = {
-      type: 'REQUEST',
-      data: {},
-      eventId: '0',
-      pattern: 'test',
-    };
+    mockEventData = getMockBrokerEventData();
+    controllerMetadata = getMockTestControllerMetadata();
 
-    controllersMetadata = new ControllerMetadataReader(new ControllerHandlersMetadataReader()).readAll([
-      new TestController(),
-    ]);
-
-    executionContext = new ExecutionContext(controllersMetadata[0].messageHandlers['test'], mockEventData);
+    executionContext = new ExecutionContext(
+      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN],
+      mockEventData,
+    );
 
     requestExecutor = Object.create(RequestExecutor);
     requestExecutor.executeRequest = jest.fn();
@@ -46,19 +33,19 @@ describe('RequestExecutorInjector', () => {
 
   describe('inject', () => {
     it('Should wrap message handlers with request executor', () => {
-      requestInjector.injectIntoControllers(controllersMetadata);
+      requestInjector.injectIntoControllers([controllerMetadata]);
 
-      controllersMetadata[0].messageHandlers['test'].handler(mockEventData);
+      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN].handler(mockEventData);
 
       expect(requestExecutor.executeRequest).toBeCalled();
     });
 
     it('Should make the controller accept only the requests', () => {
-      requestInjector.injectIntoControllers(controllersMetadata);
+      requestInjector.injectIntoControllers([controllerMetadata]);
 
       mockEventData.type = 'RESPONSE';
 
-      controllersMetadata[0].messageHandlers['test'].handler(mockEventData);
+      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN].handler(mockEventData);
 
       expect(requestExecutor.executeRequest).not.toBeCalled();
     });
