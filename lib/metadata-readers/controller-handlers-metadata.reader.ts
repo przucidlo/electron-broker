@@ -24,7 +24,7 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
           messageHandlers[pattern] = {
             controller: controller.constructor,
             handler: messageHandler,
-            paramsMetadata: paramsMetadata,
+            paramsMetadata: paramsMetadata ? paramsMetadata : [],
           };
         }
       }
