@@ -1,4 +1,5 @@
 import { ExecutionContext } from '../../../lib/controllers/execution-context';
+import { HandlerParamsMapper } from '../../../lib/controllers/handler-params-mapper';
 import { RequestExecutor } from '../../../lib/controllers/request-executor';
 import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
 import { Middleware } from '../../../lib/interfaces/middleware.interface';
@@ -24,7 +25,7 @@ describe('RequestExecutor', () => {
       getMockBrokerEventData(),
     );
 
-    requestExecutor = new RequestExecutor([middleware]);
+    requestExecutor = new RequestExecutor([middleware], new HandlerParamsMapper());
   });
 
   describe('executeRequest', () => {
