@@ -10,27 +10,27 @@ import { ControllerHandlerMetadata } from '../interfaces/controller-handler-meta
 import cloneDeep from 'lodash.clonedeep';
 
 @injectable()
-export class ControllersRequestExecutorInjector {
+export class RequestExecutorInjector {
   constructor(
     @inject(Symbols.ExecutionContextFactory) private executorContextFactory: ExecutionContextFactory,
     @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,
   ) {}
 
-  public inject(controllersMetadata: ControllerMetadata[]): void {
+  public injectIntoControllers(controllersMetadata: ControllerMetadata[]): void {
     for (const controllerMetadata of controllersMetadata) {
-      this.wrapEndpointsWithMiddlewareContext(controllerMetadata.messageHandlers);
+      this.wrapEndpointsWithExecutionContext(controllerMetadata.messageHandlers);
     }
   }
 
-  private wrapEndpointsWithMiddlewareContext(messageHandlers: Record<string, ControllerHandlerMetadata>): void {
+  private wrapEndpointsWithExecutionContext(messageHandlers: Record<string, ControllerHandlerMetadata>): void {
     for (const pattern of Object.keys(messageHandlers)) {
       const handlerMetadata = messageHandlers[pattern];
 
-      handlerMetadata.handler = this.createAndWrapWithMiddlewareContext(cloneDeep(handlerMetadata));
+      handlerMetadata.handler = this.createAndWrapWithExecutionContext(cloneDeep(handlerMetadata));
     }
   }
 
-  private createAndWrapWithMiddlewareContext(metadata: ControllerHandlerMetadata): MessageHandler {
+  private createAndWrapWithExecutionContext(metadata: ControllerHandlerMetadata): MessageHandler {
     return async (data: BrokerEventData) => {
       if (this.isRequest(data)) {
         const requestExecutor: RequestExecutor = this.requestExecutorFactory() as RequestExecutor;
