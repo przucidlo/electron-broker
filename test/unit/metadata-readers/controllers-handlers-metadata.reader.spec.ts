@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { MessagePattern } from '../../../lib';
-import { Data } from '../../../lib/decorators/data.decorator';
+import Data from '../../../lib/decorators/data.decorator';
 import { isHandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
 

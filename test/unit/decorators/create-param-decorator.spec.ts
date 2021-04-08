@@ -1,5 +1,5 @@
 import { HANDLER_ARGS_METADATA } from '../../../lib/constants/decorators';
-import { createParamDecorator } from '../../../lib/decorators/create-param-decorator';
+import createParamDecorator from '../../../lib/decorators/create-param-decorator';
 import { HandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 
 describe('createParamDecorator', () => {
