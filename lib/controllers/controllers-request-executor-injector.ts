@@ -10,7 +10,7 @@ import { ControllerHandlerMetadata } from '../interfaces/controller-handler-meta
 import cloneDeep from 'lodash.clonedeep';
 
 @injectable()
-export class ControllersMiddlewareInjector {
+export class ControllersRequestExecutorInjector {
   constructor(
     @inject(Symbols.ExecutionContextFactory) private executorContextFactory: ExecutionContextFactory,
     @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,

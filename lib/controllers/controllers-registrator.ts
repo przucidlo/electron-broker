@@ -2,12 +2,12 @@ import { inject, injectable } from 'inversify';
 import { Symbols } from '../constants/symbols';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
-import { ControllersMiddlewareInjector } from './controllers-middleware-injector';
+import { ControllersRequestExecutorInjector } from './controllers-request-executor-injector';
 
 @injectable()
 export class ControllersRegistrator {
   constructor(
-    @inject(ControllersMiddlewareInjector) private middlewareInjector: ControllersMiddlewareInjector,
+    @inject(ControllersRequestExecutorInjector) private middlewareInjector: ControllersRequestExecutorInjector,
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
     @inject(Symbols.ControllersMetadataFactory)
     private controllersMetadataFactory: () => ControllerMetadata[],
