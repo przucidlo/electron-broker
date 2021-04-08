@@ -9,7 +9,7 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch --runInBand",
     "coverage": "jest ---coverage --runInBand",
-    "build": "tsc"
+    "build": "tsc -p ./tsconfig.build.json"
   },
   "repository": {
     "type": "git",
