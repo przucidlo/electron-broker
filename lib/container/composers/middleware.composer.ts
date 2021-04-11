@@ -14,7 +14,7 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
 
   private bindInternalMiddleware() {
     for (const middleware of MiddlewareComposer.INTERNAL_MIDDLEWARE_ORDER) {
-      this.container.bind(Symbols.IpcMiddleware).to(middleware).inRequestScope();
+      this.container.bind(Symbols.InternalMiddleware).to(middleware).inRequestScope();
     }
   }
 }

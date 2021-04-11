@@ -7,7 +7,7 @@ import { HandlerParamsMapper } from './handler-params-mapper';
 @injectable()
 export class RequestExecutor {
   constructor(
-    @multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: Middleware[],
+    @multiInject(Symbols.InternalMiddleware) private ipcMiddlewares: Middleware[],
     private paramsMapper: HandlerParamsMapper,
   ) {}
 
