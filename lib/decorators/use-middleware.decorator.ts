@@ -1,5 +1,5 @@
 import { MIDDLEWARE_METADATA } from '../constants/decorators';
-import { Middleware } from '../interfaces/middleware.interface';
+import Middleware from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
 
 export default function UseMiddleware(...middleware: ClassType<Middleware>[]): MethodDecorator & ClassDecorator {

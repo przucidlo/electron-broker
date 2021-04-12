@@ -14,5 +14,8 @@ export { default as createParamDecorator } from './decorators/create-param-decor
 export * from './decorators/use-middleware.decorator';
 export { default as UseMiddleware } from './decorators/use-middleware.decorator';
 
+export * from './interfaces/middleware.interface';
+export { default as Middleware } from './interfaces/middleware.interface';
+
 export * from './dove';
 export { default as Dove } from './dove';

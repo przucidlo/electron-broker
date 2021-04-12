@@ -1,4 +1,4 @@
-import { Middleware } from '../interfaces/middleware.interface';
+import Middleware from '../interfaces/middleware.interface';
 import { ResultBroadcastMiddleware } from '../middleware/internal/result-broadcast.middleware';
 import { ClassType } from '../types/class.type';
 

@@ -4,7 +4,7 @@ import { PATTERN_METADATA, HANDLER_ARGS_METADATA, MIDDLEWARE_METADATA } from '..
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 import { AbstractMetadataReader } from './abstract-metadata.reader';
-import { Middleware } from '../interfaces/middleware.interface';
+import Middleware from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
 
 @injectable()

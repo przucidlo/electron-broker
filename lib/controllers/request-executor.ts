@@ -1,7 +1,7 @@
 import { inject, injectable, multiInject } from 'inversify';
 import { Symbols } from '../constants/symbols';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
-import { Middleware } from '../interfaces/middleware.interface';
+import Middleware from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
 import { MiddlewareFactory } from '../types/middleware-factory.type';
 import { ExecutionContext } from './execution-context';

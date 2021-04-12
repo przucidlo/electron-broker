@@ -2,8 +2,7 @@ import { ExecutionContext } from '../../../lib/controllers/execution-context';
 import { HandlerParamsMapper } from '../../../lib/controllers/handler-params-mapper';
 import { RequestExecutor } from '../../../lib/controllers/request-executor';
 import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
-import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
-import { Middleware } from '../../../lib/interfaces/middleware.interface';
+import Middleware from '../../../lib/interfaces/middleware.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
 
