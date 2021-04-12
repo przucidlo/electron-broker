@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { MIDDLEWARE_METADATA } from '../../../lib/constants/decorators';
-import { Middleware } from '../../../lib/decorators/middleware.decorator';
+import UseMiddleware from '../../../lib/decorators/use-middleware.decorator';
 import { MockMiddleware } from '../__mocks__/mock-middleware';
 
-describe('Middleware decorator', () => {
-  @Middleware(MockMiddleware)
+describe('UseMiddleware', () => {
+  @UseMiddleware(MockMiddleware)
   class Test {
-    @Middleware(MockMiddleware)
+    @UseMiddleware(MockMiddleware)
     public testMethod() {}
   }
 

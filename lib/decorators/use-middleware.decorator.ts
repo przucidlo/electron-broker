@@ -2,7 +2,7 @@ import { MIDDLEWARE_METADATA } from '../constants/decorators';
 import { Middleware } from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
 
-export function Middleware(...middleware: ClassType<Middleware>[]): MethodDecorator & ClassDecorator {
+export default function UseMiddleware(...middleware: ClassType<Middleware>[]): MethodDecorator & ClassDecorator {
   return (target: any, key?: string, descriptor?: TypedPropertyDescriptor<any>) => {
     const middlewareArray = middleware ? middleware : [];
 
