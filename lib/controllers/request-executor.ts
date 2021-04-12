@@ -16,7 +16,7 @@ export class RequestExecutor {
   ) {}
 
   public async executeRequest(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<void> {
-    const middlewares = this.createMiddlewaresObjects([...this.internalMiddleware]);
+    const middlewares = this.createMiddlewaresObjects([...this.internalMiddleware, ...metadata.middleware]);
 
     for (const middleware of middlewares) {
       if (middleware.onRequest) {
