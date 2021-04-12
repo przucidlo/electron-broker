@@ -15,3 +15,5 @@ export class ExecutionContext {
     return this.handler;
   }
 }
+
+export default ExecutionContext;

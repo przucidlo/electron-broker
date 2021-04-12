@@ -16,6 +16,8 @@ export { default as UseMiddleware } from './decorators/use-middleware.decorator'
 
 export * from './interfaces/middleware.interface';
 export { default as Middleware } from './interfaces/middleware.interface';
+export * from './controllers/execution-context';
+export { default as ExecutionContext } from './controllers/execution-context';
 
 export * from './dove';
 export { default as Dove } from './dove';
