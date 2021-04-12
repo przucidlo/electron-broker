@@ -4,6 +4,7 @@ export const Symbols = {
   ControllersMetadataFactory: Symbol.for('ControllersMetadataFactory'),
   ControllerMetadataReader: Symbol.for('ControllerMetadataReader'),
   InternalMiddleware: Symbol.for('InternalMiddleware'),
+  GlobalMiddleware: Symbol.for('GlobalMiddleware'),
   IpcModuleConfig: Symbol.for('IpcModuleConfig'),
   IpcTransport: Symbol.for('IpcTransport'),
   ModuleMode: Symbol.for('ModuleMode'),
