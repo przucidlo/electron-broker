@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { Symbols } from '../../../constants/symbols';
-import { Middleware } from '../../../interfaces/middleware.interface';
+import { MiddlewareFactory } from '../../../types/middleware-factory.type';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
 
 @injectable()
@@ -10,10 +10,12 @@ export class MiddlewareFactoryComposer extends ContainerConfiguarableComposer {
   }
 
   private bindMiddlewareFactory() {
-    this.container.bind(Symbols.MiddlewareFactory).toFactory((context) => {
-      return (middleware: new (...args: any[]) => Middleware) => {
-        return context.container.get(middleware);
-      };
-    });
+    this.container.bind(Symbols.MiddlewareFactory).toFactory(
+      (context): MiddlewareFactory => {
+        return (middleware) => {
+          return context.container.get(middleware);
+        };
+      },
+    );
   }
 }
