@@ -5,6 +5,7 @@ import { ControllerHandlerMetadata } from '../interfaces/controller-handler-meta
 import { MessageHandler } from '../types/message-handler.type';
 import { AbstractMetadataReader } from './abstract-metadata.reader';
 import { Middleware } from '../interfaces/middleware.interface';
+import { ClassType } from '../types/class.type';
 
 @injectable()
 export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
@@ -51,11 +52,11 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
     return Reflect.getMetadata(HANDLER_ARGS_METADATA, controller, handlerName);
   }
 
-  private getHandlerMiddleware(controller: unknown, handlerName: string): Middleware[] {
+  private getHandlerMiddleware(controller: unknown, handlerName: string): ClassType<Middleware>[] {
     const controllerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller);
     const handlerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller, handlerName);
 
-    let middleware: Middleware[] = [];
+    let middleware: ClassType<Middleware>[] = [];
 
     if (controllerMiddleware) {
       middleware = [...controllerMiddleware];
