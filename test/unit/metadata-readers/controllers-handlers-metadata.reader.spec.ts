@@ -1,8 +1,9 @@
 import 'reflect-metadata';
-import { MessagePattern } from '../../../lib';
+import { MessagePattern, UseMiddleware } from '../../../lib';
 import Data from '../../../lib/decorators/data.decorator';
 import { isHandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
+import { MockMiddleware } from '../__mocks__/mock-middleware';
 
 describe('ControllersHandlersMetadataReader', () => {
   let metadataReader: ControllerHandlersMetadataReader;
@@ -35,8 +36,10 @@ describe('ControllersHandlersMetadataReader', () => {
     describe('Should read handler metadata', () => {
       const pattern = 'message-pattern';
 
+      @UseMiddleware(MockMiddleware)
       class Test {
         @MessagePattern(pattern)
+        @UseMiddleware(MockMiddleware)
         public coolHandler(@Data() data: string): string {
           return 'text';
         }
@@ -62,6 +65,14 @@ describe('ControllersHandlersMetadataReader', () => {
         const handlersMetadata = metadataReader.read(testClassObject);
 
         expect(handlersMetadata[pattern].controller).toBe(testClassObject.constructor);
+      });
+
+      it('Should read and save middleware', () => {
+        const testClassObject = new Test();
+
+        const handlersMetadata = metadataReader.read(testClassObject);
+
+        expect(handlersMetadata[pattern].middleware).toStrictEqual([MockMiddleware, MockMiddleware]);
       });
     });
   });
