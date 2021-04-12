@@ -10,6 +10,7 @@ import { ModeComposer } from './composers/mode.composer';
 import { ModuleConfig } from '../types/ipc-module-config.type';
 import { ExecutionContextFactoryComposer } from './composers/factory/execution-context-factory.composer';
 import { RequestExecutorFactoryComposer } from './composers/factory/request-executor-factory.composer';
+import { MiddlewareFactoryComposer } from './composers/factory/middleware-factory.composer';
 
 type Composers = { new (container: Container): AbstractContainerComposer }[];
 
@@ -18,6 +19,7 @@ export class ContainerComposition {
     IpcTransportComposer,
     DoveClientComposer,
     MetadataReadersComposer,
+    MiddlewareFactoryComposer,
     ExecutionContextFactoryComposer,
     RequestExecutorFactoryComposer,
     ControllersMetadataFactoryComposer,
