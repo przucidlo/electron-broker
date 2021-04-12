@@ -5,8 +5,10 @@ import { BrokerEventData } from '../../../lib/interfaces/broker-event-data.inter
 import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
+import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
 
 describe('RequestExecutorInjector', () => {
+  let handlerMetadata: ControllerHandlerMetadata;
   let requestInjector: RequestExecutorInjector;
   let controllerMetadata: ControllerMetadata;
   let executionContext: ExecutionContext;
@@ -14,13 +16,11 @@ describe('RequestExecutorInjector', () => {
   let mockEventData: BrokerEventData;
 
   beforeEach(() => {
-    mockEventData = getMockBrokerEventData();
     controllerMetadata = getMockTestControllerMetadata();
+    handlerMetadata = controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
+    mockEventData = getMockBrokerEventData();
 
-    executionContext = new ExecutionContext(
-      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN],
-      mockEventData,
-    );
+    executionContext = new ExecutionContext(handlerMetadata.controller, handlerMetadata.handler, mockEventData);
 
     requestExecutor = Object.create(RequestExecutor);
     requestExecutor.executeRequest = jest.fn();
@@ -35,7 +35,7 @@ describe('RequestExecutorInjector', () => {
     it('Should wrap message handlers with request executor', () => {
       requestInjector.injectIntoControllers([controllerMetadata]);
 
-      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN].handler(mockEventData);
+      handlerMetadata.handler(mockEventData);
 
       expect(requestExecutor.executeRequest).toBeCalled();
     });
@@ -45,7 +45,7 @@ describe('RequestExecutorInjector', () => {
 
       mockEventData.type = 'RESPONSE';
 
-      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN].handler(mockEventData);
+      handlerMetadata.handler(mockEventData);
 
       expect(requestExecutor.executeRequest).not.toBeCalled();
     });

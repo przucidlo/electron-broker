@@ -36,7 +36,7 @@ export class RequestExecutorInjector {
         const requestExecutor: RequestExecutor = this.requestExecutorFactory() as RequestExecutor;
         const executionContext: ExecutionContext = this.executorContextFactory(metadata, data);
 
-        requestExecutor.executeRequest(executionContext);
+        requestExecutor.executeRequest(executionContext, metadata);
       }
     };
   }
