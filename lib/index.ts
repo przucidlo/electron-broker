@@ -11,6 +11,8 @@ export * from './decorators/event-id.decorator';
 export { default as EventId } from './decorators/event-id.decorator';
 export * from './decorators/create-param-decorator';
 export { default as createParamDecorator } from './decorators/create-param-decorator';
+export * from './decorators/use-middleware.decorator';
+export { default as UseMiddleware } from './decorators/use-middleware.decorator';
 
 export * from './dove';
 export { default as Dove } from './dove';
