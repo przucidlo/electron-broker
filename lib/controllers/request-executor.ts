@@ -24,11 +24,11 @@ export class RequestExecutor {
       }
     }
 
-    const result = await this.executeHandler(context, metadata);
+    let result = await this.executeHandler(context, metadata);
 
     for (const middleware of middlewares.reverse()) {
       if (middleware.onResponse) {
-        middleware.onResponse(result);
+        result = await middleware.onResponse(result);
       }
     }
   }
