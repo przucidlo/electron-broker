@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import { cloneDeep } from 'lodash';
 import { Symbols } from '../../../constants/symbols';
 import { MiddlewareFactory } from '../../../types/middleware-factory.type';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
@@ -14,7 +15,7 @@ export class MiddlewareFactoryComposer extends ContainerConfiguarableComposer {
       (context): MiddlewareFactory => {
         return (middleware) => {
           if (typeof middleware === 'object') {
-            return middleware;
+            return cloneDeep(middleware);
           }
 
           try {
