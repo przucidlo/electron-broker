@@ -7,6 +7,6 @@ export interface ControllerHandlerMetadata {
   // eslint-disable-next-line @typescript-eslint/ban-types
   controller: Function;
   handler: MessageHandler;
-  middleware: ClassType<Middleware>[];
+  middleware: (ClassType<Middleware> | Middleware)[];
   paramsMetadata: HandlerParamMetadata<any>[];
 }

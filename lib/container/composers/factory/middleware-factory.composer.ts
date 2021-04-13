@@ -13,7 +13,15 @@ export class MiddlewareFactoryComposer extends ContainerConfiguarableComposer {
     this.container.bind(Symbols.MiddlewareFactory).toFactory(
       (context): MiddlewareFactory => {
         return (middleware) => {
-          return context.container.get(middleware);
+          if (typeof middleware === 'object') {
+            return middleware;
+          }
+
+          try {
+            return context.container.get(middleware);
+          } catch (err) {
+            return Object.create(middleware.prototype);
+          }
         };
       },
     );

@@ -33,7 +33,7 @@ export class RequestExecutor {
     }
   }
 
-  private createMiddlewaresObjects(middlewares: ClassType<Middleware>[]): Middleware[] {
+  private createMiddlewaresObjects(middlewares: (ClassType<Middleware> | Middleware)[]): Middleware[] {
     const middlewareObjects: Middleware[] = [];
 
     for (const middleware of middlewares) {
