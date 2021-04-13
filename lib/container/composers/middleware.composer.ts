@@ -5,11 +5,16 @@ import { ContainerConfiguarableComposer } from '../abstract/container-configurab
 export class MiddlewareComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     this.bindInternalMiddleware();
+    this.bindGlobalMiddleware();
   }
 
-  private bindInternalMiddleware() {
+  private bindInternalMiddleware(): void {
     for (const middleware of INTERNAL_MIDDLEWARE_ORDER) {
       this.container.bind(Symbols.InternalMiddleware).toConstantValue(middleware);
     }
+  }
+
+  private bindGlobalMiddleware(): void {
+    this.container.bind(Symbols.GlobalMiddleware).toConstantValue([]);
   }
 }

@@ -10,13 +10,18 @@ import { HandlerParamsMapper } from './handler-params-mapper';
 @injectable()
 export class RequestExecutor {
   constructor(
-    @multiInject(Symbols.InternalMiddleware) private internalMiddleware: ClassType<Middleware>[],
+    @multiInject(Symbols.InternalMiddleware) private internalMiddleware: (ClassType<Middleware> | Middleware)[],
     private paramsMapper: HandlerParamsMapper,
+    @inject(Symbols.GlobalMiddleware) private globalMiddleware: (ClassType<Middleware> | Middleware)[],
     @inject(Symbols.MiddlewareFactory) private middlewareFactory: MiddlewareFactory,
   ) {}
 
   public async executeRequest(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<void> {
-    const middlewares = this.createMiddlewaresObjects([...this.internalMiddleware, ...metadata.middleware]);
+    const middlewares = this.createMiddlewaresObjects([
+      ...this.internalMiddleware,
+      ...this.globalMiddleware,
+      ...metadata.middleware,
+    ]);
 
     for (const middleware of middlewares) {
       if (middleware.onRequest) {
