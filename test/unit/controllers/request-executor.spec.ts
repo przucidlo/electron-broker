@@ -3,6 +3,7 @@ import { HandlerParamsMapper } from '../../../lib/controllers/handler-params-map
 import { RequestExecutor } from '../../../lib/controllers/request-executor';
 import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
 import Middleware from '../../../lib/interfaces/middleware.interface';
+import { MiddlewareExecutor } from '../../../lib/middleware/middleware-executor';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
 
@@ -30,9 +31,9 @@ describe('RequestExecutor', () => {
 
     requestExecutor = new RequestExecutor(
       [<any>middleware],
-      new HandlerParamsMapper(),
       [<any>middleware],
-      () => middleware,
+      () => new MiddlewareExecutor(() => middleware, [middleware]),
+      new HandlerParamsMapper(),
     );
   });
 

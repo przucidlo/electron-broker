@@ -3,7 +3,7 @@ import { Symbols } from '../constants/symbols';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import Middleware from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
-import { MiddlewareFactory } from '../types/middleware-factory.type';
+import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
 import { ExecutionContext } from './execution-context';
 import { HandlerParamsMapper } from './handler-params-mapper';
 
@@ -11,41 +11,23 @@ import { HandlerParamsMapper } from './handler-params-mapper';
 export class RequestExecutor {
   constructor(
     @multiInject(Symbols.InternalMiddleware) private internalMiddleware: (ClassType<Middleware> | Middleware)[],
-    private paramsMapper: HandlerParamsMapper,
     @inject(Symbols.GlobalMiddleware) private globalMiddleware: (ClassType<Middleware> | Middleware)[],
-    @inject(Symbols.MiddlewareFactory) private middlewareFactory: MiddlewareFactory,
+    @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: MiddlewareExecutorFactory,
+    private paramsMapper: HandlerParamsMapper,
   ) {}
 
   public async executeRequest(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<void> {
-    const middlewares = this.createMiddlewaresObjects([
+    const middlewareExecutor = this.middlewareExecutorFactory([
       ...this.internalMiddleware,
       ...this.globalMiddleware,
       ...metadata.middleware,
     ]);
 
-    for (const middleware of middlewares) {
-      if (middleware.onRequest) {
-        await middleware.onRequest(context);
-      }
-    }
+    await middlewareExecutor.executeOnRequest(context);
 
-    let result = await this.executeHandler(context, metadata);
+    const result = await this.executeHandler(context, metadata);
 
-    for (const middleware of middlewares.reverse()) {
-      if (middleware.onResponse) {
-        result = await middleware.onResponse(result);
-      }
-    }
-  }
-
-  private createMiddlewaresObjects(middlewares: (ClassType<Middleware> | Middleware)[]): Middleware[] {
-    const middlewareObjects: Middleware[] = [];
-
-    for (const middleware of middlewares) {
-      middlewareObjects.push(this.middlewareFactory(middleware));
-    }
-
-    return middlewareObjects;
+    await middlewareExecutor.executeOnResponse(result);
   }
 
   private async executeHandler(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<unknown> {
