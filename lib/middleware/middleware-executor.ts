@@ -20,7 +20,24 @@ export class MiddlewareExecutor {
     return middlewareObjects;
   }
 
-  public async executeOnRequest(context: ExecutionContext): Promise<void> {
+  public async execute(executionContext: ExecutionContext, target: () => unknown | Promise<unknown>): Promise<unknown> {
+    await this.executeOnRequest(executionContext);
+
+    const result = await target();
+
+    return await this.executeOnResponse(result);
+  }
+
+  public async executeWithoutResponse(
+    executionContext: ExecutionContext,
+    target: () => unknown | Promise<unknown>,
+  ): Promise<void> {
+    await this.executeOnRequest(executionContext);
+
+    await target();
+  }
+
+  private async executeOnRequest(context: ExecutionContext): Promise<void> {
     for (const middleware of this.middlewares) {
       if (middleware.onRequest) {
         await middleware.onRequest(context);
@@ -28,7 +45,7 @@ export class MiddlewareExecutor {
     }
   }
 
-  public async executeOnResponse(data: unknown): Promise<unknown> {
+  private async executeOnResponse(data: unknown): Promise<unknown> {
     let response = data;
 
     for (const middleware of this.middlewares.reverse()) {

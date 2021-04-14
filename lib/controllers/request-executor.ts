@@ -23,11 +23,9 @@ export class RequestExecutor {
       ...metadata.middleware,
     ]);
 
-    await middlewareExecutor.executeOnRequest(context);
-
-    const result = await this.executeHandler(context, metadata);
-
-    await middlewareExecutor.executeOnResponse(result);
+    middlewareExecutor.execute(context, async () => {
+      return await this.executeHandler(context, metadata);
+    });
   }
 
   private async executeHandler(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<unknown> {
