@@ -23,7 +23,7 @@ export class RequestExecutor {
       ...metadata.middleware,
     ]);
 
-    middlewareExecutor.execute(context, async () => {
+    await middlewareExecutor.execute(context, async () => {
       return await this.executeHandler(context, metadata);
     });
   }
