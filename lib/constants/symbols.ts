@@ -11,5 +11,6 @@ export const Symbols = {
   IpcTransport: Symbol.for('IpcTransport'),
   ModuleMode: Symbol.for('ModuleMode'),
   ExecutionContextFactory: Symbol.for('ExecutionContextFactory'),
+  ClientExecutionContextFactory: Symbol.for('ClientExecutionContextFactory'),
   RequestExecutorFactory: Symbol.for('RequestExecutorFactory'),
 };

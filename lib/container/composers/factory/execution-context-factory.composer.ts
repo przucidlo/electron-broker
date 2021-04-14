@@ -7,14 +7,25 @@ import { ContainerConfiguarableComposer } from '../../abstract/container-configu
 export class ExecutionContextFactoryComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     this.bindExecutionContextFactory();
+    this.bindClientExecutionContextFactory();
   }
 
   private bindExecutionContextFactory() {
     this.container.bind(Symbols.ExecutionContextFactory).toFactory(() => {
       return (metadata: ControllerHandlerMetadata, data: BrokerEventData) => {
-        const middlewareContext = new ExecutionContext(metadata.controller, metadata.handler, data);
+        const executionContext = new ExecutionContext(metadata.controller, metadata.handler, data);
 
-        return middlewareContext;
+        return executionContext;
+      };
+    });
+  }
+
+  private bindClientExecutionContextFactory() {
+    this.container.bind(Symbols.ClientExecutionContextFactory).toFactory(() => {
+      return (brokerEvent) => {
+        const executionContext = new ExecutionContext(undefined, undefined, brokerEvent);
+
+        return executionContext;
       };
     });
   }
