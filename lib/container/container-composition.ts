@@ -12,11 +12,10 @@ import { ExecutionContextFactoryComposer } from './composers/factory/execution-c
 import { RequestExecutorFactoryComposer } from './composers/factory/request-executor-factory.composer';
 import { MiddlewareFactoryComposer } from './composers/factory/middleware-factory.composer';
 import { MiddlewareExecutorFactoryComposer } from './composers/factory/middleware-executor-factory.composer';
-
-type Composers = { new (container: Container): AbstractContainerComposer }[];
+import { ClassType } from '../types/class.type';
 
 export class ContainerComposition {
-  private static composersOrder: Composers = [
+  private static composersOrder: ClassType<AbstractContainerComposer>[] = [
     IpcTransportComposer,
     DoveClientComposer,
     MetadataReadersComposer,
