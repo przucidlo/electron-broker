@@ -6,6 +6,7 @@ export const Symbols = {
   InternalMiddleware: Symbol.for('InternalMiddleware'),
   GlobalMiddleware: Symbol.for('GlobalMiddleware'),
   MiddlewareFactory: Symbol.for('MiddlewareFactory'),
+  MiddlewareExecutorFactory: Symbol.for('MiddlewareExecutorFactory'),
   IpcModuleConfig: Symbol.for('IpcModuleConfig'),
   IpcTransport: Symbol.for('IpcTransport'),
   ModuleMode: Symbol.for('ModuleMode'),
