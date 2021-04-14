@@ -28,7 +28,12 @@ describe('RequestExecutor', () => {
       getMockBrokerEventData(),
     );
 
-    requestExecutor = new RequestExecutor([<any>middleware], new HandlerParamsMapper(), () => middleware);
+    requestExecutor = new RequestExecutor(
+      [<any>middleware],
+      new HandlerParamsMapper(),
+      [<any>middleware],
+      () => middleware,
+    );
   });
 
   describe('executeRequest', () => {
