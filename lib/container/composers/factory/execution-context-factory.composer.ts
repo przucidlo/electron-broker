@@ -14,7 +14,7 @@ export class ExecutionContextFactoryComposer extends ContainerConfiguarableCompo
   private bindExecutionContextFactory() {
     this.container.bind(Symbols.ExecutionContextFactory).toFactory(() => {
       return (metadata: ControllerHandlerMetadata, data: BrokerEventData) => {
-        const executionContext = new ExecutionContext(metadata.controller, metadata.handler, data);
+        const executionContext = new ExecutionContext(metadata.controller.constructor, metadata.handler, data);
 
         return executionContext;
       };
