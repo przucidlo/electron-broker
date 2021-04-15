@@ -13,7 +13,7 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
     const messageHandlers: Record<string, ControllerHandlerMetadata> = {};
 
     for (const handlerName of this.getControllerProperties(controller)) {
-      const messageHandler = (controller as any)[handlerName].bind(controller);
+      const messageHandler = (controller as any)[handlerName];
 
       if (this.isReadable(messageHandler, handlerName)) {
         const pattern = this.getHandlerPattern(controller, handlerName);
