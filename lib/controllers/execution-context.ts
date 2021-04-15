@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { injectable } from 'inversify';
 import { BrokerEventData } from '../interfaces/broker-event-data.interface';
+import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
+import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 
 @injectable()
 export class ExecutionContext {
-  constructor(private controller: Function, private handler: MessageHandler, public brokerEventData: BrokerEventData) {}
+  constructor(private metadata: ControllerHandlerMetadata, public brokerEventData: BrokerEventData) {}
 
   public getClass(): Function {
-    return this.controller;
+    return this.metadata.controller.constructor;
   }
 
   public getHandler(): MessageHandler {
-    return this.handler;
+    return this.metadata.handler;
+  }
+
+  public getParamMetadata(): HandlerParamMetadata<any>[] {
+    return this.metadata.paramsMetadata;
   }
 }
 
