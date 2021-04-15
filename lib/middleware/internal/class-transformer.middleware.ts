@@ -1,14 +1,11 @@
 import { injectable } from 'inversify';
 import { Middleware } from '../..';
 import ExecutionContext from '../../controllers/execution-context';
-
-let classTransformer: any = {};
+import { ClassTransformOptions, plainToClass } from 'class-transformer';
 
 @injectable()
 export class ClassTransformerMiddleware implements Middleware {
-  constructor() {
-    classTransformer = require('class-transformer');
-  }
+  constructor(private transformOptions?: ClassTransformOptions) {}
 
   public onRequest(executionContext: ExecutionContext): void {
     const paramsMetadata = executionContext.getParamMetadata();
@@ -18,14 +15,12 @@ export class ClassTransformerMiddleware implements Middleware {
         const result = paramMetadata.method(paramMetadata.options, executionContext.brokerEventData);
 
         paramMetadata.method = () => {
-          return classTransformer.plainToClass(<any>paramMetadata.type, result, {
-            enableImplicitConversion: false,
-          });
+          return plainToClass(<any>paramMetadata.type, result, this.transformOptions);
         };
       }
     } else {
       throw new Error(
-        'ExecutionContext is missing controller and handler, make sure you are not using the ClassTransformer in DoveClient',
+        'ExecutionContext is missing paramMetadata, make sure you are not using the ClassTransformer in DoveClient',
       );
     }
   }
