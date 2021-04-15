@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Middleware } from '..';
 import { Symbols } from '../constants/symbols';
 import { BrokerEventConverter } from '../helpers/broker-event.converter';
+import { BrokerEventData } from '../interfaces/broker-event-data.interface';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { ClassType } from '../types/class.type';
@@ -22,9 +23,12 @@ export default class DoveClient {
     this.middleware = [];
   }
 
-  public subscribe<T>(pattern: string, listener: (data: T) => void): BrokerEventSubscriber {
+  public subscribe<T>(
+    pattern: string,
+    listener: (data: T, brokerEventData?: BrokerEventData) => void,
+  ): BrokerEventSubscriber {
     return new BrokerEventSubscriber(pattern, (event) => {
-      listener(<T>event.data);
+      listener(<T>event.data, event);
     });
   }
 
