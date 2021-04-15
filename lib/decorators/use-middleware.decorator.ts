@@ -9,7 +9,7 @@ export default function UseMiddleware(
     const middlewareArray = middleware ? middleware : [];
 
     if (descriptor) {
-      Reflect.defineMetadata(MIDDLEWARE_METADATA, middlewareArray, target, key);
+      Reflect.defineMetadata(MIDDLEWARE_METADATA, middlewareArray, descriptor.value);
 
       return;
     }

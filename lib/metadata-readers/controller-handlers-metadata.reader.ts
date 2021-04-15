@@ -43,16 +43,16 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
   }
 
   private getHandlerPattern(controller: unknown, handlerName: string) {
-    return Reflect.getMetadata(PATTERN_METADATA, controller, handlerName);
+    return Reflect.getMetadata(PATTERN_METADATA, controller[handlerName]);
   }
 
   private getHandlerParamsMetadata(controller: unknown, handlerName: string) {
-    return Reflect.getMetadata(HANDLER_ARGS_METADATA, controller, handlerName);
+    return Reflect.getMetadata(HANDLER_ARGS_METADATA, controller[handlerName]);
   }
 
   private getHandlerMiddleware(controller: unknown, handlerName: string): ClassType<Middleware>[] {
     const controllerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller);
-    const handlerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller, handlerName);
+    const handlerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller[handlerName]);
 
     let middleware: ClassType<Middleware>[] = [];
 
