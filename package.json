@@ -35,6 +35,7 @@
     "reflect-metadata": "^0.1.0"
   },
   "dependencies": {
+    "class-transformer": "^0.4.0",
     "date-fns": "^2.16.1",
     "electron": "^11.2.2",
     "inversify": "^5.0.5",
