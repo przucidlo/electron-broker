@@ -4,7 +4,7 @@ export interface HandlerParamMetadata<T extends unknown> {
   index: number;
   options?: T;
   type: () => unknown;
-  method: (options: T, eventData: BrokerEventData) => void;
+  method: (options: T, eventData: BrokerEventData) => any;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
