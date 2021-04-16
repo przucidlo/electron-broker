@@ -64,7 +64,7 @@ describe('ControllersHandlersMetadataReader', () => {
 
         const handlersMetadata = metadataReader.read(testClassObject);
 
-        expect(handlersMetadata[pattern].controller).toBe(testClassObject.constructor);
+        expect(handlersMetadata[pattern].controller).toBe(testClassObject);
       });
 
       it('Should read and save middleware', () => {
