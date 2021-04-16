@@ -2,9 +2,9 @@ import { injectable } from 'inversify';
 
 @injectable()
 export abstract class AbstractMetadataReader {
-  public abstract read(object: Record<any, unknown>): any;
+  public abstract read<T extends Record<keyof T, unknown>>(object: T): any;
 
-  public readAll(objects: Record<any, unknown>[]): any {
+  public readAll<T extends Record<keyof T, unknown>>(objects: T[]): any {
     const metadata: any[] = [];
 
     for (const object of objects) {

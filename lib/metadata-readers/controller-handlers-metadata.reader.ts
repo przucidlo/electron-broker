@@ -9,7 +9,7 @@ import { ClassType } from '../types/class.type';
 
 @injectable()
 export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
-  public read(controller: Record<any, unknown>): Record<string, ControllerHandlerMetadata> {
+  public read<T extends Record<keyof T, unknown>>(controller: T): Record<string, ControllerHandlerMetadata> {
     const messageHandlers: Record<string, ControllerHandlerMetadata> = {};
 
     for (const handlerName of this.getControllerProperties(controller)) {
