@@ -16,7 +16,7 @@ describe('createParamDecorator', () => {
   it('Should gather all properties available in HandlerParamMetadata interface as metadata', () => {
     const instance = new Test();
 
-    const metadata = Reflect.getMetadata(HANDLER_ARGS_METADATA, instance, 'test');
+    const metadata = Reflect.getMetadata(HANDLER_ARGS_METADATA, instance['test']);
 
     expect(metadata).toEqual(<HandlerParamMetadata<any>>(<unknown>[
       {
