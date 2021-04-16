@@ -8,7 +8,10 @@ describe('ExecutionContext', () => {
   class Test {}
 
   beforeAll(() => {
-    executionContext = new ExecutionContext(Test, mockHandler, <any>{});
+    executionContext = new ExecutionContext(
+      { controller: new Test(), handler: mockHandler, middleware: [], paramsMetadata: [] },
+      <any>{},
+    );
   });
 
   describe('getClass', () => {
