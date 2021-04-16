@@ -20,7 +20,10 @@ describe('RequestExecutorInjector', () => {
     handlerMetadata = controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
     mockEventData = getMockBrokerEventData();
 
-    executionContext = new ExecutionContext(handlerMetadata.controller, handlerMetadata.handler, mockEventData);
+    executionContext = new ExecutionContext(
+      { controller: handlerMetadata.controller, handler: handlerMetadata.handler, middleware: [], paramsMetadata: [] },
+      mockEventData,
+    );
 
     requestExecutor = Object.create(RequestExecutor);
     requestExecutor.executeRequest = jest.fn();
