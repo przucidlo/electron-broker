@@ -4,7 +4,7 @@ import ExecutionContext from '../../controllers/execution-context';
 import { ClassTransformOptions, plainToClass } from 'class-transformer';
 
 @injectable()
-export class ClassTransformerMiddleware implements Middleware {
+export class ParamTransformerMiddleware implements Middleware {
   constructor(private transformOptions?: ClassTransformOptions) {}
 
   public onRequest(executionContext: ExecutionContext): void {
@@ -26,4 +26,4 @@ export class ClassTransformerMiddleware implements Middleware {
   }
 }
 
-export default ClassTransformerMiddleware;
+export default ParamTransformerMiddleware;
