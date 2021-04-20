@@ -29,7 +29,7 @@ export class RequestExecutor {
   }
 
   private async executeHandler(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<unknown> {
-    const paramsValues = this.paramsMapper.mapBrokerEventData(metadata.paramsMetadata, context.brokerEventData);
+    const paramsValues = this.paramsMapper.mapBrokerEventData(metadata.paramsMetadata, context.brokerEvent);
 
     return await metadata.handler.apply(metadata.controller, paramsValues);
   }

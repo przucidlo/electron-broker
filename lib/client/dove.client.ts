@@ -23,10 +23,7 @@ export default class DoveClient {
     this.middleware = [];
   }
 
-  public subscribe<T>(
-    pattern: string,
-    listener: (data: T, brokerEventData?: BrokerEvent) => void,
-  ): BrokerEventSubscriber {
+  public subscribe<T>(pattern: string, listener: (data: T, brokerEvent?: BrokerEvent) => void): BrokerEventSubscriber {
     return new BrokerEventSubscriber(pattern, (event) => {
       listener(<T>event.data, event);
     });

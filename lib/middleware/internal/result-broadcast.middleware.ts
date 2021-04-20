@@ -14,7 +14,7 @@ export class ResultBroadcastMiddleware implements Middleware {
   constructor(@inject(Symbols.IpcTransport) private icpTransport: IpcTransport) {}
 
   public onRequest(context: ExecutionContext): any {
-    this.brokerEvent = context.brokerEventData;
+    this.brokerEvent = context.brokerEvent;
   }
 
   public onResponse(data: unknown): void {

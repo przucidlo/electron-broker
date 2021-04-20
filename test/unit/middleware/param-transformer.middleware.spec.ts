@@ -13,7 +13,7 @@ describe('ParamTransformerMiddleware', () => {
       const paramMetadata = getMockTestControllerParamMetadata();
       const fakeExecutionContext: ExecutionContext = <ExecutionContext>{
         getParamMetadata: () => paramMetadata,
-        brokerEventData: { data: {} },
+        brokerEvent: { data: {} },
       };
 
       middleware.onRequest(fakeExecutionContext);

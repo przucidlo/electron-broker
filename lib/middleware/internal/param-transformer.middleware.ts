@@ -12,7 +12,7 @@ export class ParamTransformerMiddleware implements Middleware {
 
     if (paramsMetadata) {
       for (const paramMetadata of paramsMetadata) {
-        const result = paramMetadata.method(paramMetadata.options, executionContext.brokerEventData);
+        const result = paramMetadata.method(paramMetadata.options, executionContext.brokerEvent);
 
         paramMetadata.method = () => {
           return plainToClass(<any>paramMetadata.type, result, this.transformOptions);
