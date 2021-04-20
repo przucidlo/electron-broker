@@ -5,28 +5,25 @@ import { BrokerEvent } from '../../interfaces/broker-event-data.interface';
 import Middleware from '../../interfaces/middleware.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 import { ExecutionContext } from '../../controllers/execution-context';
+import { BrokerEventFactory } from '../../helpers/broker-event.factory';
 
 @injectable()
 export class ResultBroadcastMiddleware implements Middleware {
-  private brokerEventData: BrokerEvent;
+  private brokerEvent: BrokerEvent;
 
   constructor(@inject(Symbols.IpcTransport) private icpTransport: IpcTransport) {}
 
   public onRequest(context: ExecutionContext): any {
-    this.brokerEventData = context.brokerEventData;
+    this.brokerEvent = context.brokerEventData;
   }
 
   public onResponse(data: unknown): void {
-    this.combineEventData(data);
+    this.brokerEvent = BrokerEventFactory.createBrokerEventAsResponse(this.brokerEvent, data);
+
     this.broadcastResponse();
   }
 
-  private combineEventData(data: any): void {
-    this.brokerEventData.data = data;
-    this.brokerEventData.type = 'RESPONSE';
-  }
-
   private broadcastResponse(): void {
-    this.icpTransport.send(BROKER_EVENT, this.brokerEventData);
+    this.icpTransport.send(BROKER_EVENT, this.brokerEvent);
   }
 }
