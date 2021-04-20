@@ -1,5 +1,5 @@
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event-data.interface';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import { ExecutionContext } from '../controllers/execution-context';
 
-export type ExecutionContextFactory = (metadata: ControllerHandlerMetadata, data: BrokerEventData) => ExecutionContext;
+export type ExecutionContextFactory = (metadata: ControllerHandlerMetadata, data: BrokerEvent) => ExecutionContext;

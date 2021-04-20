@@ -1,10 +1,10 @@
-import { BrokerEventData } from './broker-event-data.interface';
+import { BrokerEvent } from './broker-event-data.interface';
 
 export interface HandlerParamMetadata<T extends unknown> {
   index: number;
   options?: T;
   type: () => unknown;
-  method: (options: T, eventData: BrokerEventData) => any;
+  method: (options: T, eventData: BrokerEvent) => any;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

@@ -1,5 +1,5 @@
 import { Symbols } from '../../../constants/symbols';
-import { BrokerEventData } from '../../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../interfaces/broker-event-data.interface';
 import { ControllerHandlerMetadata } from '../../../interfaces/controller-handler-metadata.interface';
 import { ExecutionContext } from '../../../controllers/execution-context';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
@@ -13,7 +13,7 @@ export class ExecutionContextFactoryComposer extends ContainerConfiguarableCompo
 
   private bindExecutionContextFactory() {
     this.container.bind(Symbols.ExecutionContextFactory).toFactory(() => {
-      return (metadata: ControllerHandlerMetadata, data: BrokerEventData) => {
+      return (metadata: ControllerHandlerMetadata, data: BrokerEvent) => {
         const executionContext = new ExecutionContext(metadata, data);
 
         return executionContext;
@@ -25,7 +25,7 @@ export class ExecutionContextFactoryComposer extends ContainerConfiguarableCompo
     this.container.bind(Symbols.ClientExecutionContextFactory).toFactory(
       (): ClientExecutionContextFactory => {
         return (brokerEvent) => {
-          const executionContext = new ExecutionContext(undefined, brokerEvent.data);
+          const executionContext = new ExecutionContext(undefined, brokerEvent);
 
           return executionContext;
         };

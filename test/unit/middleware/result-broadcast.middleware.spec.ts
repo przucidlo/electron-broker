@@ -1,6 +1,6 @@
 import { ExecutionContext } from '../../../lib';
 import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { BrokerEventData } from '../../../lib/interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../lib/interfaces/broker-event-data.interface';
 import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
 import { ResultBroadcastMiddleware } from '../../../lib/middleware/internal/result-broadcast.middleware';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
@@ -27,7 +27,7 @@ describe('ResultBroadcastMiddleware', () => {
 
   it('Should change BrokerEventData to be a response containing controller result', () => {
     const mockData = '123';
-    const expectedBrokerEventData: BrokerEventData = { ...getMockBrokerEventData(), type: 'RESPONSE', data: mockData };
+    const expectedBrokerEventData: BrokerEvent = { ...getMockBrokerEventData(), type: 'RESPONSE', data: mockData };
 
     middleware.onRequest(fakeExecutionContext);
     middleware.onResponse(mockData);

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import { Middleware } from '..';
+import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
-import { BrokerEventConverter } from '../helpers/broker-event.converter';
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
-import { BrokerEvent } from '../interfaces/broker-event.interface';
+import { BrokerEventFactory } from '../helpers/broker-event.factory';
+import { BrokerEvent } from '../interfaces/broker-event-data.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';
@@ -25,7 +25,7 @@ export default class DoveClient {
 
   public subscribe<T>(
     pattern: string,
-    listener: (data: T, brokerEventData?: BrokerEventData) => void,
+    listener: (data: T, brokerEventData?: BrokerEvent) => void,
   ): BrokerEventSubscriber {
     return new BrokerEventSubscriber(pattern, (event) => {
       listener(<T>event.data, event);
@@ -33,22 +33,22 @@ export default class DoveClient {
   }
 
   public send(pattern: string, data: unknown): void {
-    const brokerEvent: BrokerEvent = BrokerEventConverter.createOrConvert(pattern, data);
+    const brokerEvent: BrokerEvent = BrokerEventFactory.createBrokerEvent(pattern, data);
     const middlewareExecutor = this.middlewareExecutorFactory(this.middleware);
     const executionContext = this.executionContextFactory(brokerEvent);
 
     middlewareExecutor.executeWithoutResponse(executionContext, () => {
-      this.ipcTransport.send(brokerEvent.pattern, brokerEvent.data);
+      this.ipcTransport.send(BROKER_EVENT, brokerEvent);
     });
   }
 
   public async invoke<T>(pattern: string, data: unknown): Promise<T> {
-    const brokerEvent: BrokerEvent = BrokerEventConverter.createOrConvert(pattern, data);
+    const brokerEvent: BrokerEvent = BrokerEventFactory.createBrokerEvent(pattern, data);
     const middlewareExecutor = this.middlewareExecutorFactory(this.middleware);
     const executionContext = this.executionContextFactory(brokerEvent);
 
     return <T>await middlewareExecutor.execute(executionContext, async () => {
-      this.ipcTransport.send(brokerEvent.pattern, brokerEvent.data);
+      this.ipcTransport.send(BROKER_EVENT, brokerEvent);
 
       return await this.listenForResponse(brokerEvent);
     });

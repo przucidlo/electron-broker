@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event-data.interface';
 import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 
 @injectable()
 export class HandlerParamsMapper {
-  public mapBrokerEventData(paramsMetadata: HandlerParamMetadata<any>[], eventData: BrokerEventData): any[] {
+  public mapBrokerEventData(paramsMetadata: HandlerParamMetadata<any>[], eventData: BrokerEvent): any[] {
     const paramsValue = [].fill(undefined, 0, paramsMetadata.length);
 
     for (const metadata of paramsMetadata) {

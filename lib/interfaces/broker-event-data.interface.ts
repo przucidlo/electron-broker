@@ -1,4 +1,4 @@
-export interface BrokerEventData {
+export interface BrokerEvent {
   type: 'REQUEST' | 'RESPONSE';
   eventId: string;
   pattern: string;
@@ -6,6 +6,6 @@ export interface BrokerEventData {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isBrokerEventData(arg: any): arg is BrokerEventData {
+export function isBrokerEventData(arg: any): arg is BrokerEvent {
   return arg.eventId !== undefined;
 }

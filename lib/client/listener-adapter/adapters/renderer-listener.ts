@@ -1,12 +1,12 @@
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { BrokerEventData } from '../../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../interfaces/broker-event-data.interface';
 import { ListenerAdapter } from '../listener-adapter.interface';
 
 export class RendererListener implements ListenerAdapter {
-  private listener: (event: IpcRendererEvent, response: BrokerEventData) => void;
+  private listener: (event: IpcRendererEvent, response: BrokerEvent) => void;
   private pattern: string;
 
-  public listen(pattern: string, listener: (response: BrokerEventData) => void): void {
+  public listen(pattern: string, listener: (response: BrokerEvent) => void): void {
     this.pattern = pattern;
 
     this.listener = (event, response) => {

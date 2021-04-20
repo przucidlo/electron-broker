@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Symbols } from '../constants/symbols';
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 import { ExecutionContext } from './execution-context';
@@ -31,7 +31,7 @@ export class RequestExecutorInjector {
   }
 
   private createAndWrapWithExecutionContext(metadata: ControllerHandlerMetadata): MessageHandler {
-    return async (data: BrokerEventData) => {
+    return async (data: BrokerEvent) => {
       if (this.isRequest(data)) {
         const requestExecutor: RequestExecutor = this.requestExecutorFactory() as RequestExecutor;
         const executionContext: ExecutionContext = this.executorContextFactory(metadata, data);
@@ -41,7 +41,7 @@ export class RequestExecutorInjector {
     };
   }
 
-  private isRequest(data: BrokerEventData): boolean {
+  private isRequest(data: BrokerEvent): boolean {
     return data.type === 'REQUEST';
   }
 }

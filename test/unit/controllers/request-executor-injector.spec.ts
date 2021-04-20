@@ -1,7 +1,7 @@
 import { RequestExecutorInjector } from '../../../lib/controllers/request-executor-injector';
 import { ExecutionContext } from '../../../lib/controllers/execution-context';
 import { RequestExecutor } from '../../../lib/controllers/request-executor';
-import { BrokerEventData } from '../../../lib/interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../lib/interfaces/broker-event-data.interface';
 import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
@@ -13,7 +13,7 @@ describe('RequestExecutorInjector', () => {
   let controllerMetadata: ControllerMetadata;
   let executionContext: ExecutionContext;
   let requestExecutor: RequestExecutor;
-  let mockEventData: BrokerEventData;
+  let mockEventData: BrokerEvent;
 
   beforeEach(() => {
     controllerMetadata = getMockTestControllerMetadata();

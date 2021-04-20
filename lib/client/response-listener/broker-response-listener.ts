@@ -1,10 +1,9 @@
 import { RequestTimeoutError } from '../../errors/request-timeout.error';
-import { BrokerEventData } from '../../interfaces/broker-event-data.interface';
-import { BrokerEvent } from '../../interfaces/broker-event.interface';
+import { BrokerEvent } from '../../interfaces/broker-event-data.interface';
 import { ListenerFactory } from '../listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
 
-type BrokerListener = (response: BrokerEventData) => void;
+type BrokerListener = (response: BrokerEvent) => void;
 
 export class BrokerResponseListener {
   private readonly PROMISE_TIMEOUT: number = 30;
@@ -15,12 +14,12 @@ export class BrokerResponseListener {
     this.listenerAdapter = ListenerFactory.createListener();
   }
 
-  public async listen(): Promise<BrokerEventData> {
+  public async listen(): Promise<BrokerEvent> {
     return this.composeListener().then(
       (value) => {
         this.cleanUp();
 
-        return <BrokerEventData>value;
+        return <BrokerEvent>value;
       },
       () => {
         this.cleanUp();
@@ -34,7 +33,7 @@ export class BrokerResponseListener {
     return new Promise((resolve, reject) => {
       const listener = this.createListener(resolve);
 
-      this.listenerAdapter.listen(this.brokerEvent.data.pattern, listener);
+      this.listenerAdapter.listen(this.brokerEvent.pattern, listener);
       this.setResponseTimeout(reject);
     });
   }
@@ -47,7 +46,7 @@ export class BrokerResponseListener {
     };
   }
 
-  private isExpectedResponse(response: BrokerEventData): boolean {
+  private isExpectedResponse(response: BrokerEvent): boolean {
     return response.eventId === this.getEventId() && response.type === 'RESPONSE';
   }
 
@@ -61,6 +60,6 @@ export class BrokerResponseListener {
   }
 
   private getEventId(): string {
-    return this.brokerEvent.data.eventId;
+    return this.brokerEvent.eventId;
   }
 }

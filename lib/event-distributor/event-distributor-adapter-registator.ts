@@ -3,7 +3,7 @@ import { BrokerProcessAdapter } from '../adapters/broker/broker-process.adapter'
 import { BrokerRendererAdapter } from '../adapters/broker/broker-renderer.adapter';
 import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
-import { BrokerEventData } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event-data.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { EventDistributor } from './event-distributor';
 
@@ -26,13 +26,13 @@ export class EventDistributorAdapterRegistrator {
   }
 
   private registerProcessAdapter(adapter: BrokerProcessAdapter): void {
-    adapter.register(BROKER_EVENT, (data: BrokerEventData) => {
+    adapter.register(BROKER_EVENT, (data: BrokerEvent) => {
       this.eventDistributor.broadcast(data);
     });
   }
 
   private registerRendererAdapter(adapter: BrokerRendererAdapter): void {
-    adapter.register(BROKER_EVENT, (event: any, data: BrokerEventData) => {
+    adapter.register(BROKER_EVENT, (event: any, data: BrokerEvent) => {
       this.eventDistributor.broadcast(data);
     });
   }
