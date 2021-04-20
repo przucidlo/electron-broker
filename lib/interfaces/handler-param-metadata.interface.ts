@@ -1,4 +1,4 @@
-import { BrokerEvent } from './broker-event-data.interface';
+import { BrokerEvent } from './broker-event.interface';
 
 export interface HandlerParamMetadata<T extends unknown> {
   index: number;

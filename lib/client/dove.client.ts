@@ -3,7 +3,7 @@ import { Middleware } from '..';
 import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
 import { BrokerEventFactory } from '../helpers/broker-event.factory';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';

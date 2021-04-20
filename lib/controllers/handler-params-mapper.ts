@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 
 @injectable()

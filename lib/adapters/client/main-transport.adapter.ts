@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import { inject, injectable } from 'inversify';
 import { EventDistributor } from '../../event-distributor/event-distributor';
-import { BrokerEvent } from '../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 import { MessageHandler } from '../../types/message-handler.type';
 

@@ -1,4 +1,4 @@
-import { BrokerEvent } from '../../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../interfaces/broker-event.interface';
 import { IpcProcessMessage } from '../../../process/ipc-process-message.interface';
 import { ListenerAdapter } from '../listener-adapter.interface';
 

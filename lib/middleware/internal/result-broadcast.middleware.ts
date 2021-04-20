@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { BROKER_EVENT } from '../../constants/channels';
 import { Symbols } from '../../constants/symbols';
-import { BrokerEvent } from '../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import Middleware from '../../interfaces/middleware.interface';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
 import { ExecutionContext } from '../../controllers/execution-context';

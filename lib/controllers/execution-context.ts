@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { injectable } from 'inversify';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';

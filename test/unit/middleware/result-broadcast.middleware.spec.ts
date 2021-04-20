@@ -1,6 +1,6 @@
 import { ExecutionContext } from '../../../lib';
 import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
 import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
 import { ResultBroadcastMiddleware } from '../../../lib/middleware/internal/result-broadcast.middleware';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';

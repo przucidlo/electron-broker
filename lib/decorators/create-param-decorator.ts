@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { HANDLER_ARGS_METADATA } from '../constants/decorators';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 
 export default function createParamDecorator<T>(method: (options: T, eventData: BrokerEvent) => any) {

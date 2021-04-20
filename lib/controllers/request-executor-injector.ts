@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Symbols } from '../constants/symbols';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 import { ExecutionContext } from './execution-context';

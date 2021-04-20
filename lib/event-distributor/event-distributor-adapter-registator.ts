@@ -3,7 +3,7 @@ import { BrokerProcessAdapter } from '../adapters/broker/broker-process.adapter'
 import { BrokerRendererAdapter } from '../adapters/broker/broker-renderer.adapter';
 import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
-import { BrokerEvent } from '../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { EventDistributor } from './event-distributor';
 

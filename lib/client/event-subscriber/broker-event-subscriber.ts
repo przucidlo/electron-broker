@@ -1,4 +1,4 @@
-import { BrokerEvent } from '../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import { ListenerFactory } from '../listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
 

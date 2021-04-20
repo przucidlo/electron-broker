@@ -1,5 +1,5 @@
 import { ipcRenderer, IpcRendererEvent } from 'electron';
-import { BrokerEvent } from '../../../interfaces/broker-event-data.interface';
+import { BrokerEvent } from '../../../interfaces/broker-event.interface';
 import { ListenerAdapter } from '../listener-adapter.interface';
 
 export class RendererListener implements ListenerAdapter {
