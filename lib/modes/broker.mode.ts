@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ControllersRegistrator } from '../controllers/controllers-registrator';
-import { EventDistributorAdapterRegistrator } from '../event-distributor/event-distributor-adapter-registator';
+import { EventDistributorAdapterRegistrator } from '../event-distributor/event-distributor-adapter-registrator';
 import { ClientMode } from './client.mode';
 
 @injectable()
