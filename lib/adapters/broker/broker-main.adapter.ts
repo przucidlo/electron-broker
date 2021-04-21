@@ -6,7 +6,7 @@ import { MessageHandler } from '../../types/message-handler.type';
 @injectable()
 export class BrokerMainAdapter implements IpcTransport {
   send(pattern: string, data: unknown): void {
-    ipcMain.emit(pattern, data);
+    ipcMain.emit(pattern, undefined, data);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

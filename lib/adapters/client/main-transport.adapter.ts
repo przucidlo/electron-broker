@@ -14,7 +14,7 @@ export class MainTransportAdapter implements IpcTransport {
   }
 
   register(pattern: string, handler: MessageHandler): void {
-    ipcMain.on(pattern, (data) => {
+    ipcMain.on(pattern, (event, data) => {
       handler(data);
     });
   }
