@@ -4,6 +4,7 @@ import { ControllerMetadata } from '../../../interfaces/controller-metadata.inte
 import { Controller } from '../../../types/controller.type';
 import { AbstractMetadataReader } from '../../../metadata-readers/abstract-metadata.reader';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
+import { ControllersMetadataFactory } from '../../../types/controllers-metadata-factory.type';
 
 export class ControllersMetadataFactoryComposer extends ContainerConfiguarableComposer {
   private metadataReader: AbstractMetadataReader;
@@ -15,9 +16,9 @@ export class ControllersMetadataFactoryComposer extends ContainerConfiguarableCo
   }
 
   public compose(): void {
-    this.container.bind(Symbols.ControllersMetadataFactory).toFactory(() => {
-      return () => this.getControllersMetadata(this.getControllers());
-    });
+    this.container
+      .bind(Symbols.ControllersMetadataFactory)
+      .toFactory((): ControllersMetadataFactory => () => this.getControllersMetadata(this.getControllers()));
   }
 
   private getControllers(): Record<string, unknown>[] {
