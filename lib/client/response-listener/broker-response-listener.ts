@@ -15,30 +15,29 @@ export class BrokerResponseListener {
   }
 
   public async listen(): Promise<BrokerEvent> {
-    return this.composeListener().then(
-      (value) => {
-        this.cleanUp();
-
-        return <BrokerEvent>value;
-      },
-      () => {
-        this.cleanUp();
-
-        throw new RequestTimeoutError();
-      },
-    );
+    try {
+      return await this.listenWithTimeout();
+    } catch (err) {
+      throw err;
+    } finally {
+      this.cleanUp();
+    }
   }
 
-  private composeListener<T>(): Promise<T> {
-    return new Promise((resolve, reject) => {
-      const listener = this.createListener(resolve);
+  private cleanUp(): void {
+    this.listenerAdapter.removeListener();
+    clearTimeout(this.timeout);
+  }
 
-      this.listenerAdapter.listen(this.brokerEvent.pattern, listener);
+  private listenWithTimeout<T>(): Promise<T> {
+    return new Promise((resolve, reject) => {
+      this.listenerAdapter.listen(this.brokerEvent.pattern, this.createResponseListener(resolve));
+
       this.setResponseTimeout(reject);
     });
   }
 
-  private createListener(resolve: (value?: unknown) => void): BrokerListener {
+  private createResponseListener(resolve: (value?: unknown) => void): BrokerListener {
     return (response) => {
       if (this.isExpectedResponse(response)) {
         resolve(response);
@@ -47,19 +46,10 @@ export class BrokerResponseListener {
   }
 
   private isExpectedResponse(response: BrokerEvent): boolean {
-    return response.eventId === this.getEventId() && response.type === 'RESPONSE';
+    return response.eventId === this.brokerEvent.eventId && response.type === 'RESPONSE';
   }
 
   private setResponseTimeout(reject: (reason: any) => void) {
-    this.timeout = setTimeout(() => reject('Request timeout.'), this.PROMISE_TIMEOUT * 1000);
-  }
-
-  private cleanUp(): void {
-    this.listenerAdapter.removeListener();
-    clearTimeout(this.timeout);
-  }
-
-  private getEventId(): string {
-    return this.brokerEvent.eventId;
+    this.timeout = setTimeout(() => reject(new RequestTimeoutError()), this.PROMISE_TIMEOUT * 1000);
   }
 }
