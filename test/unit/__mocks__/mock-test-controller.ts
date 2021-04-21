@@ -1,5 +1,6 @@
 import { Data } from '../../../lib';
 import MessagePattern from '../../../lib/decorators/message-pattern.decorator';
+import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
 import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
 import { HandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
@@ -19,8 +20,12 @@ export function getMockTestControllerMetadata(): ControllerMetadata {
   return new ControllerMetadataReader(new ControllerHandlersMetadataReader()).read(new MockTestController());
 }
 
-export function getMockTestControllerParamMetadata(): HandlerParamMetadata<any>[] {
+export function getMockTestControllerHandlerMetadata(): ControllerHandlerMetadata {
   const controllerMetadata = getMockTestControllerMetadata();
 
-  return controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN].paramsMetadata;
+  return controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
+}
+
+export function getMockTestControllerParamMetadata(): HandlerParamMetadata<any>[] {
+  return getMockTestControllerHandlerMetadata().paramsMetadata;
 }
