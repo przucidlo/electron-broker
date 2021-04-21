@@ -40,7 +40,7 @@ describe('MiddlewareFactoryComposer', () => {
     });
 
     it('If middleware is not injectable and its not an instance of its class, factory should fallback to Object.create', () => {
-      expect(middlewareFactory(MockMiddleware)).toEqual(MockMiddleware.prototype);
+      expect(middlewareFactory(MockMiddleware) instanceof MockMiddleware).toBe(true);
     });
   });
 });
