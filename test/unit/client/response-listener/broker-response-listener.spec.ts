@@ -6,13 +6,14 @@ import { BrokerResponseListener } from '../../../../lib/client/response-listener
 import { RequestTimeoutError } from '../../../../lib/errors/request-timeout.error';
 import { BrokerEvent } from '../../../../lib/interfaces/broker-event.interface';
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
+import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
 describe('BrokerResponseListener', () => {
   let brokerResponseListener: BrokerResponseListener;
   let listenerAdapter: ListenerAdapter;
 
   beforeEach(() => {
-    listenerAdapter = { listen: jest.fn(), removeListener: jest.fn() };
+    listenerAdapter = getMockListenerAdapter();
     ListenerFactory.createListener = jest.fn().mockImplementation((): ListenerAdapter => listenerAdapter);
 
     brokerResponseListener = new BrokerResponseListener(getMockBrokerEventData());
