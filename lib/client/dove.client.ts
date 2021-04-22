@@ -12,7 +12,6 @@ import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';
 import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
 import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscriber';
-import { BrokerResponseListener } from './response-listener/broker-response-listener';
 
 type MiddlewareContext = { middlewareExecutor: MiddlewareExecutor; executionContext: ExecutionContext };
 
