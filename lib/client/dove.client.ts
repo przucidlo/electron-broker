@@ -46,12 +46,16 @@ export default class DoveClient {
   }
 
   public async invoke<T>(pattern: string, data: unknown): Promise<T> {
+    return <T>(await this.invokeForBrokerEvent(pattern, data)).data;
+  }
+
+  public async invokeForBrokerEvent(pattern: string, data: unknown): Promise<BrokerEvent> {
     const { middlewareExecutor, executionContext } = this.prepareMiddlewareContext(pattern, data);
 
-    return <T>await middlewareExecutor.execute(executionContext, async () => {
+    return <BrokerEvent>await middlewareExecutor.execute(executionContext, async () => {
       this.ipcTransport.send(BROKER_EVENT, executionContext.brokerEvent);
 
-      return await this.listenForResponse(executionContext.brokerEvent);
+      return (await this.listenForResponse(executionContext.brokerEvent)).data;
     });
   }
 
@@ -63,9 +67,9 @@ export default class DoveClient {
     return { middlewareExecutor, executionContext };
   }
 
-  private async listenForResponse<T>(brokerEvent: BrokerEvent): Promise<T> {
+  private async listenForResponse<T>(brokerEvent: BrokerEvent): Promise<BrokerEvent> {
     const brokerResponseListener = new BrokerResponseListener(brokerEvent);
 
-    return <T>(await brokerResponseListener.listen()).data;
+    return await brokerResponseListener.listen();
   }
 }
