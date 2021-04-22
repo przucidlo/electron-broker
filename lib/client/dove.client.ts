@@ -7,6 +7,7 @@ import { BrokerEventFactory } from '../helpers/broker-event.factory';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
+import { BrokerResponseListenerFactory } from '../types/broker-responser-listener-factory.type';
 import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';
 import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
@@ -23,6 +24,7 @@ export default class DoveClient {
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
     @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: MiddlewareExecutorFactory,
     @inject(Symbols.ClientExecutionContextFactory) private executionContextFactory: ClientExecutionContextFactory,
+    @inject(Symbols.BrokerResponseListenerFactory) private brokerResponseListenerFactory: BrokerResponseListenerFactory,
   ) {
     this.middleware = [];
   }
@@ -55,7 +57,7 @@ export default class DoveClient {
     return <BrokerEvent>await middlewareExecutor.execute(executionContext, async () => {
       this.ipcTransport.send(BROKER_EVENT, executionContext.brokerEvent);
 
-      return (await this.listenForResponse(executionContext.brokerEvent)).data;
+      return await this.listenForResponse(executionContext.brokerEvent);
     });
   }
 
@@ -67,9 +69,7 @@ export default class DoveClient {
     return { middlewareExecutor, executionContext };
   }
 
-  private async listenForResponse<T>(brokerEvent: BrokerEvent): Promise<BrokerEvent> {
-    const brokerResponseListener = new BrokerResponseListener(brokerEvent);
-
-    return await brokerResponseListener.listen();
+  private async listenForResponse(brokerEvent: BrokerEvent): Promise<BrokerEvent> {
+    return await this.brokerResponseListenerFactory(brokerEvent).listen();
   }
 }
