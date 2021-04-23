@@ -11,6 +11,6 @@ export class BrokerMainAdapter implements IpcTransport {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register(pattern: string, handler: MessageHandler): void {
-    // Not used since message doesn't come outside of the process.
+    // Not used since message doesn't come from outside of the process.
   }
 }
