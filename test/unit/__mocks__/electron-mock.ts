@@ -9,6 +9,7 @@ export let ipcRenderer: Partial<IpcRenderer> = {
 export let ipcMain: Partial<IpcMain> = {
   on: jest.fn(),
   removeListener: jest.fn(),
+  emit: jest.fn(),
 };
 
 export function clearElectronMock(): void {
@@ -20,5 +21,6 @@ export function clearElectronMock(): void {
   ipcMain = {
     on: jest.fn(),
     removeListener: jest.fn(),
+    emit: jest.fn(),
   };
 }
