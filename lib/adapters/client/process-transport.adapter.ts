@@ -11,7 +11,7 @@ export class ProcessTransportAdapter implements IpcTransport {
     this.ipcProcess.send(pattern, data);
   }
 
-  register(pattern: string, handler: MessageHandler): void {
+  public register(pattern: string, handler: MessageHandler): void {
     this.ipcProcess.on(pattern, handler);
   }
 }
