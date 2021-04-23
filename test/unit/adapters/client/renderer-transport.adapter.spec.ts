@@ -29,15 +29,15 @@ describe('RendererTransportAdapter', () => {
     });
 
     it('Should execute provided listener if message arrives', () => {
-      const registerSpy = jest.spyOn(transportAdapter, 'register');
       const listener = jest.fn();
+      const mockArg = {};
 
       transportAdapter.register(pattern, listener);
 
-      const internalListener = registerSpy.mock.calls[0][1];
-      internalListener();
+      const internalListener = (<jest.Mock>ipcRenderer.on).mock.calls[0][1];
+      internalListener(undefined, [mockArg]);
 
-      expect(listener).toBeCalled();
+      expect(listener).toBeCalledWith(mockArg);
     });
   });
 });
