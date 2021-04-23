@@ -5,11 +5,7 @@ import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
 export class ProcessTransportAdapter implements IpcTransport {
-  private ipcProcess: IpcProcess;
-
-  constructor() {
-    this.ipcProcess = new IpcProcess();
-  }
+  constructor(private ipcProcess: IpcProcess) {}
 
   public send(pattern: string, data: unknown): void {
     this.ipcProcess.send(pattern, data);
