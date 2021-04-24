@@ -1,6 +1,6 @@
-import { BrokerEventData } from './broker-event-data.interface';
+import { ExecutionContext } from '../controllers/execution-context';
 
-export interface Middleware {
-  onRequest?: (arg: BrokerEventData) => any | Promise<any>;
-  onResponse?: (data: any) => void;
+export default interface Middleware {
+  onRequest?: (context: ExecutionContext) => void | Promise<void>;
+  onResponse?: (data: unknown) => unknown | Promise<unknown>;
 }

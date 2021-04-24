@@ -8,13 +8,14 @@ import { ProcessTransportAdapter } from '../../adapters/client/process-transport
 import { RendererTransportAdapter } from '../../adapters/client/renderer-transport.adapter';
 import { DoveMode } from '../../constants/dove-mode.enum';
 import { Symbols } from '../../constants/symbols';
+import IpcProcess from '../../process/ipc-process';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class IpcTransportComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     switch (this.config.mode) {
       case DoveMode.PROCESS:
-        this.container.bind(Symbols.IpcTransport).to(ProcessTransportAdapter).inSingletonScope();
+        this.container.bind(Symbols.IpcTransport).toConstantValue(new ProcessTransportAdapter(new IpcProcess()));
         break;
       case DoveMode.RENDERER:
         this.container.bind(Symbols.IpcTransport).to(RendererTransportAdapter).inSingletonScope();
@@ -36,7 +37,9 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
 
   private bindProcessAdapters(processes: ChildProcess[]): void {
     for (const process of processes) {
-      this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerProcessAdapter(process));
+      const ipcProcess = new IpcProcess(process);
+
+      this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerProcessAdapter(ipcProcess));
     }
   }
 

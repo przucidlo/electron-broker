@@ -8,14 +8,23 @@ import { MiddlewareComposer } from './composers/middleware.composer';
 import { ConfigComposer } from './composers/config.composer';
 import { ModeComposer } from './composers/mode.composer';
 import { ModuleConfig } from '../types/ipc-module-config.type';
-
-type Composers = { new (container: Container): AbstractContainerComposer }[];
+import { ExecutionContextFactoryComposer } from './composers/factory/execution-context-factory.composer';
+import { RequestExecutorFactoryComposer } from './composers/factory/request-executor-factory.composer';
+import { MiddlewareFactoryComposer } from './composers/factory/middleware-factory.composer';
+import { MiddlewareExecutorFactoryComposer } from './composers/factory/middleware-executor-factory.composer';
+import { ClassType } from '../types/class.type';
+import { BrokerResponseListenerFactoryComposer } from './composers/factory/broker-response-listener-factory.composer';
 
 export class ContainerComposition {
-  private static composersOrder: Composers = [
+  private static composersOrder: ClassType<AbstractContainerComposer>[] = [
     IpcTransportComposer,
     DoveClientComposer,
     MetadataReadersComposer,
+    MiddlewareFactoryComposer,
+    MiddlewareExecutorFactoryComposer,
+    ExecutionContextFactoryComposer,
+    RequestExecutorFactoryComposer,
+    BrokerResponseListenerFactoryComposer,
     ControllersMetadataFactoryComposer,
     MiddlewareComposer,
     ModeComposer,

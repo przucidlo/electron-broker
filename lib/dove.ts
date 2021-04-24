@@ -1,8 +1,10 @@
 import { Container } from 'inversify';
+import { Middleware } from '.';
 import DoveClient from './client/dove.client';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
+import { ClassType } from './types/class.type';
 import { Controller } from './types/controller.type';
 import { ModuleConfig } from './types/ipc-module-config.type';
 
@@ -30,6 +32,10 @@ export default class Dove {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(Symbols.ModuleMode);
 
     moduleMode.start();
+  }
+
+  public setMiddleware(middleware: (ClassType<Middleware> | Middleware)[]): void {
+    this.container.rebind(Symbols.GlobalMiddleware).toConstantValue(middleware);
   }
 
   public setControllers(controllers: Controller[]): void {

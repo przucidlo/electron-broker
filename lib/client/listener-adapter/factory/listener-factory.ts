@@ -1,3 +1,4 @@
+import { BrokerListener } from '../adapters/broker-listener';
 import { ProcessListener } from '../adapters/process-listener';
 import { RendererListener } from '../adapters/renderer-listener';
 import { ListenerAdapter } from '../listener-adapter.interface';
@@ -8,7 +9,7 @@ export class ListenerFactory {
       case 'renderer':
         return new RendererListener();
       case 'browser':
-        throw new Error('Not yet implemented');
+        return new BrokerListener();
       default:
         return new ProcessListener();
     }

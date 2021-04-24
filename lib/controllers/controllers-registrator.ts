@@ -2,21 +2,21 @@ import { inject, injectable } from 'inversify';
 import { Symbols } from '../constants/symbols';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
-import { ControllersMiddlewareInjector } from './controllers-middleware-injector';
+import { ControllersMetadataFactory } from '../types/controllers-metadata-factory.type';
+import { RequestExecutorInjector } from './request-executor-injector';
 
 @injectable()
 export class ControllersRegistrator {
   constructor(
-    @inject(ControllersMiddlewareInjector) private middlewareInjector: ControllersMiddlewareInjector,
+    @inject(RequestExecutorInjector) private middlewareInjector: RequestExecutorInjector,
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
-    @inject(Symbols.ControllersMetadataFactory)
-    private controllersMetadataFactory: () => ControllerMetadata[],
+    @inject(Symbols.ControllersMetadataFactory) private controllersMetadataFactory: ControllersMetadataFactory,
   ) {}
 
   public register(): void {
     const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>this.controllersMetadataFactory();
 
-    this.middlewareInjector.inject(controllersMetadata);
+    this.middlewareInjector.injectIntoControllers(controllersMetadata);
 
     for (const controllerMetadata of controllersMetadata) {
       this.registerMessageHandlers(controllerMetadata);
@@ -27,7 +27,9 @@ export class ControllersRegistrator {
     const messageHandlers = controllerMetadata.messageHandlers;
 
     for (const pattern of Object.keys(messageHandlers)) {
-      this.ipcTransport.register(pattern, messageHandlers[pattern]);
+      const messageHandler = messageHandlers[pattern].handler;
+
+      this.ipcTransport.register(pattern, messageHandler);
     }
   }
 }

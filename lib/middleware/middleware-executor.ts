@@ -1,27 +1,59 @@
-import { injectable, multiInject } from 'inversify';
-import { Symbols } from '../constants/symbols';
-import { Middleware } from '../interfaces/middleware.interface';
-import { MiddlewareContext } from './middleware-context';
+import ExecutionContext from '../controllers/execution-context';
+import Middleware from '../interfaces/middleware.interface';
+import { ClassType } from '../types/class.type';
+import { MiddlewareFactory } from '../types/middleware-factory.type';
 
-@injectable()
 export class MiddlewareExecutor {
-  constructor(@multiInject(Symbols.IpcMiddleware) private ipcMiddlewares: Middleware[]) {}
+  private middlewares: Middleware[];
 
-  public async executeMiddlewareContext(middlewareContext: MiddlewareContext): Promise<void> {
-    const context: MiddlewareContext = middlewareContext;
+  constructor(private middlewareFactory: MiddlewareFactory, middlewareList: (ClassType<Middleware> | Middleware)[]) {
+    this.middlewares = this.createMiddlewaresObjects(middlewareList);
+  }
 
-    for (const middleware of this.ipcMiddlewares) {
+  private createMiddlewaresObjects(middlewares: (ClassType<Middleware> | Middleware)[]): Middleware[] {
+    const middlewareObjects: Middleware[] = [];
+
+    for (const middleware of middlewares) {
+      middlewareObjects.push(this.middlewareFactory(middleware));
+    }
+
+    return middlewareObjects;
+  }
+
+  public async execute(executionContext: ExecutionContext, target: () => unknown | Promise<unknown>): Promise<unknown> {
+    await this.executeOnRequest(executionContext);
+
+    const result = await target();
+
+    return await this.executeOnResponse(result);
+  }
+
+  public async executeWithoutResponse(
+    executionContext: ExecutionContext,
+    target: () => unknown | Promise<unknown>,
+  ): Promise<void> {
+    await this.executeOnRequest(executionContext);
+
+    await target();
+  }
+
+  private async executeOnRequest(context: ExecutionContext): Promise<void> {
+    for (const middleware of this.middlewares) {
       if (middleware.onRequest) {
-        context.args = await middleware.onRequest(context.args);
+        await middleware.onRequest(context);
       }
     }
+  }
 
-    const result = await context.messageHandler(context.args);
+  private async executeOnResponse(data: unknown): Promise<unknown> {
+    let response = data;
 
-    for (const middleware of this.ipcMiddlewares.reverse()) {
+    for (const middleware of this.middlewares.reverse()) {
       if (middleware.onResponse) {
-        middleware.onResponse(result);
+        response = await middleware.onResponse(response);
       }
     }
+
+    return response;
   }
 }

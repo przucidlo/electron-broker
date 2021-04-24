@@ -1,14 +1,16 @@
 import { ipcMain } from 'electron';
 import { injectable } from 'inversify';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
 export class BrokerMainAdapter implements IpcTransport {
   send(pattern: string, data: unknown): void {
-    ipcMain.emit(pattern, data);
+    ipcMain.emit(pattern, undefined, data);
   }
 
-  register(pattern: string, handler: any): void | Promise<void> {
-    // Not used since message doesn't come outside of the process.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  register(pattern: string, handler: MessageHandler): void {
+    // Not used since message doesn't come from outside of the process.
   }
 }

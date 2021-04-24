@@ -1,5 +1,9 @@
+import { ControllerHandlerMetadata } from './controller-handler-metadata.interface';
+
 type Pattern = string;
 
 export interface ControllerMetadata {
-  messageHandlers: Record<Pattern, any[string]>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  type: Function;
+  messageHandlers: Record<Pattern, ControllerHandlerMetadata>;
 }

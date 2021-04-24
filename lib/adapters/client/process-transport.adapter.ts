@@ -1,20 +1,17 @@
 import { injectable } from 'inversify';
 import { IpcTransport } from '../../interfaces/ipc-transport.interface';
-import IpcProcessCommunicator from '../../process/IpcProcessCommunicator';
+import IpcProcess from '../../process/ipc-process';
+import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
 export class ProcessTransportAdapter implements IpcTransport {
-  private processCommunicator: IpcProcessCommunicator;
+  constructor(private ipcProcess: IpcProcess) {}
 
-  constructor() {
-    this.processCommunicator = new IpcProcessCommunicator();
+  public send(pattern: string, data: unknown): void {
+    this.ipcProcess.send(pattern, data);
   }
 
-  public send(pattern: any, data: any): void {
-    this.processCommunicator.send(pattern, data);
-  }
-
-  register(pattern: any, handler: any): void {
-    this.processCommunicator.on(pattern, handler);
+  public register(pattern: string, handler: MessageHandler): void {
+    this.ipcProcess.on(pattern, handler);
   }
 }

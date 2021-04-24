@@ -2,19 +2,19 @@ import { injectable } from 'inversify';
 
 @injectable()
 export abstract class AbstractMetadataReader {
-  public abstract read<T extends object, U extends keyof T>(object: U): any;
+  public abstract read<T extends Record<keyof T, unknown>>(object: T): any;
 
-  public readAll<T extends object, U extends keyof T>(objects: U[]): any {
-    let metadata: any[] = [];
+  public readAll<T extends Record<keyof T, unknown>>(objects: T[]): any {
+    const metadata: any[] = [];
 
     for (const object of objects) {
-      metadata.push(object);
+      metadata.push(this.read(object));
     }
 
     return metadata;
   }
 
-  protected isFunction(member: any): boolean {
+  protected isFunction(member: unknown): boolean {
     return typeof member === 'function';
   }
 }

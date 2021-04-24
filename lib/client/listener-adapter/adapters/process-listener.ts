@@ -1,20 +1,20 @@
-import { BrokerEventData } from '../../../interfaces/broker-event-data.interface';
-import { IpcProcessPayload } from '../../../process/IpcProcessPayload';
+import { BrokerEvent } from '../../../interfaces/broker-event.interface';
+import { IpcProcessMessage } from '../../../process/ipc-process-message.interface';
 import { ListenerAdapter } from '../listener-adapter.interface';
 
 export class ProcessListener implements ListenerAdapter {
-  private listener: (response: IpcProcessPayload) => void;
+  private listener: (response: IpcProcessMessage) => void;
 
-  public listen(pattern: string, listener: (response: BrokerEventData) => void): void {
+  public listen(pattern: string, listener: (response: BrokerEvent) => void): void {
     this.listener = this.injectPatternMatcher(pattern, listener);
 
     process.on('message', this.listener);
   }
 
-  private injectPatternMatcher(pattern: string, listener: (response: BrokerEventData) => void) {
-    return (response: IpcProcessPayload) => {
-      if (pattern === response.channelName) {
-        listener(response.payload);
+  private injectPatternMatcher(pattern: string, listener: (response: BrokerEvent) => void) {
+    return (response: IpcProcessMessage) => {
+      if (response.channelName && pattern === response.channelName) {
+        listener(<BrokerEvent>response.payload);
       }
     };
   }
