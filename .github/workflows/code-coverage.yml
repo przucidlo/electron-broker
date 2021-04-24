@@ -26,5 +26,4 @@ jobs:
       run: npm run coverage
     - uses: codecov/codecov-action@v1
       with: 
-        directory: ./coverage/
-        files: ./clover.xml
+        files: ./coverage/clover.xml
