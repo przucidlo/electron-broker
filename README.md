@@ -1,4 +1,7 @@
 # Electron-Dove
+[![codecov](https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I)](https://codecov.io/gh/abbl/electron-dove)
+![example workflow](https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg)
+
 Encapsulates electron ipc communication to simplify it and make it more effective...
 
 ## Installation
