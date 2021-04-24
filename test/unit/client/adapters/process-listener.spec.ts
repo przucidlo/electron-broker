@@ -17,7 +17,7 @@ describe('ProcessListener', () => {
       expect(processSpy).toBeCalledWith('message', expect.any(Function));
     });
 
-    it('Should accept only message that channelName matches the provided pattern', () => {
+    it('Should call the listener if message arrives', () => {
       const listener = jest.fn();
 
       processListener.listen('test', listener);
@@ -26,6 +26,17 @@ describe('ProcessListener', () => {
       internalListener(<IpcProcessMessage>{ channelName: 'test', payload: '123' });
 
       expect(listener).toBeCalledWith('123');
+    });
+
+    it('Should not accept message if channelName does not match the provided pattern', () => {
+      const listener = jest.fn();
+
+      processListener.listen('test', listener);
+
+      const internalListener = processSpy.mock.calls[0][1];
+      internalListener(<IpcProcessMessage>{ channelName: 'test2', payload: '123' });
+
+      expect(listener).not.toBeCalled();
     });
   });
 
