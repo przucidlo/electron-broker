@@ -1,0 +1,30 @@
+name: Automatic Unit Tests
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache node modules
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+    - uses: actions/setup-node@v2
+      if: steps.cache.outputs.cache-hit != 'true'
+      with:
+        node-version: 14.x
+    - name: Install Packages
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm install
+    - name: Run coverage
+      run: npm run coverage
+    - uses: codecov/codecov-action@v1
+      with: 
+        directory: ./coverage/
+        files: ./clover.xml
