@@ -1,4 +1,4 @@
-name: Automatic Unit Tests
+name: Code coverage
 
 on:
   push:
