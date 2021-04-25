@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 import { Symbols } from '../../../constants/symbols';
 import { MiddlewareFactory } from '../../../types/middleware-factory.type';
 import { ContainerConfiguarableComposer } from '../../abstract/container-configurable-composer';
