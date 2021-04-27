@@ -7,7 +7,7 @@ import { ExecutionContext } from './execution-context';
 import { RequestExecutor } from './request-executor';
 import { ExecutionContextFactory } from '../types/execution-context-factory.type';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
-import cloneDeep from 'lodash.clonedeep';
+import { MessageHandlerWithPattern } from '../interfaces/message-handler-with-pattern.interface';
 
 @injectable()
 export class RequestExecutorInjector {
@@ -16,24 +16,38 @@ export class RequestExecutorInjector {
     @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,
   ) {}
 
-  public injectIntoControllers(controllersMetadata: ControllerMetadata[]): void {
+  public injectIntoControllersHandlers(controllersMetadata: ControllerMetadata[]): MessageHandlerWithPattern[] {
+    const registrableMessageHandlers: MessageHandlerWithPattern[] = [];
+
     for (const controllerMetadata of controllersMetadata) {
-      this.wrapEndpointsWithExecutionContext(controllerMetadata.messageHandlers);
+      const messageHandlersWithPattern = this.wrapHandlersWithExecutionContext(controllerMetadata.messageHandlers);
+
+      registrableMessageHandlers.push(...messageHandlersWithPattern);
     }
+
+    return registrableMessageHandlers;
   }
 
-  private wrapEndpointsWithExecutionContext(messageHandlers: Record<string, ControllerHandlerMetadata>): void {
+  private wrapHandlersWithExecutionContext(
+    messageHandlers: Record<string, ControllerHandlerMetadata>,
+  ): MessageHandlerWithPattern[] {
+    const registrableMessageHandlers: MessageHandlerWithPattern[] = [];
+
     for (const pattern of Object.keys(messageHandlers)) {
       const handlerMetadata = messageHandlers[pattern];
 
-      handlerMetadata.handler = this.createAndWrapWithExecutionContext(cloneDeep(handlerMetadata));
+      const handler = this.createAndWrapWithExecutionContext(handlerMetadata);
+
+      registrableMessageHandlers.push({ pattern, handler });
     }
+
+    return registrableMessageHandlers;
   }
 
   private createAndWrapWithExecutionContext(metadata: ControllerHandlerMetadata): MessageHandler {
     return async (data: BrokerEvent) => {
       if (this.isRequest(data)) {
-        const requestExecutor: RequestExecutor = this.requestExecutorFactory() as RequestExecutor;
+        const requestExecutor: RequestExecutor = this.requestExecutorFactory();
         const executionContext: ExecutionContext = this.executorContextFactory(metadata, data);
 
         requestExecutor.executeRequest(executionContext, metadata);

@@ -3,12 +3,13 @@ import { Symbols } from '../constants/symbols';
 import { ControllerMetadata } from '../interfaces/controller-metadata.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { ControllersMetadataFactory } from '../types/controllers-metadata-factory.type';
+import { MessageHandlerWithPattern } from '../interfaces/message-handler-with-pattern.interface';
 import { RequestExecutorInjector } from './request-executor-injector';
 
 @injectable()
 export class ControllersRegistrator {
   constructor(
-    @inject(RequestExecutorInjector) private middlewareInjector: RequestExecutorInjector,
+    @inject(RequestExecutorInjector) private requestExecutorInjector: RequestExecutorInjector,
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
     @inject(Symbols.ControllersMetadataFactory) private controllersMetadataFactory: ControllersMetadataFactory,
   ) {}
@@ -16,20 +17,16 @@ export class ControllersRegistrator {
   public register(): void {
     const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>this.controllersMetadataFactory();
 
-    this.middlewareInjector.injectIntoControllers(controllersMetadata);
+    const messageHandlersWithPattern = this.requestExecutorInjector.injectIntoControllersHandlers(controllersMetadata);
 
-    for (const controllerMetadata of controllersMetadata) {
-      this.registerMessageHandlers(controllerMetadata);
+    for (const messageHandlerWithPattern of messageHandlersWithPattern) {
+      this.registerMessageHandlers(messageHandlerWithPattern);
     }
   }
 
-  private registerMessageHandlers(controllerMetadata: ControllerMetadata) {
-    const messageHandlers = controllerMetadata.messageHandlers;
+  private registerMessageHandlers(messageHandlerWithPattern: MessageHandlerWithPattern) {
+    const { pattern, handler } = messageHandlerWithPattern;
 
-    for (const pattern of Object.keys(messageHandlers)) {
-      const messageHandler = messageHandlers[pattern].handler;
-
-      this.ipcTransport.register(pattern, messageHandler);
-    }
+    this.ipcTransport.register(pattern, handler);
   }
 }
