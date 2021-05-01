@@ -1,6 +1,10 @@
 export * from './client/dove.client';
 export { default as DoveClient } from './client/dove.client';
 export * from './constants/dove-mode.enum';
+
+export * from './client/transformable-dove.client';
+export { default as TransformableDoveClient } from './client/transformable-dove.client';
+
 export { default as DoveMode } from './constants/dove-mode.enum';
 
 export * from './constants/decorators';
