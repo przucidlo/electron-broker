@@ -43,7 +43,7 @@ export class IsoDateTransformer {
   }
 
   private static isArray(object: any): object is Array<any> {
-    return object.length !== undefined;
+    return object && object.length !== undefined;
   }
 
   private static isString(object: unknown): object is string {
