@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Dove, DoveClient, DoveMode } from '../../lib';
+import { Dove, DoveClient, DoveMode, TransformableDoveClient } from '../../lib';
 import { Symbols } from '../../lib/constants/symbols';
 import { ModuleMode } from '../../lib/interfaces/module-mode.interface';
 import { ModuleConfig } from '../../lib/types/ipc-module-config.type';
@@ -57,6 +57,12 @@ describe('Dove', () => {
   describe('getDoveClient', () => {
     it('Should return instance of DoveClient', () => {
       expect(dove.getDoveClient() instanceof DoveClient).toBe(true);
+    });
+  });
+
+  describe('getTransformableDoveClient', () => {
+    it('Should return instance of TransformableDoveClient', () => {
+      expect(dove.getTransformableDoveClient() instanceof TransformableDoveClient).toBe(true);
     });
   });
 
