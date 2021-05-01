@@ -18,6 +18,8 @@ export { default as UseMiddleware } from './decorators/use-middleware.decorator'
 
 export * from './middleware/internal/param-transformer.middleware';
 export { default as ParamTransformerMiddleware } from './middleware/internal/param-transformer.middleware';
+export * from './middleware/internal/iso-date-transformer.middleware';
+export { default as IsoDateTransformerMiddleware } from './middleware/internal/iso-date-transformer.middleware';
 
 export * from './interfaces/middleware.interface';
 export { default as Middleware } from './interfaces/middleware.interface';
