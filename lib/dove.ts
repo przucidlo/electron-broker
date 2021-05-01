@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Middleware } from '.';
+import { Middleware, TransformableDoveClient } from '.';
 import DoveClient from './client/dove.client';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
@@ -46,5 +46,9 @@ export default class Dove {
 
   public getDoveClient(): DoveClient {
     return this.container.get(DoveClient);
+  }
+
+  public getTransformableDoveClient(): TransformableDoveClient {
+    return this.container.get(TransformableDoveClient);
   }
 }
