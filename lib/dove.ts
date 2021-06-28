@@ -14,6 +14,7 @@ export default class Dove {
   constructor(config: ModuleConfig) {
     this.setContainer(config);
     this.composeDependencies(config);
+    this.setMaxListeners();
   }
 
   private setContainer(config: ModuleConfig) {
@@ -26,6 +27,10 @@ export default class Dove {
 
   private composeDependencies(config: ModuleConfig): void {
     new ContainerComposition(this.container, config).composeDependencies();
+  }
+
+  private setMaxListeners() {
+    process.setMaxListeners(0);
   }
 
   public start(): void {
