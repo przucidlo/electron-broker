@@ -51,7 +51,7 @@ export class IsoDateTransformer {
   }
 
   private static isValidIsoString(value: any) {
-    const isoDateStringRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
+    const isoDateStringRegex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+(?:[+-][0-2]\d:[0-5]\d|Z)/;
 
     if (typeof value === 'string') {
       const matchResult = value.match(isoDateStringRegex);
