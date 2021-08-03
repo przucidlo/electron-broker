@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { PATTERN_METADATA, HANDLER_ARGS_METADATA, MIDDLEWARE_METADATA } from '../constants/decorators';
+import { HANDLER_PATTERN_METADATA, HANDLER_ARGS_METADATA, MIDDLEWARE_METADATA } from '../constants/decorators';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import { MessageHandler } from '../types/message-handler.type';
 import { AbstractMetadataReader } from './abstract-metadata.reader';
@@ -43,7 +43,7 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
   }
 
   private getHandlerPattern(controller: unknown, handlerName: string) {
-    return Reflect.getMetadata(PATTERN_METADATA, controller[handlerName]);
+    return Reflect.getMetadata(HANDLER_PATTERN_METADATA, controller[handlerName]);
   }
 
   private getHandlerParamsMetadata(controller: unknown, handlerName: string) {
