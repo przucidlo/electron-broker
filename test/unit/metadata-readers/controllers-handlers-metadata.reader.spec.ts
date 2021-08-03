@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { MessagePattern, UseMiddleware } from '../../../lib';
 import Data from '../../../lib/decorators/data.decorator';
+import { Controller } from '../../../lib/decorators/controller.decorator';
 import { isHandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
 import { MockMiddleware } from '../__mocks__/mock-middleware';
@@ -34,13 +35,21 @@ describe('ControllersHandlersMetadataReader', () => {
     });
 
     describe('Should read handler metadata', () => {
+      const controllerPattern = 'controller-pattern';
       const pattern = 'message-pattern';
-
       @UseMiddleware(MockMiddleware)
       class Test {
         @MessagePattern(pattern)
         @UseMiddleware(MockMiddleware)
         public coolHandler(@Data() data: string): string {
+          return 'text';
+        }
+      }
+
+      @Controller(controllerPattern)
+      class ControllerTest {
+        @MessagePattern(pattern)
+        public coolerHandler() {
           return 'text';
         }
       }
@@ -51,6 +60,14 @@ describe('ControllersHandlersMetadataReader', () => {
         const handlersMetadata = metadataReader.read(testClassObject);
 
         expect(handlersMetadata[pattern].handler('')).toStrictEqual(testClassObject.coolHandler(''));
+      });
+
+      it('Should combine controller pattern and handler pattern', () => {
+        const controllerTest = new ControllerTest();
+
+        const metadata = metadataReader.read(controllerTest);
+
+        expect(metadata[controllerPattern + pattern].handler()).toBe(controllerTest.coolerHandler());
       });
 
       it('Should read and save param metadata', () => {
