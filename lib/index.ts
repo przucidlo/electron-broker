@@ -19,6 +19,8 @@ export * from './decorators/create-param-decorator';
 export { default as createParamDecorator } from './decorators/create-param-decorator';
 export * from './decorators/use-middleware.decorator';
 export { default as UseMiddleware } from './decorators/use-middleware.decorator';
+export * from './decorators/controller.decorator';
+export { default as Controller } from './decorators/controller.decorator';
 
 export * from './middleware/internal/param-transformer.middleware';
 export { default as ParamTransformerMiddleware } from './middleware/internal/param-transformer.middleware';

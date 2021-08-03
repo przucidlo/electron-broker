@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { MessagePattern, UseMiddleware } from '../../../lib';
 import Data from '../../../lib/decorators/data.decorator';
-import { Controller } from '../../../lib/decorators/controller.decorator';
+import Controller from '../../../lib/decorators/controller.decorator';
 import { isHandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
 import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
 import { MockMiddleware } from '../__mocks__/mock-middleware';
