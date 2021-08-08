@@ -10,7 +10,7 @@ export class MiddlewareComposer extends ContainerConfiguarableComposer {
 
   private bindInternalMiddleware(): void {
     for (const middleware of INTERNAL_MIDDLEWARE_ORDER) {
-      this.container.bind(Symbols.InternalMiddleware).toConstantValue(middleware);
+      this.container.bind(Symbols.InternalMiddleware).to(middleware).inRequestScope();
     }
   }
 
