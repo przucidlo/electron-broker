@@ -70,6 +70,15 @@ describe('ControllersHandlersMetadataReader', () => {
         expect(metadata[controllerPattern + pattern].handler()).toBe(controllerTest.coolerHandler());
       });
 
+      it('Should read handler functions from parent classes', () => {
+        class Child extends Test {}
+        const child = new Child();
+
+        const handlersMetadata = metadataReader.read(child);
+
+        expect(handlersMetadata[pattern].handler('')).toStrictEqual(child.coolHandler(''));
+      });
+
       it('Should read and save param metadata', () => {
         const paramsHandlersMetadata = metadataReader.read(new Test())[pattern].paramsMetadata;
 

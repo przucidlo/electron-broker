@@ -45,7 +45,20 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
   }
 
   private getControllerProperties(controller: unknown): string[] {
-    return Object.getOwnPropertyNames(Object.getPrototypeOf(controller));
+    return this.getAllPropertyNames(controller);
+  }
+
+  private getAllPropertyNames(object: unknown): string[] {
+    const propertiesSet: Set<string> = new Set();
+
+    while (object) {
+      for (const property of Object.getOwnPropertyNames(object)) {
+        propertiesSet.add(property);
+      }
+      object = Object.getPrototypeOf(object);
+    }
+
+    return [...propertiesSet];
   }
 
   private isReadable(handler: MessageHandler, handlerName: string): boolean {
