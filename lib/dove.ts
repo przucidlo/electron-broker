@@ -21,7 +21,7 @@ export default class Dove {
     if (config.container) {
       this.container = config.container;
     } else {
-      this.container = new Container({ autoBindInjectable: true });
+      this.container = new Container({ autoBindInjectable: true, defaultScope: 'Transient' });
     }
   }
 
@@ -36,7 +36,22 @@ export default class Dove {
   public start(): void {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(Symbols.ModuleMode);
 
+    this.setControllersScope();
+
     moduleMode.start();
+  }
+
+  private setControllersScope() {
+    const moduleConfig: ModuleConfig = this.container.get(Symbols.IpcModuleConfig);
+
+    for (const controller of moduleConfig.controllers) {
+      if (typeof controller !== 'object') {
+        this.container
+          .bind(controller as any)
+          .to(controller as any)
+          .inSingletonScope();
+      }
+    }
   }
 
   public setMiddleware(middleware: (ClassType<Middleware> | Middleware)[]): void {

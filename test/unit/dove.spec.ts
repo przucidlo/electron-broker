@@ -32,6 +32,14 @@ describe('Dove', () => {
 
       expect(modeSpy).toBeCalledWith();
     });
+
+    it('Should bind controllers as singletons', () => {
+      dove.setControllers([MockTestController]);
+
+      dove.start();
+
+      expect(container.get(MockTestController)).toEqual(container.get(MockTestController));
+    });
   });
 
   describe('setMiddleware', () => {
