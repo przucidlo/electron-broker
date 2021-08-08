@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { Data } from '../../../lib';
 import MessagePattern from '../../../lib/decorators/message-pattern.decorator';
 import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
@@ -9,6 +10,7 @@ import { ControllerMetadataReader } from '../../../lib/metadata-readers/controll
 export const MOCK_TEST_CONTROLLER_PATTERN = 'test';
 export const MOCK_TEST_CONTROLLER_RETURN_VALUE = 'test';
 
+@injectable()
 export class MockTestController {
   @MessagePattern(MOCK_TEST_CONTROLLER_PATTERN)
   public test(@Data() data: MockTestController): string {
