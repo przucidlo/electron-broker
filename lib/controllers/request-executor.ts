@@ -1,5 +1,6 @@
 import { inject, injectable, multiInject } from 'inversify';
 import { Symbols } from '../constants/symbols';
+import serializeException from '../helpers/serialize-exception';
 import { ControllerHandlerMetadata } from '../interfaces/controller-handler-metadata.interface';
 import Middleware from '../interfaces/middleware.interface';
 import { ClassType } from '../types/class.type';
@@ -14,7 +15,7 @@ export class RequestExecutor {
     @inject(Symbols.GlobalMiddleware) private globalMiddleware: (ClassType<Middleware> | Middleware)[],
     @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: MiddlewareExecutorFactory,
     private paramsMapper: HandlerParamsMapper,
-  ) {}
+  ) { }
 
   public async executeRequest(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<void> {
     const middlewareExecutor = this.middlewareExecutorFactory([
@@ -24,7 +25,11 @@ export class RequestExecutor {
     ]);
 
     await middlewareExecutor.execute(context, async () => {
-      return await this.executeHandler(context, metadata);
+      try {
+        return await this.executeHandler(context, metadata);
+      } catch (err) {
+        return serializeException(err);
+      }
     });
   }
 
