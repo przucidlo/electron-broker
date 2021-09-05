@@ -34,13 +34,16 @@ export class BrokerResponseListener {
 
   private listenWithTimeout<T>(): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.listenerAdapter.listen(this.brokerEvent.pattern, this.createResponseListener(resolve));
+      this.listenerAdapter.listen(this.brokerEvent.pattern, this.createResponseListener(resolve, reject));
 
       this.setResponseTimeout(reject);
     });
   }
 
-  private createResponseListener(resolve: (value?: unknown) => void): BrokerListener {
+  private createResponseListener(
+    resolve: (value?: unknown) => void,
+    reject: (value?: unknown) => void,
+  ): BrokerListener {
     return (response) => {
       if (this.isExpectedResponse(response)) {
         const data = response.data;
@@ -48,7 +51,7 @@ export class BrokerResponseListener {
         if (!this.isBrokerException(data)) {
           resolve(response);
         } else {
-          throw new BrokerExceptionError(data);
+          reject(new BrokerExceptionError(data));
         }
       }
     };
