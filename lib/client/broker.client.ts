@@ -16,7 +16,7 @@ import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscribe
 type MiddlewareContext = { middlewareExecutor: MiddlewareExecutor; executionContext: ExecutionContext };
 
 @injectable()
-export default class DoveClient {
+export default class BrokerClient {
   private middleware: (ClassType<Middleware> | Middleware)[];
 
   constructor(

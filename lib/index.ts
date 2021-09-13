@@ -1,11 +1,11 @@
-export * from './client/dove.client';
-export { default as DoveClient } from './client/dove.client';
-export * from './constants/dove-mode.enum';
+export * from './client/broker.client';
+export { default as BrokerClient } from './client/broker.client';
+export * from './constants/broker-target.enum';
 
-export * from './client/transformable-dove.client';
-export { default as TransformableDoveClient } from './client/transformable-dove.client';
+export * from './client/transformable-broker.client';
+export { default as TransformableBrokerClient } from './client/transformable-broker.client';
 
-export { default as DoveMode } from './constants/dove-mode.enum';
+export { default as BrokerTarget } from './constants/broker-target.enum';
 
 export * from './constants/decorators';
 
@@ -32,5 +32,5 @@ export { default as Middleware } from './interfaces/middleware.interface';
 export * from './controllers/execution-context';
 export { default as ExecutionContext } from './controllers/execution-context';
 
-export * from './dove';
-export { default as Dove } from './dove';
+export * from './broker';
+export { default as Broker } from './broker';

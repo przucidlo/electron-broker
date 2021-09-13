@@ -2,11 +2,11 @@ import { ClassTransformOptions, plainToClass } from 'class-transformer';
 import { injectable } from 'inversify';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { ClassType } from '../types/class.type';
-import DoveClient from './dove.client';
+import BrokerClient from './broker.client';
 import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscriber';
 
 @injectable()
-export default class TransformableDoveClient extends DoveClient {
+export default class TransformableBrokerClient extends BrokerClient {
   private classTransformOptions?: ClassTransformOptions;
 
   public setClassTransformOptions(classTransformOptions: ClassTransformOptions): void {

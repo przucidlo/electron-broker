@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { AbstractContainerComposer } from './abstract/abstract-container-composer';
 import { ControllersMetadataFactoryComposer } from './composers/factory/controllers-metadata-factory.composer';
-import { DoveClientComposer } from './composers/dove-client.composer';
+import { BrokerClientComposer } from './composers/broker-client.composer';
 import { IpcTransportComposer } from './composers/ipc-transport.composer';
 import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
@@ -18,7 +18,7 @@ import { BrokerResponseListenerFactoryComposer } from './composers/factory/broke
 export class ContainerComposition {
   private static composersOrder: ClassType<AbstractContainerComposer>[] = [
     IpcTransportComposer,
-    DoveClientComposer,
+    BrokerClientComposer,
     MetadataReadersComposer,
     MiddlewareFactoryComposer,
     MiddlewareExecutorFactoryComposer,

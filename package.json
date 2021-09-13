@@ -1,5 +1,5 @@
 {
-  "name": "electron-dove",
+  "name": "electron-broker",
   "version": "2.4.0",
   "description": "Library that makes electron ipc communication simple and effective.",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abbl/electron-dove.git"
+    "url": "git+https://github.com/abbl/electron-broker.git"
   },
   "keywords": [
     "electron",
@@ -23,9 +23,9 @@
   "author": "Abbl (Patryk Rzucidło)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/abbl/electron-dove/issues"
+    "url": "https://github.com/abbl/electron-broker/issues"
   },
-  "homepage": "https://github.com/abbl/electron-dove#readme",
+  "homepage": "https://github.com/abbl/electron-broker#readme",
   "files": [
     "dist",
     "README.md"

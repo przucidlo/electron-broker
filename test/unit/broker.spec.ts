@@ -1,25 +1,25 @@
 import { Container } from 'inversify';
-import { Dove, DoveClient, DoveMode, TransformableDoveClient } from '../../lib';
+import { Broker, BrokerClient, BrokerTarget, TransformableBrokerClient } from '../../lib';
 import { Symbols } from '../../lib/constants/symbols';
 import { ModuleMode } from '../../lib/interfaces/module-mode.interface';
 import { ModuleConfig } from '../../lib/types/ipc-module-config.type';
 import { MockMiddleware } from './__mocks__/mock-middleware';
 import { MockTestController } from './__mocks__/mock-test-controller';
 
-describe('Dove', () => {
+describe('Broker', () => {
   let container: Container;
-  let dove: Dove;
+  let broker: Broker;
 
   beforeEach(() => {
     container = new Container({ autoBindInjectable: true });
-    dove = new Dove({ container: container, mode: DoveMode.PROCESS, options: {} });
+    broker = new Broker({ container: container, mode: BrokerTarget.PROCESS, options: {} });
   });
 
   describe('constructor', () => {
     it('If user doesnt provide a container object, should fallback to use internal container', () => {
-      dove = new Dove({ mode: DoveMode.PROCESS, options: {} });
+      broker = new Broker({ mode: BrokerTarget.PROCESS, options: {} });
 
-      expect(() => dove.start()).not.toThrowError();
+      expect(() => broker.start()).not.toThrowError();
     });
   });
 
@@ -28,15 +28,15 @@ describe('Dove', () => {
       const moduleMode: ModuleMode = container.get(Symbols.ModuleMode);
       const modeSpy = jest.spyOn(moduleMode, 'start');
 
-      dove.start();
+      broker.start();
 
       expect(modeSpy).toBeCalledWith();
     });
 
     it('Should bind controllers as singletons', () => {
-      dove.setControllers([MockTestController]);
+      broker.setControllers([MockTestController]);
 
-      dove.start();
+      broker.start();
 
       expect(container.get(MockTestController)).toEqual(container.get(MockTestController));
     });
@@ -46,7 +46,7 @@ describe('Dove', () => {
     it('Should rebind global middleware in container context', () => {
       const expectedMiddleware = [MockMiddleware];
 
-      dove.setMiddleware(expectedMiddleware);
+      broker.setMiddleware(expectedMiddleware);
 
       expect(container.get(Symbols.GlobalMiddleware)).toBe(expectedMiddleware);
     });
@@ -56,21 +56,21 @@ describe('Dove', () => {
     it('Should set controllers', () => {
       const expectedControllers = [MockTestController];
 
-      dove.setControllers(expectedControllers);
+      broker.setControllers(expectedControllers);
 
       expect(container.get<ModuleConfig>(Symbols.IpcModuleConfig).controllers).toStrictEqual(expectedControllers);
     });
   });
 
-  describe('getDoveClient', () => {
-    it('Should return instance of DoveClient', () => {
-      expect(dove.getDoveClient() instanceof DoveClient).toBe(true);
+  describe('getClient', () => {
+    it('Should return instance of BrokerClient', () => {
+      expect(broker.getClient() instanceof BrokerClient).toBe(true);
     });
   });
 
-  describe('getTransformableDoveClient', () => {
-    it('Should return instance of TransformableDoveClient', () => {
-      expect(dove.getTransformableDoveClient() instanceof TransformableDoveClient).toBe(true);
+  describe('getTransformableClient', () => {
+    it('Should return instance of TransformableBrokerClient', () => {
+      expect(broker.getTransformableClient() instanceof TransformableBrokerClient).toBe(true);
     });
   });
 

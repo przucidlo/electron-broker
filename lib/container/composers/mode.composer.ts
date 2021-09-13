@@ -1,4 +1,4 @@
-import { DoveMode } from '../../constants/dove-mode.enum';
+import { BrokerTarget } from '../../constants/broker-target.enum';
 import { Symbols } from '../../constants/symbols';
 import { BrokerMode } from '../../modes/broker.mode';
 import { ClientMode } from '../../modes/client.mode';
@@ -7,13 +7,13 @@ import { ContainerConfiguarableComposer } from '../abstract/container-configurab
 export class ModeComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     switch (this.config.mode) {
-      case DoveMode.PROCESS:
+      case BrokerTarget.PROCESS:
         this.container.bind(Symbols.ModuleMode).to(ClientMode).inSingletonScope();
         break;
-      case DoveMode.RENDERER:
+      case BrokerTarget.RENDERER:
         this.container.bind(Symbols.ModuleMode).to(ClientMode).inSingletonScope();
         break;
-      case DoveMode.BROKER:
+      case BrokerTarget.BROKER:
         this.container.bind(Symbols.ModuleMode).to(BrokerMode).inSingletonScope();
         break;
       default:

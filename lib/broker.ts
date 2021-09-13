@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
-import { Middleware, TransformableDoveClient } from '.';
-import DoveClient from './client/dove.client';
+import { Middleware, TransformableBrokerClient } from '.';
+import BrokerClient from './client/broker.client';
 import { Symbols } from './constants/symbols';
 import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
@@ -8,7 +8,7 @@ import { ClassType } from './types/class.type';
 import { Controller } from './types/controller.type';
 import { ModuleConfig } from './types/ipc-module-config.type';
 
-export default class Dove {
+export default class Broker {
   private container: Container;
 
   constructor(config: ModuleConfig) {
@@ -64,11 +64,11 @@ export default class Dove {
     moduleConfig.controllers = [...controllers];
   }
 
-  public getDoveClient(): DoveClient {
-    return this.container.get(DoveClient);
+  public getClient(): BrokerClient {
+    return this.container.get(BrokerClient);
   }
 
-  public getTransformableDoveClient(): TransformableDoveClient {
-    return this.container.get(TransformableDoveClient);
+  public getTransformableClient(): TransformableBrokerClient {
+    return this.container.get(TransformableBrokerClient);
   }
 }

@@ -20,7 +20,7 @@ export class ParamTransformerMiddleware implements Middleware {
       }
     } else {
       throw new Error(
-        'ExecutionContext is missing paramMetadata, make sure you are not using the ClassTransformer in DoveClient',
+        'ExecutionContext is missing paramMetadata, make sure you are not using the ClassTransformer in BrokerClient',
       );
     }
   }

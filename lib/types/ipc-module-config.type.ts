@@ -1,4 +1,4 @@
-import { DoveMode } from '../constants/dove-mode.enum';
+import { BrokerTarget } from '../constants/broker-target.enum';
 import { BrokerOptions } from '../interfaces/options/broker-options.interface';
 import { CommonConfig } from '../interfaces/options/common-config.interface';
 import { ProcessOptions } from '../interfaces/options/process-options.interface';
@@ -7,15 +7,15 @@ import { RendererOptions } from '../interfaces/options/renderer-options.interfac
 export type ModuleConfig = CommonConfig &
   (
     | {
-        mode: DoveMode.PROCESS;
+        mode: BrokerTarget.PROCESS;
         options: ProcessOptions;
       }
     | {
-        mode: DoveMode.BROKER;
+        mode: BrokerTarget.BROKER;
         options: BrokerOptions;
       }
     | {
-        mode: DoveMode.RENDERER;
+        mode: BrokerTarget.RENDERER;
         options: RendererOptions;
       }
   );

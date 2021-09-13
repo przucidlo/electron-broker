@@ -1,5 +1,5 @@
 jest.useFakeTimers();
-import { DoveClient, ExecutionContext, Middleware } from '../../../lib';
+import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
 import { ListenerFactory } from '../../../lib/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../lib/client/listener-adapter/listener-adapter.interface';
 import { BrokerResponseListener } from '../../../lib/client/response-listener/broker-response-listener';
@@ -11,12 +11,12 @@ import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data'
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
 
-describe('DoveClient', () => {
+describe('BrokerClient', () => {
   const brokerEvent = getMockBrokerEventData();
 
   let brokerResponseListener: BrokerResponseListener;
   let listenerAdapter: ListenerAdapter;
-  let doveClient: DoveClient;
+  let brokerClient: BrokerClient;
   let ipcTransport: IpcTransport;
   let mockMiddleware: Middleware;
 
@@ -31,7 +31,7 @@ describe('DoveClient', () => {
     mockMiddleware = { onRequest: jest.fn(), onResponse: jest.fn() };
     brokerResponseListener = new BrokerResponseListener(brokerEvent);
 
-    doveClient = new DoveClient(
+    brokerClient = new BrokerClient(
       ipcTransport,
       middlewareExecutorFactory,
       (brokerEvent) => new ExecutionContext(undefined, brokerEvent),
@@ -45,7 +45,7 @@ describe('DoveClient', () => {
     it('Should create a listener for provided pattern', () => {
       const pattern = 'pattern';
 
-      doveClient.subscribe(pattern, () => ({}));
+      brokerClient.subscribe(pattern, () => ({}));
 
       expect(listenerAdapter.listen).toBeCalledWith(pattern, expect.any(Function));
     });
@@ -54,7 +54,7 @@ describe('DoveClient', () => {
       const pattern = 'pattern';
       const listener = jest.fn();
 
-      doveClient.subscribe(pattern, listener);
+      brokerClient.subscribe(pattern, listener);
 
       (<jest.Mock>listenerAdapter.listen).mock.calls[0][1](brokerEvent);
 
@@ -67,7 +67,7 @@ describe('DoveClient', () => {
       const pattern = 'test';
       const data = 'test';
 
-      doveClient.send(pattern, data);
+      brokerClient.send(pattern, data);
 
       await Promise.resolve();
 
@@ -75,17 +75,17 @@ describe('DoveClient', () => {
     });
 
     it('Should execute middleware, but only onRequest part', () => {
-      doveClient.setMiddleware([mockMiddleware]);
+      brokerClient.setMiddleware([mockMiddleware]);
 
-      doveClient.send('pattern', 'data');
+      brokerClient.send('pattern', 'data');
 
       expect(mockMiddleware.onRequest).toBeCalled();
     });
 
     it('Should execute middleware, but without onResponse part', () => {
-      doveClient.setMiddleware([mockMiddleware]);
+      brokerClient.setMiddleware([mockMiddleware]);
 
-      doveClient.send('pattern', 'data');
+      brokerClient.send('pattern', 'data');
 
       expect(mockMiddleware.onResponse).not.toBeCalled();
     });
@@ -96,7 +96,7 @@ describe('DoveClient', () => {
     const data = 'test';
 
     it('Should send a BrokerEvent to Broker process', async () => {
-      doveClient.invokeForBrokerEvent(pattern, data);
+      brokerClient.invokeForBrokerEvent(pattern, data);
       jest.clearAllTimers();
 
       await Promise.resolve();
@@ -107,7 +107,7 @@ describe('DoveClient', () => {
     it('Should return a response from Broker process', async () => {
       brokerResponseListener.listen = () => new Promise((resolve) => resolve(brokerEvent));
 
-      const result = await doveClient.invokeForBrokerEvent(pattern, data);
+      const result = await brokerClient.invokeForBrokerEvent(pattern, data);
 
       expect(result).toBe(brokerEvent);
     });
@@ -117,7 +117,7 @@ describe('DoveClient', () => {
     it('Should call invokeForBrokerEvent and return data property of BrokerEvent', async () => {
       brokerResponseListener.listen = () => new Promise((resolve) => resolve(brokerEvent));
 
-      const result = await doveClient.invoke('', '');
+      const result = await brokerClient.invoke('', '');
 
       expect(result).toBe(brokerEvent.data);
     });

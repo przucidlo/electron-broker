@@ -6,7 +6,7 @@ import { BrokerRendererAdapter } from '../../adapters/broker/broker-renderer.ada
 import { MainTransportAdapter } from '../../adapters/client/main-transport.adapter';
 import { ProcessTransportAdapter } from '../../adapters/client/process-transport.adapter';
 import { RendererTransportAdapter } from '../../adapters/client/renderer-transport.adapter';
-import { DoveMode } from '../../constants/dove-mode.enum';
+import { BrokerTarget } from '../../constants/broker-target.enum';
 import { Symbols } from '../../constants/symbols';
 import IpcProcess from '../../process/ipc-process';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
@@ -14,13 +14,13 @@ import { ContainerConfiguarableComposer } from '../abstract/container-configurab
 export class IpcTransportComposer extends ContainerConfiguarableComposer {
   public compose(): void {
     switch (this.config.mode) {
-      case DoveMode.PROCESS:
+      case BrokerTarget.PROCESS:
         this.container.bind(Symbols.IpcTransport).toConstantValue(new ProcessTransportAdapter(new IpcProcess()));
         break;
-      case DoveMode.RENDERER:
+      case BrokerTarget.RENDERER:
         this.container.bind(Symbols.IpcTransport).to(RendererTransportAdapter).inSingletonScope();
         break;
-      case DoveMode.BROKER:
+      case BrokerTarget.BROKER:
         this.bindBrokerIpcTransport();
         this.container.bind(Symbols.IpcTransport).to(MainTransportAdapter).inSingletonScope();
         break;
@@ -28,7 +28,7 @@ export class IpcTransportComposer extends ContainerConfiguarableComposer {
   }
 
   private bindBrokerIpcTransport(): void {
-    if (this.config.mode === DoveMode.BROKER) {
+    if (this.config.mode === BrokerTarget.BROKER) {
       this.bindProcessAdapters(this.config.options.processes);
       this.bindRendererAdapters(this.config.options.browserWindows);
       this.container.bind(Symbols.BrokerIpcTransport).to(BrokerMainAdapter);
