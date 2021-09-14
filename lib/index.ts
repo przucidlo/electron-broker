@@ -1,13 +1,11 @@
 export * from './client/broker.client';
 export { default as BrokerClient } from './client/broker.client';
-export * from './constants/broker-target.enum';
-
 export * from './client/transformable-broker.client';
 export { default as TransformableBrokerClient } from './client/transformable-broker.client';
 
-export { default as BrokerTarget } from './constants/broker-target.enum';
-
 export * from './constants/decorators';
+export * from './constants/broker-target.enum';
+export { default as BrokerTarget } from './constants/broker-target.enum';
 
 export * from './decorators/message-pattern.decorator';
 export { default as MessagePattern } from './decorators/message-pattern.decorator';
@@ -29,6 +27,7 @@ export { default as IsoDateTransformerMiddleware } from './middleware/internal/i
 
 export * from './interfaces/middleware.interface';
 export { default as Middleware } from './interfaces/middleware.interface';
+
 export * from './controllers/execution-context';
 export { default as ExecutionContext } from './controllers/execution-context';
 
