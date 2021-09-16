@@ -18,7 +18,10 @@ describe('EventDistributor', () => {
 
       eventDistributor.broadcast(brokerEvent);
 
-      expect(ipcTransport.send).toBeCalledWith(brokerEvent.pattern, brokerEvent);
+      expect(ipcTransport.send).toBeCalledWith(
+        brokerEvent.pattern,
+        brokerEvent,
+      );
     });
   });
 });

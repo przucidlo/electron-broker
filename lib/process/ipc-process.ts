@@ -14,17 +14,27 @@ export default class IpcProcess {
     this.process = childProcess ? childProcess : process;
 
     this.channels = new IpcProcessChannels();
-    this.messageListener = new IpcProcessMessageListener(this.process, this.channels);
+    this.messageListener = new IpcProcessMessageListener(
+      this.process,
+      this.channels,
+    );
 
     this.messageListener.start();
   }
 
   public send(channelName: string, payload: unknown): void {
-    this.process.send(<IpcProcessMessage>{ messageId: uuid(), channelName: channelName, payload: payload }, (error) => {
-      if (error) {
-        console.error(error);
-      }
-    });
+    this.process.send(
+      <IpcProcessMessage>{
+        messageId: uuid(),
+        channelName: channelName,
+        payload: payload,
+      },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      },
+    );
   }
 
   public on(channel: string, listener: MessageHandler): void {

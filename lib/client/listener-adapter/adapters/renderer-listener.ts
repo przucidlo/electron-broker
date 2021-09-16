@@ -6,7 +6,10 @@ export class RendererListener implements ListenerAdapter {
   private listener: (event: IpcRendererEvent, response: BrokerEvent) => void;
   private pattern: string;
 
-  public listen(pattern: string, listener: (response: BrokerEvent) => void): void {
+  public listen(
+    pattern: string,
+    listener: (response: BrokerEvent) => void,
+  ): void {
     this.pattern = pattern;
 
     this.listener = (event, response) => {

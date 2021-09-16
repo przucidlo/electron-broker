@@ -11,7 +11,10 @@ export class BrokerEventFactory {
     };
   }
 
-  public static createBrokerEventAsResponse(base: BrokerEvent, data: unknown): BrokerEvent {
+  public static createBrokerEventAsResponse(
+    base: BrokerEvent,
+    data: unknown,
+  ): BrokerEvent {
     return {
       ...base,
       type: 'RESPONSE',

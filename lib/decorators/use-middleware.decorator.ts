@@ -5,16 +5,28 @@ import { ClassType } from '../types/class.type';
 export default function UseMiddleware(
   ...middleware: (ClassType<Middleware> | Middleware)[]
 ): MethodDecorator & ClassDecorator {
-  return (target: any, key?: string, descriptor?: TypedPropertyDescriptor<any>) => {
+  return (
+    target: any,
+    key?: string,
+    descriptor?: TypedPropertyDescriptor<any>,
+  ) => {
     const middlewareArray = middleware ? middleware : [];
 
     if (descriptor) {
-      Reflect.defineMetadata(MIDDLEWARE_METADATA, middlewareArray, descriptor.value);
+      Reflect.defineMetadata(
+        MIDDLEWARE_METADATA,
+        middlewareArray,
+        descriptor.value,
+      );
 
       return;
     }
 
-    Reflect.defineMetadata(MIDDLEWARE_METADATA, middlewareArray, target.prototype);
+    Reflect.defineMetadata(
+      MIDDLEWARE_METADATA,
+      middlewareArray,
+      target.prototype,
+    );
 
     return target;
   };

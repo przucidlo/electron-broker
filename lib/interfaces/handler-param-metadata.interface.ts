@@ -8,6 +8,12 @@ export interface HandlerParamMetadata<T extends unknown> {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isHandlerParamMetadata(arg: any): arg is HandlerParamMetadata<any> {
-  return typeof arg.index === 'number' && typeof arg.type === 'function' && typeof arg.method === 'function';
+export function isHandlerParamMetadata(
+  arg: any,
+): arg is HandlerParamMetadata<any> {
+  return (
+    typeof arg.index === 'number' &&
+    typeof arg.type === 'function' &&
+    typeof arg.method === 'function'
+  );
 }

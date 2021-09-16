@@ -11,6 +11,9 @@ export class BrokerResponseListenerFactoryComposer extends ContainerConfiguarabl
   private bindFactory(): void {
     this.container
       .bind(Symbols.BrokerResponseListenerFactory)
-      .toFactory((): BrokerResponseListenerFactory => (brokerEvent) => new BrokerResponseListener(brokerEvent));
+      .toFactory(
+        (): BrokerResponseListenerFactory => (brokerEvent) =>
+          new BrokerResponseListener(brokerEvent),
+      );
   }
 }

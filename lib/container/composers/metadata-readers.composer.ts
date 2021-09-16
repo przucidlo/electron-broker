@@ -4,6 +4,9 @@ import { ContainerConfiguarableComposer } from '../abstract/container-configurab
 
 export class MetadataReadersComposer extends ContainerConfiguarableComposer {
   public compose(): void {
-    this.container.bind(Symbols.ControllerMetadataReader).to(ControllerMetadataReader).inSingletonScope();
+    this.container
+      .bind(Symbols.ControllerMetadataReader)
+      .to(ControllerMetadataReader)
+      .inSingletonScope();
   }
 }

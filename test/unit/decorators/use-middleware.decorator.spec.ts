@@ -17,7 +17,10 @@ describe('UseMiddleware', () => {
   });
 
   it('Should define metadata for method', () => {
-    const metadata = Reflect.getMetadata(MIDDLEWARE_METADATA, new Test()['testMethod']);
+    const metadata = Reflect.getMetadata(
+      MIDDLEWARE_METADATA,
+      new Test()['testMethod'],
+    );
 
     expect(metadata).toEqual([MockMiddleware]);
   });

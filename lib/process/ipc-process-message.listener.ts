@@ -1,10 +1,16 @@
 import { IpcProcessChannels } from './ipc-process-channels';
 import ChildProcess from 'child_process';
 import { MessageHandler } from '../types/message-handler.type';
-import { isIpcProcessMessage, IpcProcessMessage } from './ipc-process-message.interface';
+import {
+  isIpcProcessMessage,
+  IpcProcessMessage,
+} from './ipc-process-message.interface';
 
 export class IpcProcessMessageListener {
-  constructor(private process: NodeJS.Process | ChildProcess.ChildProcess, private channels: IpcProcessChannels) {}
+  constructor(
+    private process: NodeJS.Process | ChildProcess.ChildProcess,
+    private channels: IpcProcessChannels,
+  ) {}
 
   public start(): void {
     this.process.on('message', (message: any) => {
@@ -15,14 +21,19 @@ export class IpcProcessMessageListener {
   }
 
   private async forwardToChannel(message: IpcProcessMessage): Promise<void> {
-    const channelListener = this.channels.getChannelListenerByName(message.channelName);
+    const channelListener = this.channels.getChannelListenerByName(
+      message.channelName,
+    );
 
     if (channelListener) {
       await this.callListenerAndRespond(channelListener, message);
     }
   }
 
-  private async callListenerAndRespond(channelListener: MessageHandler, message: IpcProcessMessage): Promise<void> {
+  private async callListenerAndRespond(
+    channelListener: MessageHandler,
+    message: IpcProcessMessage,
+  ): Promise<void> {
     const response = await Promise.resolve(channelListener(message.payload));
 
     this.respond(message.messageId, response);

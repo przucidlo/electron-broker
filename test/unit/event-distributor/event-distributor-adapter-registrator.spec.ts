@@ -24,7 +24,10 @@ describe('EventDistributorAdapterRegistrator', () => {
     const adapters = [brokerRendererAdapter, brokerProcessAdapter];
 
     eventDistributor = new EventDistributor(adapters);
-    adapterRegistrator = new EventDistributorAdapterRegistrator(adapters, eventDistributor);
+    adapterRegistrator = new EventDistributorAdapterRegistrator(
+      adapters,
+      eventDistributor,
+    );
   });
 
   describe('register', () => {
@@ -32,13 +35,19 @@ describe('EventDistributorAdapterRegistrator', () => {
       it('An instance of BrokerProcessAdapter', () => {
         adapterRegistrator.register();
 
-        expect(brokerProcessAdapter.register).toBeCalledWith(BROKER_EVENT, expect.any(Function));
+        expect(brokerProcessAdapter.register).toBeCalledWith(
+          BROKER_EVENT,
+          expect.any(Function),
+        );
       });
 
       it('An instance of BrokerRendererAdapter', () => {
         adapterRegistrator.register();
 
-        expect(brokerRendererAdapter.register).toBeCalledWith(BROKER_EVENT, expect.any(Function));
+        expect(brokerRendererAdapter.register).toBeCalledWith(
+          BROKER_EVENT,
+          expect.any(Function),
+        );
       });
     });
   });

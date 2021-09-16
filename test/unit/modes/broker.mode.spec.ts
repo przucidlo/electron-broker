@@ -11,9 +11,15 @@ describe('BrokerMode', () => {
 
   beforeEach(() => {
     controllerRegistrator = getMockControllersRegistrator();
-    eventDistributorAdapterRegistrator = new EventDistributorAdapterRegistrator([], new EventDistributor([]));
+    eventDistributorAdapterRegistrator = new EventDistributorAdapterRegistrator(
+      [],
+      new EventDistributor([]),
+    );
 
-    brokerMode = new BrokerMode(eventDistributorAdapterRegistrator, controllerRegistrator);
+    brokerMode = new BrokerMode(
+      eventDistributorAdapterRegistrator,
+      controllerRegistrator,
+    );
   });
 
   describe('start', () => {

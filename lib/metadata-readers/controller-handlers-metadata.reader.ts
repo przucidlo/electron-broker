@@ -14,7 +14,9 @@ import { ClassType } from '../types/class.type';
 
 @injectable()
 export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
-  public read<T extends Record<keyof T, unknown>>(controller: T): Record<string, ControllerHandlerMetadata> {
+  public read<T extends Record<keyof T, unknown>>(
+    controller: T,
+  ): Record<string, ControllerHandlerMetadata> {
     const messageHandlers: Record<string, ControllerHandlerMetadata> = {};
 
     for (const handlerName of this.getControllerProperties(controller)) {
@@ -29,7 +31,10 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
         }
 
         if (this.isMessageHandler(pattern)) {
-          const paramsMetadata = this.getHandlerParamsMetadata(controller, handlerName);
+          const paramsMetadata = this.getHandlerParamsMetadata(
+            controller,
+            handlerName,
+          );
 
           messageHandlers[pattern] = {
             controller: controller,
@@ -66,7 +71,10 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
   }
 
   private getHandlerPattern(controller: unknown, handlerName: string) {
-    return Reflect.getMetadata(HANDLER_PATTERN_METADATA, controller[handlerName]);
+    return Reflect.getMetadata(
+      HANDLER_PATTERN_METADATA,
+      controller[handlerName],
+    );
   }
 
   private getControllerPattern(controller: unknown) {
@@ -77,9 +85,18 @@ export class ControllerHandlersMetadataReader extends AbstractMetadataReader {
     return Reflect.getMetadata(HANDLER_ARGS_METADATA, controller[handlerName]);
   }
 
-  private getHandlerMiddleware(controller: unknown, handlerName: string): ClassType<Middleware>[] {
-    const controllerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller);
-    const handlerMiddleware = Reflect.getMetadata(MIDDLEWARE_METADATA, controller[handlerName]);
+  private getHandlerMiddleware(
+    controller: unknown,
+    handlerName: string,
+  ): ClassType<Middleware>[] {
+    const controllerMiddleware = Reflect.getMetadata(
+      MIDDLEWARE_METADATA,
+      controller,
+    );
+    const handlerMiddleware = Reflect.getMetadata(
+      MIDDLEWARE_METADATA,
+      controller[handlerName],
+    );
 
     let middleware: ClassType<Middleware>[] = [];
 

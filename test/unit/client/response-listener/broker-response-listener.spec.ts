@@ -14,14 +14,21 @@ describe('BrokerResponseListener', () => {
 
   beforeEach(() => {
     listenerAdapter = getMockListenerAdapter();
-    ListenerFactory.createListener = jest.fn().mockImplementation((): ListenerAdapter => listenerAdapter);
+    ListenerFactory.createListener = jest
+      .fn()
+      .mockImplementation((): ListenerAdapter => listenerAdapter);
 
-    brokerResponseListener = new BrokerResponseListener(getMockBrokerEventData());
+    brokerResponseListener = new BrokerResponseListener(
+      getMockBrokerEventData(),
+    );
   });
 
   describe('listen', () => {
     it('Should return BrokerEvent if there is a response', async () => {
-      const response: BrokerEvent = { ...getMockBrokerEventData(), type: 'RESPONSE' };
+      const response: BrokerEvent = {
+        ...getMockBrokerEventData(),
+        type: 'RESPONSE',
+      };
 
       const result = brokerResponseListener.listen();
 

@@ -47,7 +47,10 @@ describe('BrokerClient', () => {
 
       brokerClient.subscribe(pattern, () => ({}));
 
-      expect(listenerAdapter.listen).toBeCalledWith(pattern, expect.any(Function));
+      expect(listenerAdapter.listen).toBeCalledWith(
+        pattern,
+        expect.any(Function),
+      );
     });
 
     it('Should call provided listener if message comes', () => {
@@ -71,7 +74,10 @@ describe('BrokerClient', () => {
 
       await Promise.resolve();
 
-      expect(ipcTransport.send).toBeCalledWith(BROKER_EVENT, expect.objectContaining({ data: data, pattern: pattern }));
+      expect(ipcTransport.send).toBeCalledWith(
+        BROKER_EVENT,
+        expect.objectContaining({ data: data, pattern: pattern }),
+      );
     });
 
     it('Should execute middleware, but only onRequest part', () => {
@@ -101,11 +107,15 @@ describe('BrokerClient', () => {
 
       await Promise.resolve();
 
-      expect(ipcTransport.send).toBeCalledWith(BROKER_EVENT, expect.objectContaining({ data: data, pattern: pattern }));
+      expect(ipcTransport.send).toBeCalledWith(
+        BROKER_EVENT,
+        expect.objectContaining({ data: data, pattern: pattern }),
+      );
     });
 
     it('Should return a response from Broker process', async () => {
-      brokerResponseListener.listen = () => new Promise((resolve) => resolve(brokerEvent));
+      brokerResponseListener.listen = () =>
+        new Promise((resolve) => resolve(brokerEvent));
 
       const result = await brokerClient.invokeForBrokerEvent(pattern, data);
 
@@ -115,7 +125,8 @@ describe('BrokerClient', () => {
 
   describe('invoke', () => {
     it('Should call invokeForBrokerEvent and return data property of BrokerEvent', async () => {
-      brokerResponseListener.listen = () => new Promise((resolve) => resolve(brokerEvent));
+      brokerResponseListener.listen = () =>
+        new Promise((resolve) => resolve(brokerEvent));
 
       const result = await brokerClient.invoke('', '');
 

@@ -10,12 +10,17 @@ describe('BrokerResponseListenerFactoryComposer', () => {
   beforeEach(() => {
     const container = getMockContainerWithDependencies();
 
-    brokerResponseListenerFactory = container.get(Symbols.BrokerResponseListenerFactory);
+    brokerResponseListenerFactory = container.get(
+      Symbols.BrokerResponseListenerFactory,
+    );
   });
 
   describe('BrokerResponseListenerFactory', () => {
     it('Should return a new instance of MiddlewareExecutor class', () => {
-      expect(brokerResponseListenerFactory(getMockBrokerEventData()) instanceof BrokerResponseListener).toBe(true);
+      expect(
+        brokerResponseListenerFactory(getMockBrokerEventData()) instanceof
+          BrokerResponseListener,
+      ).toBe(true);
     });
   });
 });

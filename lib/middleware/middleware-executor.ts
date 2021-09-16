@@ -6,11 +6,16 @@ import { MiddlewareFactory } from '../types/middleware-factory.type';
 export class MiddlewareExecutor {
   private middlewares: Middleware[];
 
-  constructor(private middlewareFactory: MiddlewareFactory, middlewareList: (ClassType<Middleware> | Middleware)[]) {
+  constructor(
+    private middlewareFactory: MiddlewareFactory,
+    middlewareList: (ClassType<Middleware> | Middleware)[],
+  ) {
     this.middlewares = this.createMiddlewaresObjects(middlewareList);
   }
 
-  private createMiddlewaresObjects(middlewares: (ClassType<Middleware> | Middleware)[]): Middleware[] {
+  private createMiddlewaresObjects(
+    middlewares: (ClassType<Middleware> | Middleware)[],
+  ): Middleware[] {
     const middlewareObjects: Middleware[] = [];
 
     for (const middleware of middlewares) {
@@ -20,7 +25,10 @@ export class MiddlewareExecutor {
     return middlewareObjects;
   }
 
-  public async execute(executionContext: ExecutionContext, target: () => unknown | Promise<unknown>): Promise<unknown> {
+  public async execute(
+    executionContext: ExecutionContext,
+    target: () => unknown | Promise<unknown>,
+  ): Promise<unknown> {
     await this.executeOnRequest(executionContext);
 
     const result = await target();

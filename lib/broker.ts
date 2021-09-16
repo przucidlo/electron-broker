@@ -21,7 +21,10 @@ export default class Broker {
     if (config.container) {
       this.container = config.container;
     } else {
-      this.container = new Container({ autoBindInjectable: true, defaultScope: 'Transient' });
+      this.container = new Container({
+        autoBindInjectable: true,
+        defaultScope: 'Transient',
+      });
     }
   }
 
@@ -34,7 +37,9 @@ export default class Broker {
   }
 
   public start(): void {
-    const moduleMode: ModuleMode = this.container.get<ModuleMode>(Symbols.ModuleMode);
+    const moduleMode: ModuleMode = this.container.get<ModuleMode>(
+      Symbols.ModuleMode,
+    );
 
     this.setControllersScope();
 
@@ -42,7 +47,9 @@ export default class Broker {
   }
 
   private setControllersScope() {
-    const moduleConfig: ModuleConfig = this.container.get(Symbols.IpcModuleConfig);
+    const moduleConfig: ModuleConfig = this.container.get(
+      Symbols.IpcModuleConfig,
+    );
 
     for (const controller of moduleConfig.controllers) {
       if (typeof controller !== 'object') {
@@ -54,12 +61,16 @@ export default class Broker {
     }
   }
 
-  public setMiddleware(middleware: (ClassType<Middleware> | Middleware)[]): void {
+  public setMiddleware(
+    middleware: (ClassType<Middleware> | Middleware)[],
+  ): void {
     this.container.rebind(Symbols.GlobalMiddleware).toConstantValue(middleware);
   }
 
   public setControllers(controllers: Controller[]): void {
-    const moduleConfig: ModuleConfig = this.container.get(Symbols.IpcModuleConfig);
+    const moduleConfig: ModuleConfig = this.container.get(
+      Symbols.IpcModuleConfig,
+    );
 
     moduleConfig.controllers = [...controllers];
   }

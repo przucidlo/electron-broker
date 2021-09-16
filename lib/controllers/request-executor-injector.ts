@@ -12,15 +12,21 @@ import { MessageHandlerWithPattern } from '../interfaces/message-handler-with-pa
 @injectable()
 export class RequestExecutorInjector {
   constructor(
-    @inject(Symbols.ExecutionContextFactory) private executorContextFactory: ExecutionContextFactory,
-    @inject(Symbols.RequestExecutorFactory) private requestExecutorFactory: () => RequestExecutor,
+    @inject(Symbols.ExecutionContextFactory)
+    private executorContextFactory: ExecutionContextFactory,
+    @inject(Symbols.RequestExecutorFactory)
+    private requestExecutorFactory: () => RequestExecutor,
   ) {}
 
-  public injectIntoControllersHandlers(controllersMetadata: ControllerMetadata[]): MessageHandlerWithPattern[] {
+  public injectIntoControllersHandlers(
+    controllersMetadata: ControllerMetadata[],
+  ): MessageHandlerWithPattern[] {
     const registrableMessageHandlers: MessageHandlerWithPattern[] = [];
 
     for (const controllerMetadata of controllersMetadata) {
-      const messageHandlersWithPattern = this.wrapHandlersWithExecutionContext(controllerMetadata.messageHandlers);
+      const messageHandlersWithPattern = this.wrapHandlersWithExecutionContext(
+        controllerMetadata.messageHandlers,
+      );
 
       registrableMessageHandlers.push(...messageHandlersWithPattern);
     }
@@ -44,11 +50,16 @@ export class RequestExecutorInjector {
     return registrableMessageHandlers;
   }
 
-  private createAndWrapWithExecutionContext(metadata: ControllerHandlerMetadata): MessageHandler {
+  private createAndWrapWithExecutionContext(
+    metadata: ControllerHandlerMetadata,
+  ): MessageHandler {
     return async (data: BrokerEvent) => {
       if (this.isRequest(data)) {
         const requestExecutor: RequestExecutor = this.requestExecutorFactory();
-        const executionContext: ExecutionContext = this.executorContextFactory(metadata, data);
+        const executionContext: ExecutionContext = this.executorContextFactory(
+          metadata,
+          data,
+        );
 
         requestExecutor.executeRequest(executionContext, metadata);
       }

@@ -9,12 +9,16 @@ describe('MiddlewareExecutorFactoryComposer', () => {
   beforeEach(() => {
     const container = getMockContainerWithDependencies();
 
-    middlewareExecutorFactory = container.get(Symbols.MiddlewareExecutorFactory);
+    middlewareExecutorFactory = container.get(
+      Symbols.MiddlewareExecutorFactory,
+    );
   });
 
   describe('MiddlewareExecutorFactory', () => {
     it('Should return a new instance of MiddlewareExecutor class', () => {
-      expect(middlewareExecutorFactory([]) instanceof MiddlewareExecutor).toBe(true);
+      expect(middlewareExecutorFactory([]) instanceof MiddlewareExecutor).toBe(
+        true,
+      );
     });
   });
 });

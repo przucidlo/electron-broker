@@ -9,6 +9,8 @@ export class RequestExecutorFactoryComposer extends ContainerConfiguarableCompos
 
   private bindRequestExecutorFactory() {
     this.container.bind(RequestExecutor).to(RequestExecutor).inRequestScope();
-    this.container.bind(Symbols.RequestExecutorFactory).toAutoFactory(RequestExecutor);
+    this.container
+      .bind(Symbols.RequestExecutorFactory)
+      .toAutoFactory(RequestExecutor);
   }
 }

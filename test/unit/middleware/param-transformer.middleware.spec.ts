@@ -1,5 +1,8 @@
 import { ExecutionContext, ParamTransformerMiddleware } from '../../../lib';
-import { getMockTestControllerParamMetadata, MockTestController } from '../__mocks__/mock-test-controller';
+import {
+  getMockTestControllerParamMetadata,
+  MockTestController,
+} from '../__mocks__/mock-test-controller';
 
 describe('ParamTransformerMiddleware', () => {
   let middleware: ParamTransformerMiddleware;
@@ -18,13 +21,18 @@ describe('ParamTransformerMiddleware', () => {
 
       middleware.onRequest(fakeExecutionContext);
 
-      const paramMethodResult = paramMetadata[0].method({}, { data: {}, type: 'REQUEST', eventId: '123', pattern: '' });
+      const paramMethodResult = paramMetadata[0].method(
+        {},
+        { data: {}, type: 'REQUEST', eventId: '123', pattern: '' },
+      );
 
       expect(paramMethodResult.constructor).toBe(MockTestController);
     });
 
     it('Should throw an error if ExecutionContext.getParamMetadata method returns undefined', () => {
-      const fakeExecutionContext: ExecutionContext = <ExecutionContext>{ getParamMetadata: () => undefined };
+      const fakeExecutionContext: ExecutionContext = <ExecutionContext>{
+        getParamMetadata: () => undefined,
+      };
 
       expect(() => middleware.onRequest(fakeExecutionContext)).toThrow();
     });

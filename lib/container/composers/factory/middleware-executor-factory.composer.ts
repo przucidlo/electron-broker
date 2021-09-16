@@ -13,7 +13,9 @@ export class MiddlewareExecutorFactoryComposer extends ContainerConfiguarableCom
     this.container.bind(Symbols.MiddlewareExecutorFactory).toFactory(
       (context): MiddlewareExecutorFactory => {
         return (middlewares) => {
-          const middlewareFactory: MiddlewareFactory = context.container.get(Symbols.MiddlewareFactory);
+          const middlewareFactory: MiddlewareFactory = context.container.get(
+            Symbols.MiddlewareFactory,
+          );
 
           return new MiddlewareExecutor(middlewareFactory, middlewares);
         };

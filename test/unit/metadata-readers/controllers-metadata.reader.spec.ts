@@ -7,7 +7,9 @@ describe('ControllersMetadataReader', () => {
 
   beforeAll(() => {
     handlersMetadataReader = new ControllerHandlersMetadataReader();
-    controllerMetadataReader = new ControllerMetadataReader(handlersMetadataReader);
+    controllerMetadataReader = new ControllerMetadataReader(
+      handlersMetadataReader,
+    );
   });
 
   describe('read', () => {

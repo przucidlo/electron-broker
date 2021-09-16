@@ -7,7 +7,9 @@ describe('RequestExecutorFactoryComposer', () => {
   it('Should bind auto-factory for RequestExecutor class', () => {
     const container = getMockContainerWithDependencies();
 
-    const result: interfaces.Factory<RequestExecutor> = container.get(Symbols.RequestExecutorFactory);
+    const result: interfaces.Factory<RequestExecutor> = container.get(
+      Symbols.RequestExecutorFactory,
+    );
 
     expect(result().constructor).toBe(RequestExecutor);
   });

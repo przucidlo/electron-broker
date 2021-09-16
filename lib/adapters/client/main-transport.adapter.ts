@@ -7,7 +7,9 @@ import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
 export class MainTransportAdapter implements IpcTransport {
-  constructor(@inject(EventDistributor) private eventDistributor: EventDistributor) {}
+  constructor(
+    @inject(EventDistributor) private eventDistributor: EventDistributor,
+  ) {}
 
   send(pattern: string, data: BrokerEvent): void {
     this.eventDistributor.broadcast(data);

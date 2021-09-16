@@ -12,12 +12,17 @@ import { isBrokerEvent } from '../../type-guards/is-broker-event.typeguard';
  */
 export default class IsoDateTransformerMiddleware implements Middleware {
   public onRequest(context: ExecutionContext): void {
-    context.brokerEvent.data = IsoDateTransformer.transform(context.brokerEvent.data);
+    context.brokerEvent.data = IsoDateTransformer.transform(
+      context.brokerEvent.data,
+    );
   }
 
   public onResponse(message: unknown): unknown {
     if (isBrokerEvent(message)) {
-      return <BrokerEvent>{ ...message, data: IsoDateTransformer.transform(message.data) };
+      return <BrokerEvent>{
+        ...message,
+        data: IsoDateTransformer.transform(message.data),
+      };
     }
     return IsoDateTransformer.transform(message);
   }

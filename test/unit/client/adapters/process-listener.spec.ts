@@ -23,7 +23,10 @@ describe('ProcessListener', () => {
       processListener.listen('test', listener);
 
       const internalListener = processSpy.mock.calls[0][1];
-      internalListener(<IpcProcessMessage>{ channelName: 'test', payload: '123' });
+      internalListener(<IpcProcessMessage>{
+        channelName: 'test',
+        payload: '123',
+      });
 
       expect(listener).toBeCalledWith('123');
     });
@@ -34,7 +37,10 @@ describe('ProcessListener', () => {
       processListener.listen('test', listener);
 
       const internalListener = processSpy.mock.calls[0][1];
-      internalListener(<IpcProcessMessage>{ channelName: 'test2', payload: '123' });
+      internalListener(<IpcProcessMessage>{
+        channelName: 'test2',
+        payload: '123',
+      });
 
       expect(listener).not.toBeCalled();
     });

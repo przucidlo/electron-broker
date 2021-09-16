@@ -6,8 +6,10 @@ import { ClientMode } from './client.mode';
 @injectable()
 export class BrokerMode extends ClientMode {
   constructor(
-    @inject(EventDistributorAdapterRegistrator) private eventDistributorRegistrator: EventDistributorAdapterRegistrator,
-    @inject(ControllersRegistrator) controllersRegistrator: ControllersRegistrator,
+    @inject(EventDistributorAdapterRegistrator)
+    private eventDistributorRegistrator: EventDistributorAdapterRegistrator,
+    @inject(ControllersRegistrator)
+    controllersRegistrator: ControllersRegistrator,
   ) {
     super(controllersRegistrator);
   }

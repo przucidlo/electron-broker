@@ -9,7 +9,12 @@ describe('ExecutionContext', () => {
 
   beforeAll(() => {
     executionContext = new ExecutionContext(
-      { controller: new Test(), handler: mockHandler, middleware: [], paramsMetadata: [] },
+      {
+        controller: new Test(),
+        handler: mockHandler,
+        middleware: [],
+        paramsMetadata: [],
+      },
       <any>{},
     );
   });

@@ -43,7 +43,9 @@ export class ContainerComposition {
 
   private composeDependenciesInOrder(): void {
     for (const ComposerClass of ContainerComposition.composersOrder) {
-      const composerInstance: AbstractContainerComposer = new ComposerClass(this.container);
+      const composerInstance: AbstractContainerComposer = new ComposerClass(
+        this.container,
+      );
 
       composerInstance.compose();
     }

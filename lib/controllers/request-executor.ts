@@ -11,13 +11,19 @@ import { HandlerParamsMapper } from './handler-params-mapper';
 @injectable()
 export class RequestExecutor {
   constructor(
-    @multiInject(Symbols.InternalMiddleware) private internalMiddleware: (ClassType<Middleware> | Middleware)[],
-    @inject(Symbols.GlobalMiddleware) private globalMiddleware: (ClassType<Middleware> | Middleware)[],
-    @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: MiddlewareExecutorFactory,
+    @multiInject(Symbols.InternalMiddleware)
+    private internalMiddleware: (ClassType<Middleware> | Middleware)[],
+    @inject(Symbols.GlobalMiddleware)
+    private globalMiddleware: (ClassType<Middleware> | Middleware)[],
+    @inject(Symbols.MiddlewareExecutorFactory)
+    private middlewareExecutorFactory: MiddlewareExecutorFactory,
     private paramsMapper: HandlerParamsMapper,
-  ) { }
+  ) {}
 
-  public async executeRequest(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<void> {
+  public async executeRequest(
+    context: ExecutionContext,
+    metadata: ControllerHandlerMetadata,
+  ): Promise<void> {
     const middlewareExecutor = this.middlewareExecutorFactory([
       ...this.internalMiddleware,
       ...this.globalMiddleware,
@@ -33,8 +39,14 @@ export class RequestExecutor {
     });
   }
 
-  private async executeHandler(context: ExecutionContext, metadata: ControllerHandlerMetadata): Promise<unknown> {
-    const paramsValues = this.paramsMapper.mapBrokerEventData(metadata.paramsMetadata, context.brokerEvent);
+  private async executeHandler(
+    context: ExecutionContext,
+    metadata: ControllerHandlerMetadata,
+  ): Promise<unknown> {
+    const paramsValues = this.paramsMapper.mapBrokerEventData(
+      metadata.paramsMetadata,
+      context.brokerEvent,
+    );
 
     return await metadata.handler.apply(metadata.controller, paramsValues);
   }

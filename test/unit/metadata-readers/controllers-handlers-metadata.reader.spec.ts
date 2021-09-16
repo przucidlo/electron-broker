@@ -59,7 +59,9 @@ describe('ControllersHandlersMetadataReader', () => {
 
         const handlersMetadata = metadataReader.read(testClassObject);
 
-        expect(handlersMetadata[pattern].handler('')).toStrictEqual(testClassObject.coolHandler(''));
+        expect(handlersMetadata[pattern].handler('')).toStrictEqual(
+          testClassObject.coolHandler(''),
+        );
       });
 
       it('Should combine controller pattern and handler pattern', () => {
@@ -67,7 +69,9 @@ describe('ControllersHandlersMetadataReader', () => {
 
         const metadata = metadataReader.read(controllerTest);
 
-        expect(metadata[controllerPattern + pattern].handler()).toBe(controllerTest.coolerHandler());
+        expect(metadata[controllerPattern + pattern].handler()).toBe(
+          controllerTest.coolerHandler(),
+        );
       });
 
       it('Should read handler functions from parent classes', () => {
@@ -76,11 +80,14 @@ describe('ControllersHandlersMetadataReader', () => {
 
         const handlersMetadata = metadataReader.read(child);
 
-        expect(handlersMetadata[pattern].handler('')).toStrictEqual(child.coolHandler(''));
+        expect(handlersMetadata[pattern].handler('')).toStrictEqual(
+          child.coolHandler(''),
+        );
       });
 
       it('Should read and save param metadata', () => {
-        const paramsHandlersMetadata = metadataReader.read(new Test())[pattern].paramsMetadata;
+        const paramsHandlersMetadata = metadataReader.read(new Test())[pattern]
+          .paramsMetadata;
 
         expect(isHandlerParamMetadata(paramsHandlersMetadata[0])).toBe(true);
       });
@@ -98,7 +105,10 @@ describe('ControllersHandlersMetadataReader', () => {
 
         const handlersMetadata = metadataReader.read(testClassObject);
 
-        expect(handlersMetadata[pattern].middleware).toStrictEqual([MockMiddleware, MockMiddleware]);
+        expect(handlersMetadata[pattern].middleware).toStrictEqual([
+          MockMiddleware,
+          MockMiddleware,
+        ]);
       });
     });
   });

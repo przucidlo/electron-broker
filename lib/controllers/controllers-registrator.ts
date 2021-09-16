@@ -9,22 +9,30 @@ import { RequestExecutorInjector } from './request-executor-injector';
 @injectable()
 export class ControllersRegistrator {
   constructor(
-    @inject(RequestExecutorInjector) private requestExecutorInjector: RequestExecutorInjector,
+    @inject(RequestExecutorInjector)
+    private requestExecutorInjector: RequestExecutorInjector,
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
-    @inject(Symbols.ControllersMetadataFactory) private controllersMetadataFactory: ControllersMetadataFactory,
+    @inject(Symbols.ControllersMetadataFactory)
+    private controllersMetadataFactory: ControllersMetadataFactory,
   ) {}
 
   public register(): void {
-    const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>this.controllersMetadataFactory();
+    const controllersMetadata: ControllerMetadata[] = <ControllerMetadata[]>(
+      this.controllersMetadataFactory()
+    );
 
-    const messageHandlersWithPattern = this.requestExecutorInjector.injectIntoControllersHandlers(controllersMetadata);
+    const messageHandlersWithPattern = this.requestExecutorInjector.injectIntoControllersHandlers(
+      controllersMetadata,
+    );
 
     for (const messageHandlerWithPattern of messageHandlersWithPattern) {
       this.registerMessageHandlers(messageHandlerWithPattern);
     }
   }
 
-  private registerMessageHandlers(messageHandlerWithPattern: MessageHandlerWithPattern) {
+  private registerMessageHandlers(
+    messageHandlerWithPattern: MessageHandlerWithPattern,
+  ) {
     const { pattern, handler } = messageHandlerWithPattern;
 
     this.ipcTransport.register(pattern, handler);

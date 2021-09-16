@@ -18,14 +18,19 @@ export class ControllersMetadataFactoryComposer extends ContainerConfiguarableCo
   public compose(): void {
     this.container
       .bind(Symbols.ControllersMetadataFactory)
-      .toFactory((): ControllersMetadataFactory => () => this.getControllersMetadata(this.getControllers()));
+      .toFactory(
+        (): ControllersMetadataFactory => () =>
+          this.getControllersMetadata(this.getControllers()),
+      );
   }
 
   private getControllers(): Record<string, unknown>[] {
     return this.getControllersInstances(this.config.controllers);
   }
 
-  private getControllersInstances(controllers: Controller[]): Record<string, unknown>[] {
+  private getControllersInstances(
+    controllers: Controller[],
+  ): Record<string, unknown>[] {
     return controllers.map((controller) => {
       if (typeof controller === 'object' && controller !== null) {
         return controller;
@@ -35,7 +40,11 @@ export class ControllersMetadataFactoryComposer extends ContainerConfiguarableCo
     });
   }
 
-  private getControllersMetadata(controllers: Record<string, unknown>[]): ControllerMetadata[] {
-    return controllers.map((controller) => this.metadataReader.read(controller));
+  private getControllersMetadata(
+    controllers: Record<string, unknown>[],
+  ): ControllerMetadata[] {
+    return controllers.map((controller) =>
+      this.metadataReader.read(controller),
+    );
   }
 }

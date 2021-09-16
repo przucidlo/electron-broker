@@ -3,11 +3,18 @@ import { HANDLER_ARGS_METADATA } from '../constants/decorators';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { HandlerParamMetadata } from '../interfaces/handler-param-metadata.interface';
 
-export default function createParamDecorator<T>(method: (options: T, eventData: BrokerEvent) => any) {
+export default function createParamDecorator<T>(
+  method: (options: T, eventData: BrokerEvent) => any,
+) {
   return (options?: T): ParameterDecorator => {
     return (target, propertyKey, index) => {
-      const args: any[] = Reflect.getMetadata(HANDLER_ARGS_METADATA, target[propertyKey]) || [];
-      const type = Reflect.getMetadata('design:paramtypes', target, propertyKey);
+      const args: any[] =
+        Reflect.getMetadata(HANDLER_ARGS_METADATA, target[propertyKey]) || [];
+      const type = Reflect.getMetadata(
+        'design:paramtypes',
+        target,
+        propertyKey,
+      );
 
       const paramMetadata: HandlerParamMetadata<T> = {
         index: index,

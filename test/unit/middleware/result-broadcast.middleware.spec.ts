@@ -15,7 +15,9 @@ describe('ResultBroadcastMiddleware', () => {
     ipcTransport = getMockIpcTransport();
     middleware = new ResultBroadcastMiddleware(ipcTransport);
 
-    fakeExecutionContext = <ExecutionContext>{ brokerEvent: getMockBrokerEventData() };
+    fakeExecutionContext = <ExecutionContext>{
+      brokerEvent: getMockBrokerEventData(),
+    };
   });
 
   it('Should broadcast controller response using ipcTransport.send', () => {
@@ -27,11 +29,18 @@ describe('ResultBroadcastMiddleware', () => {
 
   it('Should change brokerEvent to be a response containing controller result', () => {
     const mockData = '123';
-    const expectedBrokerEventData: BrokerEvent = { ...getMockBrokerEventData(), type: 'RESPONSE', data: mockData };
+    const expectedBrokerEventData: BrokerEvent = {
+      ...getMockBrokerEventData(),
+      type: 'RESPONSE',
+      data: mockData,
+    };
 
     middleware.onRequest(fakeExecutionContext);
     middleware.onResponse(mockData);
 
-    expect(ipcTransport.send).toBeCalledWith(BROKER_EVENT, expect.objectContaining(expectedBrokerEventData));
+    expect(ipcTransport.send).toBeCalledWith(
+      BROKER_EVENT,
+      expect.objectContaining(expectedBrokerEventData),
+    );
   });
 });

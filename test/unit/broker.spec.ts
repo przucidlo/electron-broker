@@ -38,7 +38,9 @@ describe('Broker', () => {
 
       broker.start();
 
-      expect(container.get(MockTestController)).toEqual(container.get(MockTestController));
+      expect(container.get(MockTestController)).toEqual(
+        container.get(MockTestController),
+      );
     });
   });
 
@@ -58,7 +60,9 @@ describe('Broker', () => {
 
       broker.setControllers(expectedControllers);
 
-      expect(container.get<ModuleConfig>(Symbols.IpcModuleConfig).controllers).toStrictEqual(expectedControllers);
+      expect(
+        container.get<ModuleConfig>(Symbols.IpcModuleConfig).controllers,
+      ).toStrictEqual(expectedControllers);
     });
   });
 
@@ -70,7 +74,9 @@ describe('Broker', () => {
 
   describe('getTransformableClient', () => {
     it('Should return instance of TransformableBrokerClient', () => {
-      expect(broker.getTransformableClient() instanceof TransformableBrokerClient).toBe(true);
+      expect(
+        broker.getTransformableClient() instanceof TransformableBrokerClient,
+      ).toBe(true);
     });
   });
 

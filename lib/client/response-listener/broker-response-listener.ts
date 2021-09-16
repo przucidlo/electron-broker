@@ -34,7 +34,10 @@ export class BrokerResponseListener {
 
   private listenWithTimeout<T>(): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.listenerAdapter.listen(this.brokerEvent.pattern, this.createResponseListener(resolve, reject));
+      this.listenerAdapter.listen(
+        this.brokerEvent.pattern,
+        this.createResponseListener(resolve, reject),
+      );
 
       this.setResponseTimeout(reject);
     });
@@ -58,7 +61,10 @@ export class BrokerResponseListener {
   }
 
   private isExpectedResponse(response: BrokerEvent): boolean {
-    return response.eventId === this.brokerEvent.eventId && response.type === 'RESPONSE';
+    return (
+      response.eventId === this.brokerEvent.eventId &&
+      response.type === 'RESPONSE'
+    );
   }
 
   private isBrokerException(data?: unknown): data is SerializedError {
@@ -66,6 +72,9 @@ export class BrokerResponseListener {
   }
 
   private setResponseTimeout(reject: (reason: any) => void) {
-    this.timeout = setTimeout(() => reject(new RequestTimeoutError()), this.PROMISE_TIMEOUT * 1000);
+    this.timeout = setTimeout(
+      () => reject(new RequestTimeoutError()),
+      this.PROMISE_TIMEOUT * 1000,
+    );
   }
 }

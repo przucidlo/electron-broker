@@ -25,7 +25,8 @@ describe('BrokerListener', () => {
 
       brokerListener.listen(pattern, listener);
 
-      const wrappedListener = (<jest.Mock>(<unknown>ipcMain.on)).mock.calls[0][1];
+      const wrappedListener = (<jest.Mock>(<unknown>ipcMain.on)).mock
+        .calls[0][1];
       wrappedListener();
 
       expect(listener).toBeCalled();
@@ -40,7 +41,10 @@ describe('BrokerListener', () => {
 
       brokerListener.removeListener();
 
-      expect(ipcMain.removeListener).toBeCalledWith(pattern, expect.any(Function));
+      expect(ipcMain.removeListener).toBeCalledWith(
+        pattern,
+        expect.any(Function),
+      );
     });
   });
 });

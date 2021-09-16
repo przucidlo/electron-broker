@@ -6,7 +6,10 @@ import Middleware from '../../../lib/interfaces/middleware.interface';
 import { ControllerMetadataReader } from '../../../lib/metadata-readers/controller-metadata.reader';
 import { MiddlewareExecutor } from '../../../lib/middleware/middleware-executor';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
-import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
+import {
+  getMockTestControllerMetadata,
+  MOCK_TEST_CONTROLLER_PATTERN,
+} from '../__mocks__/mock-test-controller';
 
 describe('RequestExecutor', () => {
   let handlerMetadata: ControllerHandlerMetadata;
@@ -17,14 +20,18 @@ describe('RequestExecutor', () => {
   beforeEach(() => {
     const controllerMetadata = getMockTestControllerMetadata();
 
-    handlerMetadata = controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
+    handlerMetadata =
+      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
 
     middleware = {
       onRequest: jest.fn(),
       onResponse: jest.fn(),
     };
 
-    executionContext = new ExecutionContext(handlerMetadata, getMockBrokerEventData());
+    executionContext = new ExecutionContext(
+      handlerMetadata,
+      getMockBrokerEventData(),
+    );
 
     requestExecutor = new RequestExecutor(
       [<any>middleware],

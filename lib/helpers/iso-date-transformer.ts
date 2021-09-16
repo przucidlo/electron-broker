@@ -56,7 +56,11 @@ export class IsoDateTransformer {
     if (typeof value === 'string') {
       const matchResult = value.match(isoDateStringRegex);
 
-      return matchResult && matchResult.length === 1 && matchResult[0].length === value.length;
+      return (
+        matchResult &&
+        matchResult.length === 1 &&
+        matchResult[0].length === value.length
+      );
     }
     return false;
   }

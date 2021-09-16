@@ -7,7 +7,9 @@ describe('BrokerRendererAdapter', () => {
   let rendererAdapter: BrokerRendererAdapter;
 
   beforeEach(() => {
-    browserWindow = <BrowserWindow>{ webContents: <Electron.WebContents>(<unknown>{ send: jest.fn() }) };
+    browserWindow = <BrowserWindow>{
+      webContents: <Electron.WebContents>(<unknown>{ send: jest.fn() }),
+    };
 
     rendererAdapter = new BrokerRendererAdapter(browserWindow);
   });

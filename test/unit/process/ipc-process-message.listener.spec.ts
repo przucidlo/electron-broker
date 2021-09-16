@@ -12,7 +12,10 @@ describe('IpcProcessMessageListener', () => {
   beforeEach(() => {
     process = mockProcess();
     ipcProcessChannels = new IpcProcessChannels();
-    ipcProcessMessageListener = new IpcProcessMessageListener(process, ipcProcessChannels);
+    ipcProcessMessageListener = new IpcProcessMessageListener(
+      process,
+      ipcProcessChannels,
+    );
 
     ipcProcessMessageListener.start();
   });
@@ -28,7 +31,11 @@ describe('IpcProcessMessageListener', () => {
     const mockListener = jest.fn();
     const mockPayload = { test: 'test' };
 
-    const mockMessage: IpcProcessMessage = { messageId: '1', channelName: mockChannel, payload: mockPayload };
+    const mockMessage: IpcProcessMessage = {
+      messageId: '1',
+      channelName: mockChannel,
+      payload: mockPayload,
+    };
 
     let messageListener: MessageHandler;
 
@@ -39,7 +46,10 @@ describe('IpcProcessMessageListener', () => {
     });
 
     it('Should deny any message that isnt an instance of IpcProcessMessage', () => {
-      const channelsSpy = jest.spyOn(ipcProcessChannels, 'getChannelListenerByName');
+      const channelsSpy = jest.spyOn(
+        ipcProcessChannels,
+        'getChannelListenerByName',
+      );
 
       messageListener({ whatever: 'param' });
 

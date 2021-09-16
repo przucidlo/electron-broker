@@ -6,7 +6,10 @@ import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.
 import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
-import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
+import {
+  getMockTestControllerMetadata,
+  MOCK_TEST_CONTROLLER_PATTERN,
+} from '../__mocks__/mock-test-controller';
 import { getMockExecutionContext } from './__mocks__/get-mock-execution-context';
 
 describe('ControllersRegistrator', () => {
@@ -21,7 +24,12 @@ describe('ControllersRegistrator', () => {
       MOCK_TEST_CONTROLLER_PATTERN,
       getMockBrokerEventData(),
     );
-    const requestExecutor = new RequestExecutor([], [], () => <any>{}, <HandlerParamsMapper>{});
+    const requestExecutor = new RequestExecutor(
+      [],
+      [],
+      () => <any>{},
+      <HandlerParamsMapper>{},
+    );
 
     requestExecutorInjector = new RequestExecutorInjector(
       () => executionContext,
@@ -30,14 +38,19 @@ describe('ControllersRegistrator', () => {
     ipcTransport = getMockIpcTransport();
     controllerMetadata = getMockTestControllerMetadata();
 
-    controllerRegistrator = new ControllersRegistrator(requestExecutorInjector, ipcTransport, () => [
-      controllerMetadata,
-    ]);
+    controllerRegistrator = new ControllersRegistrator(
+      requestExecutorInjector,
+      ipcTransport,
+      () => [controllerMetadata],
+    );
   });
 
   describe('register', () => {
     it('Should inject request executor into handlers', () => {
-      const executorInjectorSpy = jest.spyOn(requestExecutorInjector, 'injectIntoControllersHandlers');
+      const executorInjectorSpy = jest.spyOn(
+        requestExecutorInjector,
+        'injectIntoControllersHandlers',
+      );
 
       controllerRegistrator.register();
 
@@ -47,7 +60,10 @@ describe('ControllersRegistrator', () => {
     it('Should register handlers in IpcTransport', () => {
       controllerRegistrator.register();
 
-      expect(ipcTransport.register).toBeCalledWith(MOCK_TEST_CONTROLLER_PATTERN, expect.any(Function));
+      expect(ipcTransport.register).toBeCalledWith(
+        MOCK_TEST_CONTROLLER_PATTERN,
+        expect.any(Function),
+      );
     });
   });
 });

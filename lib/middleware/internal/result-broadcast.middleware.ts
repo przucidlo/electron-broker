@@ -11,14 +11,19 @@ import { BrokerEventFactory } from '../../helpers/broker-event.factory';
 export class ResultBroadcastMiddleware implements Middleware {
   private brokerEvent: BrokerEvent;
 
-  constructor(@inject(Symbols.IpcTransport) private icpTransport: IpcTransport) {}
+  constructor(
+    @inject(Symbols.IpcTransport) private icpTransport: IpcTransport,
+  ) {}
 
   public onRequest(context: ExecutionContext): any {
     this.brokerEvent = context.brokerEvent;
   }
 
   public onResponse(data: unknown): void {
-    this.brokerEvent = BrokerEventFactory.createBrokerEventAsResponse(this.brokerEvent, data);
+    this.brokerEvent = BrokerEventFactory.createBrokerEventAsResponse(
+      this.brokerEvent,
+      data,
+    );
 
     this.broadcastResponse();
   }

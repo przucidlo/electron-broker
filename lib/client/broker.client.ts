@@ -13,7 +13,10 @@ import { ClientExecutionContextFactory } from '../types/client-execution-context
 import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
 import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscriber';
 
-type MiddlewareContext = { middlewareExecutor: MiddlewareExecutor; executionContext: ExecutionContext };
+type MiddlewareContext = {
+  middlewareExecutor: MiddlewareExecutor;
+  executionContext: ExecutionContext;
+};
 
 @injectable()
 export default class BrokerClient {
@@ -21,25 +24,36 @@ export default class BrokerClient {
 
   constructor(
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
-    @inject(Symbols.MiddlewareExecutorFactory) private middlewareExecutorFactory: MiddlewareExecutorFactory,
-    @inject(Symbols.ClientExecutionContextFactory) private executionContextFactory: ClientExecutionContextFactory,
-    @inject(Symbols.BrokerResponseListenerFactory) private brokerResponseListenerFactory: BrokerResponseListenerFactory,
+    @inject(Symbols.MiddlewareExecutorFactory)
+    private middlewareExecutorFactory: MiddlewareExecutorFactory,
+    @inject(Symbols.ClientExecutionContextFactory)
+    private executionContextFactory: ClientExecutionContextFactory,
+    @inject(Symbols.BrokerResponseListenerFactory)
+    private brokerResponseListenerFactory: BrokerResponseListenerFactory,
   ) {
     this.middleware = [];
   }
 
-  public setMiddleware(middlewares: (ClassType<Middleware> | Middleware)[]): void {
+  public setMiddleware(
+    middlewares: (ClassType<Middleware> | Middleware)[],
+  ): void {
     this.middleware = middlewares;
   }
 
-  public subscribe<T>(pattern: string, listener: (data: T, brokerEvent?: BrokerEvent) => void): BrokerEventSubscriber {
+  public subscribe<T>(
+    pattern: string,
+    listener: (data: T, brokerEvent?: BrokerEvent) => void,
+  ): BrokerEventSubscriber {
     return new BrokerEventSubscriber(pattern, (event) => {
       listener(<T>event.data, event);
     });
   }
 
   public send(pattern: string, data: unknown): void {
-    const { middlewareExecutor, executionContext } = this.prepareMiddlewareContext(pattern, data);
+    const {
+      middlewareExecutor,
+      executionContext,
+    } = this.prepareMiddlewareContext(pattern, data);
 
     middlewareExecutor.executeWithoutResponse(executionContext, () => {
       this.ipcTransport.send(BROKER_EVENT, executionContext.brokerEvent);
@@ -50,25 +64,42 @@ export default class BrokerClient {
     return <T>(await this.invokeForBrokerEvent(pattern, data)).data;
   }
 
-  public async invokeForBrokerEvent(pattern: string, data: unknown): Promise<BrokerEvent> {
-    const { middlewareExecutor, executionContext } = this.prepareMiddlewareContext(pattern, data);
+  public async invokeForBrokerEvent(
+    pattern: string,
+    data: unknown,
+  ): Promise<BrokerEvent> {
+    const {
+      middlewareExecutor,
+      executionContext,
+    } = this.prepareMiddlewareContext(pattern, data);
 
-    return <BrokerEvent>await middlewareExecutor.execute(executionContext, async () => {
-      this.ipcTransport.send(BROKER_EVENT, executionContext.brokerEvent);
+    return <BrokerEvent>await middlewareExecutor.execute(
+      executionContext,
+      async () => {
+        this.ipcTransport.send(BROKER_EVENT, executionContext.brokerEvent);
 
-      return await this.listenForResponse(executionContext.brokerEvent);
-    });
+        return await this.listenForResponse(executionContext.brokerEvent);
+      },
+    );
   }
 
-  private prepareMiddlewareContext(pattern: string, data: unknown): MiddlewareContext {
-    const brokerEvent: BrokerEvent = BrokerEventFactory.createBrokerEvent(pattern, data);
+  private prepareMiddlewareContext(
+    pattern: string,
+    data: unknown,
+  ): MiddlewareContext {
+    const brokerEvent: BrokerEvent = BrokerEventFactory.createBrokerEvent(
+      pattern,
+      data,
+    );
     const middlewareExecutor = this.middlewareExecutorFactory(this.middleware);
     const executionContext = this.executionContextFactory(brokerEvent);
 
     return { middlewareExecutor, executionContext };
   }
 
-  private async listenForResponse(brokerEvent: BrokerEvent): Promise<BrokerEvent> {
+  private async listenForResponse(
+    brokerEvent: BrokerEvent,
+  ): Promise<BrokerEvent> {
     return await this.brokerResponseListenerFactory(brokerEvent).listen();
   }
 }

@@ -21,7 +21,9 @@ describe('TransformableDoveClient', () => {
       new MiddlewareExecutor((middleware) => <any>middleware, middleware);
 
     const ipcTransport = getMockIpcTransport();
-    brokerResponseListener = new BrokerResponseListener(getMockBrokerEventData());
+    brokerResponseListener = new BrokerResponseListener(
+      getMockBrokerEventData(),
+    );
 
     transformableClient = new TransformableBrokerClient(
       ipcTransport,
@@ -40,7 +42,8 @@ describe('TransformableDoveClient', () => {
       const brokerEvent = getMockBrokerEventData();
       brokerEvent.data = {};
 
-      brokerResponseListener.listen = () => new Promise((resolve) => resolve(brokerEvent));
+      brokerResponseListener.listen = () =>
+        new Promise((resolve) => resolve(brokerEvent));
 
       const result = await transformableClient.invoke('', {}, TestClass);
 

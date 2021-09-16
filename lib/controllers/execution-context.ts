@@ -7,7 +7,10 @@ import { MessageHandler } from '../types/message-handler.type';
 
 @injectable()
 export class ExecutionContext {
-  constructor(private metadata: ControllerHandlerMetadata, public brokerEvent: BrokerEvent) {}
+  constructor(
+    private metadata: ControllerHandlerMetadata,
+    public brokerEvent: BrokerEvent,
+  ) {}
 
   public getClass(): Function {
     return this.metadata.controller.constructor;

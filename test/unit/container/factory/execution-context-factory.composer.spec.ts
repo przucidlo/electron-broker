@@ -16,7 +16,9 @@ describe('ExecutionContextFactoryComposer', () => {
   beforeAll(() => {
     const container = getMockContainerWithDependencies();
 
-    clientExecutionContextFactory = container.get(Symbols.ClientExecutionContextFactory);
+    clientExecutionContextFactory = container.get(
+      Symbols.ClientExecutionContextFactory,
+    );
     executionContextFactory = container.get(Symbols.ExecutionContextFactory);
   });
 
@@ -24,14 +26,23 @@ describe('ExecutionContextFactoryComposer', () => {
     const handlerMetadata = getMockTestControllerHandlerMetadata();
 
     it('Should return an instanceof ExecutionContext', () => {
-      const result = executionContextFactory(handlerMetadata, getMockBrokerEventData());
+      const result = executionContextFactory(
+        handlerMetadata,
+        getMockBrokerEventData(),
+      );
 
       expect(result instanceof ExecutionContext).toBe(true);
     });
 
     it('Should return new instanceof ExecutionContext each time', () => {
-      const instanceA = executionContextFactory(handlerMetadata, getMockBrokerEventData());
-      const instanceB = executionContextFactory(handlerMetadata, getMockBrokerEventData());
+      const instanceA = executionContextFactory(
+        handlerMetadata,
+        getMockBrokerEventData(),
+      );
+      const instanceB = executionContextFactory(
+        handlerMetadata,
+        getMockBrokerEventData(),
+      );
 
       expect(instanceA).not.toBe(instanceB);
     });

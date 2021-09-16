@@ -12,7 +12,9 @@ describe('BrokerEventFactory', () => {
         data: {},
       };
 
-      expect(BrokerEventFactory.createBrokerEvent('test', {})).toStrictEqual(expectedBrokerEvent);
+      expect(BrokerEventFactory.createBrokerEvent('test', {})).toStrictEqual(
+        expectedBrokerEvent,
+      );
     });
   });
 
@@ -26,7 +28,9 @@ describe('BrokerEventFactory', () => {
         data: '123',
       };
 
-      expect(BrokerEventFactory.createBrokerEventAsResponse(brokerEvent, '123')).toStrictEqual(expectedBrokerEvent);
+      expect(
+        BrokerEventFactory.createBrokerEventAsResponse(brokerEvent, '123'),
+      ).toStrictEqual(expectedBrokerEvent);
     });
   });
 });

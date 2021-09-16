@@ -27,7 +27,8 @@ describe('RendererListener', () => {
 
       rendererListener.listen(pattern, listener);
 
-      const wrappedListener = (<jest.Mock>(<unknown>ipcRenderer.on)).mock.calls[0][1];
+      const wrappedListener = (<jest.Mock>(<unknown>ipcRenderer.on)).mock
+        .calls[0][1];
       wrappedListener();
 
       expect(listener).toBeCalled();
@@ -43,7 +44,10 @@ describe('RendererListener', () => {
 
       rendererListener.removeListener();
 
-      expect(ipcRenderer.removeListener).toBeCalledWith(pattern, expect.any(Function));
+      expect(ipcRenderer.removeListener).toBeCalledWith(
+        pattern,
+        expect.any(Function),
+      );
     });
   });
 });

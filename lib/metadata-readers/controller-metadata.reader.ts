@@ -6,17 +6,23 @@ import { ControllerHandlersMetadataReader } from './controller-handlers-metadata
 
 @injectable()
 export class ControllerMetadataReader extends AbstractMetadataReader {
-  constructor(private handlersMetadataReader: ControllerHandlersMetadataReader) {
+  constructor(
+    private handlersMetadataReader: ControllerHandlersMetadataReader,
+  ) {
     super();
   }
 
-  public read<T extends Record<keyof T, unknown>>(controller: T): ControllerMetadata {
+  public read<T extends Record<keyof T, unknown>>(
+    controller: T,
+  ): ControllerMetadata {
     const controllerMetadata: ControllerMetadata = {
       type: controller.constructor,
       messageHandlers: {},
     };
 
-    controllerMetadata.messageHandlers = this.handlersMetadataReader.read(controller);
+    controllerMetadata.messageHandlers = this.handlersMetadataReader.read(
+      controller,
+    );
 
     return controllerMetadata;
   }

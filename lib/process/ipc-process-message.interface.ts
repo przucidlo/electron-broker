@@ -5,6 +5,8 @@ export interface IpcProcessMessage {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isIpcProcessMessage(message: any): message is IpcProcessMessage {
+export function isIpcProcessMessage(
+  message: any,
+): message is IpcProcessMessage {
   return message.channelName && message.messageId;
 }

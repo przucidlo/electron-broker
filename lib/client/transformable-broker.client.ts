@@ -9,11 +9,17 @@ import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscribe
 export default class TransformableBrokerClient extends BrokerClient {
   private classTransformOptions?: ClassTransformOptions;
 
-  public setClassTransformOptions(classTransformOptions: ClassTransformOptions): void {
+  public setClassTransformOptions(
+    classTransformOptions: ClassTransformOptions,
+  ): void {
     this.classTransformOptions = classTransformOptions;
   }
 
-  public async invoke<T>(pattern: string, data: unknown, target?: ClassType<T>): Promise<T> {
+  public async invoke<T>(
+    pattern: string,
+    data: unknown,
+    target?: ClassType<T>,
+  ): Promise<T> {
     const response = await super.invoke(pattern, data);
 
     return plainToClass(target, response, this.classTransformOptions);
@@ -25,7 +31,10 @@ export default class TransformableBrokerClient extends BrokerClient {
     target?: ClassType<T>,
   ): BrokerEventSubscriber {
     return super.subscribe(pattern, (data, brokerEvent) => {
-      return listener(plainToClass(target, data, this.classTransformOptions), brokerEvent);
+      return listener(
+        plainToClass(target, data, this.classTransformOptions),
+        brokerEvent,
+      );
     });
   }
 }

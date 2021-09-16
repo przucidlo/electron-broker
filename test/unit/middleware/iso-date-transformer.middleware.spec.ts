@@ -3,7 +3,10 @@ import { IsoDateTransformer } from '../../../lib/helpers/iso-date-transformer';
 import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
 import { getMockExecutionContext } from '../controllers/__mocks__/get-mock-execution-context';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
-import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
+import {
+  getMockTestControllerMetadata,
+  MOCK_TEST_CONTROLLER_PATTERN,
+} from '../__mocks__/mock-test-controller';
 
 describe('IsoDateTransformerMiddleware', () => {
   describe('onRequest', () => {
@@ -30,7 +33,9 @@ describe('IsoDateTransformerMiddleware', () => {
       const value = jest.fn();
       IsoDateTransformer.transform = jest.fn().mockReturnValue(value);
 
-      const result: BrokerEvent = <BrokerEvent>new IsoDateTransformerMiddleware().onResponse(brokerEvent);
+      const result: BrokerEvent = <BrokerEvent>(
+        new IsoDateTransformerMiddleware().onResponse(brokerEvent)
+      );
 
       expect(result.data).toBe(value);
     });
