@@ -1,8 +1,8 @@
 import { Container } from 'inversify';
-import { Broker, BrokerClient, BrokerTarget, TransformableBrokerClient } from '../../lib';
+import { Broker, BrokerClient, TransformableBrokerClient } from '../../lib';
 import { Symbols } from '../../lib/constants/symbols';
 import { ModuleMode } from '../../lib/interfaces/module-mode.interface';
-import { ModuleConfig } from '../../lib/types/ipc-module-config.type';
+import { ModuleConfig } from '../../lib/types/module-config.type';
 import { MockMiddleware } from './__mocks__/mock-middleware';
 import { MockTestController } from './__mocks__/mock-test-controller';
 
@@ -12,12 +12,12 @@ describe('Broker', () => {
 
   beforeEach(() => {
     container = new Container({ autoBindInjectable: true });
-    broker = new Broker({ container: container, mode: BrokerTarget.PROCESS, options: {} });
+    broker = new Broker({ container: container, mode: 'CLIENT' });
   });
 
   describe('constructor', () => {
     it('If user doesnt provide a container object, should fallback to use internal container', () => {
-      broker = new Broker({ mode: BrokerTarget.PROCESS, options: {} });
+      broker = new Broker({ mode: 'CLIENT' });
 
       expect(() => broker.start()).not.toThrowError();
     });

@@ -7,7 +7,7 @@ import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
 import { ConfigComposer } from './composers/config.composer';
 import { ModeComposer } from './composers/mode.composer';
-import { ModuleConfig } from '../types/ipc-module-config.type';
+import { ModuleConfig } from '../types/module-config.type';
 import { ExecutionContextFactoryComposer } from './composers/factory/execution-context-factory.composer';
 import { RequestExecutorFactoryComposer } from './composers/factory/request-executor-factory.composer';
 import { MiddlewareFactoryComposer } from './composers/factory/middleware-factory.composer';

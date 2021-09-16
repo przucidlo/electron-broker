@@ -6,7 +6,7 @@ import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
 import { ClassType } from './types/class.type';
 import { Controller } from './types/controller.type';
-import { ModuleConfig } from './types/ipc-module-config.type';
+import { ModuleConfig } from './types/module-config.type';
 
 export default class Broker {
   private container: Container;

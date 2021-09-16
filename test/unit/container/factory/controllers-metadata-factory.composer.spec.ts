@@ -1,5 +1,4 @@
 import { Container } from 'inversify';
-import { BrokerTarget } from '../../../../lib';
 import { Symbols } from '../../../../lib/constants/symbols';
 import { ControllersMetadataFactory } from '../../../../lib/types/controllers-metadata-factory.type';
 import { getMockTestControllerMetadata, MockTestController } from '../../__mocks__/mock-test-controller';
@@ -11,8 +10,7 @@ describe('ControllersMetadataFactoryComposer', () => {
 
   beforeEach(() => {
     container = getMockContainerWithDependencies({
-      mode: BrokerTarget.PROCESS,
-      options: {},
+      mode: 'CLIENT',
       controllers: [new MockTestController()],
     });
 
@@ -28,8 +26,7 @@ describe('ControllersMetadataFactoryComposer', () => {
 
     it('If controller is marked as injectable, it should be initialized using DI', () => {
       container = getMockContainerWithDependencies({
-        mode: BrokerTarget.PROCESS,
-        options: {},
+        mode: 'CLIENT',
         controllers: [MockTestController],
       });
       container.bind(MockTestController).toConstantValue(new MockTestController());

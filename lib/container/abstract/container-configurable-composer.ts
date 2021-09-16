@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
 import { Symbols } from '../../constants/symbols';
-import { ModuleConfig } from '../../types/ipc-module-config.type';
+import { ModuleConfig } from '../../types/module-config.type';
 import { AbstractContainerComposer } from './abstract-container-composer';
 
 export abstract class ContainerConfiguarableComposer extends AbstractContainerComposer {

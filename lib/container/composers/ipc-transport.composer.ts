@@ -6,46 +6,56 @@ import { BrokerRendererAdapter } from '../../adapters/broker/broker-renderer.ada
 import { MainTransportAdapter } from '../../adapters/client/main-transport.adapter';
 import { ProcessTransportAdapter } from '../../adapters/client/process-transport.adapter';
 import { RendererTransportAdapter } from '../../adapters/client/renderer-transport.adapter';
-import { BrokerTarget } from '../../constants/broker-target.enum';
+import { Mode } from '../../constants/mode.enum';
 import { Symbols } from '../../constants/symbols';
 import IpcProcess from '../../process/ipc-process';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class IpcTransportComposer extends ContainerConfiguarableComposer {
   public compose(): void {
-    switch (this.config.mode) {
-      case BrokerTarget.PROCESS:
-        this.container.bind(Symbols.IpcTransport).toConstantValue(new ProcessTransportAdapter(new IpcProcess()));
+    switch (process.type) {
+      case 'renderer':
+        this.container
+          .bind(Symbols.IpcTransport)
+          .to(RendererTransportAdapter)
+          .inSingletonScope();
         break;
-      case BrokerTarget.RENDERER:
-        this.container.bind(Symbols.IpcTransport).to(RendererTransportAdapter).inSingletonScope();
+      case 'browser':
+        this.container
+          .bind(Symbols.IpcTransport)
+          .to(MainTransportAdapter)
+          .inSingletonScope();
+        this.container.bind(Symbols.BrokerIpcTransport).to(BrokerMainAdapter);
+        this.bindBrokerIpcTransportAdapters();
         break;
-      case BrokerTarget.BROKER:
-        this.bindBrokerIpcTransport();
-        this.container.bind(Symbols.IpcTransport).to(MainTransportAdapter).inSingletonScope();
+      default:
+        this.container
+          .bind(Symbols.IpcTransport)
+          .toConstantValue(new ProcessTransportAdapter(new IpcProcess()));
         break;
     }
   }
 
-  private bindBrokerIpcTransport(): void {
-    if (this.config.mode === BrokerTarget.BROKER) {
-      this.bindProcessAdapters(this.config.options.processes);
-      this.bindRendererAdapters(this.config.options.browserWindows);
-      this.container.bind(Symbols.BrokerIpcTransport).to(BrokerMainAdapter);
+  private bindBrokerIpcTransportAdapters(): void {
+    if (this.config.mode === Mode.BROKER) {
+      const { browserWindows, processes } = this.config.options;
+
+      for (const adapterSource of [...browserWindows, ...processes]) {
+        const adapter = this.createBrokerIpcTransportAdapter(adapterSource);
+
+        this.container
+          .bind(Symbols.BrokerIpcTransport)
+          .toConstantValue(adapter);
+      }
     }
   }
 
-  private bindProcessAdapters(processes: ChildProcess[]): void {
-    for (const process of processes) {
-      const ipcProcess = new IpcProcess(process);
-
-      this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerProcessAdapter(ipcProcess));
+  private createBrokerIpcTransportAdapter(
+    source: ChildProcess | BrowserWindow,
+  ) {
+    if (source instanceof BrowserWindow) {
+      return new BrokerRendererAdapter(source);
     }
-  }
-
-  private bindRendererAdapters(browserWindows: BrowserWindow[]): void {
-    for (const browserWindow of browserWindows) {
-      this.container.bind(Symbols.BrokerIpcTransport).toConstantValue(new BrokerRendererAdapter(browserWindow));
-    }
+    return new BrokerProcessAdapter(new IpcProcess(source));
   }
 }

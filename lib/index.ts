@@ -4,8 +4,8 @@ export * from './client/transformable-broker.client';
 export { default as TransformableBrokerClient } from './client/transformable-broker.client';
 
 export * from './constants/decorators';
-export * from './constants/broker-target.enum';
-export { default as BrokerTarget } from './constants/broker-target.enum';
+export * from './constants/mode.enum';
+export { default as Mode } from './constants/mode.enum';
 
 export * from './decorators/message-pattern.decorator';
 export { default as MessagePattern } from './decorators/message-pattern.decorator';
