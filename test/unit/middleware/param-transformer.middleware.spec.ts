@@ -15,7 +15,7 @@ describe('ParamTransformerMiddleware', () => {
     it('Should use class-transformer to convert param plain object to class', () => {
       const paramMetadata = getMockTestControllerParamMetadata();
       const fakeExecutionContext: ExecutionContext = <ExecutionContext>{
-        getParamMetadata: () => paramMetadata,
+        getParamsMetadata: () => paramMetadata,
         brokerEvent: { data: {} },
       };
 
@@ -31,7 +31,7 @@ describe('ParamTransformerMiddleware', () => {
 
     it('Should throw an error if ExecutionContext.getParamMetadata method returns undefined', () => {
       const fakeExecutionContext: ExecutionContext = <ExecutionContext>{
-        getParamMetadata: () => undefined,
+        getParamsMetadata: () => undefined,
       };
 
       expect(() => middleware.onRequest(fakeExecutionContext)).toThrow();

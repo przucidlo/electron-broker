@@ -20,7 +20,7 @@ export class ExecutionContext {
     return this.metadata.handler;
   }
 
-  public getParamMetadata(): HandlerParamMetadata<any>[] {
+  public getParamsMetadata(): HandlerParamMetadata<any>[] {
     return this.metadata.paramsMetadata;
   }
 }

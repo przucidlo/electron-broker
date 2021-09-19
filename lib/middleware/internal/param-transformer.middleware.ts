@@ -8,7 +8,7 @@ export class ParamTransformerMiddleware implements Middleware {
   constructor(private transformOptions?: ClassTransformOptions) {}
 
   public onRequest(executionContext: ExecutionContext): void {
-    const paramsMetadata = executionContext.getParamMetadata();
+    const paramsMetadata = executionContext.getParamsMetadata();
 
     if (paramsMetadata) {
       for (const paramMetadata of paramsMetadata) {
