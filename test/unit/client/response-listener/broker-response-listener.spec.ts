@@ -3,6 +3,8 @@ jest.useFakeTimers();
 import { ListenerFactory } from '../../../../lib/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../../lib/client/listener-adapter/listener-adapter.interface';
 import { BrokerResponseListener } from '../../../../lib/client/response-listener/broker-response-listener';
+import { BROKER_EXCEPTION_MARKER } from '../../../../lib/constants/exceptions';
+import BrokerExceptionError from '../../../../lib/errors/broker-exception.error';
 import { RequestTimeoutError } from '../../../../lib/errors/request-timeout.error';
 import { BrokerEvent } from '../../../../lib/interfaces/broker-event.interface';
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
@@ -71,6 +73,29 @@ describe('BrokerResponseListener', () => {
         await result;
       } catch (err) {
         expect(err instanceof RequestTimeoutError).toBe(true);
+      }
+    });
+
+    it('Should throw BrokerExceptionError if response contains exception marker', async () => {
+      expect.assertions(1);
+
+      const response: BrokerEvent = {
+        ...getMockBrokerEventData(),
+        type: 'RESPONSE',
+        data: {
+          [BROKER_EXCEPTION_MARKER]: true,
+        },
+      };
+
+      try {
+        const result = brokerResponseListener.listen();
+
+        const listener = (<jest.Mock>listenerAdapter.listen).mock.calls[0][1];
+        listener(response);
+
+        await result;
+      } catch (err) {
+        expect(err instanceof BrokerExceptionError).toBe(true);
       }
     });
   });

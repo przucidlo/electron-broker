@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 import { Broker, BrokerClient, TransformableBrokerClient } from '../../lib';
 import { Symbols } from '../../lib/constants/symbols';
+import ProcessTypeUnsupportedModeError from '../../lib/errors/process-type-unsupported-mode.error';
 import { ModuleMode } from '../../lib/interfaces/module-mode.interface';
 import { ModuleConfig } from '../../lib/types/module-config.type';
 import { MockMiddleware } from './__mocks__/mock-middleware';
@@ -20,6 +21,16 @@ describe('Broker', () => {
       broker = new Broker({ mode: 'CLIENT' });
 
       expect(() => broker.start()).not.toThrowError();
+    });
+
+    it('Should throw ProcessTypeUnsupportedModeError', () => {
+      expect(
+        () =>
+          new Broker({
+            mode: 'BROKER',
+            options: { browserWindows: [], processes: [] },
+          }),
+      ).toThrowError(ProcessTypeUnsupportedModeError);
     });
   });
 

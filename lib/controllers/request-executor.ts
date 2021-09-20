@@ -23,7 +23,7 @@ export class RequestExecutor {
   public async executeRequest(
     context: ExecutionContext,
     metadata: ControllerHandlerMetadata,
-  ): Promise<void> {
+  ): Promise<any> {
     const middlewareExecutor = this.middlewareExecutorFactory([
       ...this.internalMiddleware,
       ...this.globalMiddleware,
