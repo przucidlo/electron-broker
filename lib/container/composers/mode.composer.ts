@@ -1,28 +1,26 @@
 import { Mode } from '../../constants/mode.enum';
 import { Symbols } from '../../constants/symbols';
-import { BrokerMode } from '../../modes/broker.mode';
-import { ClientMode } from '../../modes/client.mode';
+import { ModuleMode } from '../../interfaces/module-mode.interface';
+import { ClassType } from '../../types/class.type';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class ModeComposer extends ContainerConfiguarableComposer {
-  public compose(): void {
+  public async compose(): Promise<void> {
+    let mode: ClassType<ModuleMode>;
+
     switch (this.config.mode) {
       case Mode.CLIENT:
-        this.container
-          .bind(Symbols.ModuleMode)
-          .to(ClientMode)
-          .inSingletonScope();
+        mode = (await import('../../modes/client.mode')).ClientMode;
         break;
       case Mode.BROKER:
-        this.container
-          .bind(Symbols.ModuleMode)
-          .to(BrokerMode)
-          .inSingletonScope();
+        mode = (await import('../../modes/broker.mode')).BrokerMode;
         break;
       default:
         throw new Error(
           'ModuleMode implementation for selected mode does not exists',
         );
     }
+
+    this.container.bind(Symbols.ModuleMode).to(mode).inSingletonScope();
   }
 }

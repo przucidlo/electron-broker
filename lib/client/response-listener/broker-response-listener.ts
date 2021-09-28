@@ -3,19 +3,18 @@ import BrokerExceptionError from '../../errors/broker-exception.error';
 import { RequestTimeoutError } from '../../errors/request-timeout.error';
 import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import { SerializedError } from '../../interfaces/serialized-error.interface';
-import { ListenerFactory } from '../listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
 
 type BrokerListener = (response: BrokerEvent) => void;
 
 export class BrokerResponseListener {
   private readonly PROMISE_TIMEOUT: number = 30;
-  private listenerAdapter: ListenerAdapter;
   private timeout: NodeJS.Timeout;
 
-  constructor(private brokerEvent: BrokerEvent) {
-    this.listenerAdapter = ListenerFactory.createListener();
-  }
+  constructor(
+    private brokerEvent: BrokerEvent,
+    private listenerAdapter: ListenerAdapter,
+  ) {}
 
   public async listen(): Promise<BrokerEvent> {
     try {

@@ -100,6 +100,8 @@ export default class BrokerClient {
   private async listenForResponse(
     brokerEvent: BrokerEvent,
   ): Promise<BrokerEvent> {
-    return await this.brokerResponseListenerFactory(brokerEvent).listen();
+    return await (
+      await this.brokerResponseListenerFactory(brokerEvent)
+    ).listen();
   }
 }

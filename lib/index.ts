@@ -33,3 +33,6 @@ export { default as ExecutionContext } from './controllers/execution-context';
 
 export * from './broker';
 export { default as Broker } from './broker';
+
+export * from './broker-factory';
+export { default as BrokerFactory } from './broker-factory';

@@ -1,17 +1,27 @@
-import { BrokerListener } from '../adapters/broker-listener';
-import { ProcessListener } from '../adapters/process-listener';
-import { RendererListener } from '../adapters/renderer-listener';
 import { ListenerAdapter } from '../listener-adapter.interface';
 
 export class ListenerFactory {
-  public static createListener(): ListenerAdapter {
+  public static async createListener(): Promise<ListenerAdapter> {
+    let listenerAdapter: ListenerAdapter;
+
     switch (process.type) {
       case 'renderer':
-        return new RendererListener();
+        listenerAdapter = new (
+          await import('../adapters/renderer-listener')
+        ).RendererListener();
+        break;
       case 'browser':
-        return new BrokerListener();
+        listenerAdapter = new (
+          await import('../adapters/broker-listener')
+        ).BrokerListener();
+        break;
       default:
-        return new ProcessListener();
+        listenerAdapter = new (
+          await import('../adapters/process-listener')
+        ).ProcessListener();
+        break;
     }
+
+    return listenerAdapter;
   }
 }

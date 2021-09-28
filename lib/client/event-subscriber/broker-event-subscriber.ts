@@ -6,7 +6,14 @@ export class BrokerEventSubscriber {
   private listenerAdapter: ListenerAdapter;
 
   constructor(pattern: string, listener: (data: BrokerEvent) => void) {
-    this.listenerAdapter = ListenerFactory.createListener();
+    this.subscribe(pattern, listener);
+  }
+
+  private async subscribe(
+    pattern: string,
+    listener: (data: BrokerEvent) => void,
+  ) {
+    this.listenerAdapter = await ListenerFactory.createListener();
 
     this.listenerAdapter.listen(pattern, listener);
   }

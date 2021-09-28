@@ -2,7 +2,6 @@ import { Container } from 'inversify';
 import { AbstractContainerComposer } from './abstract/abstract-container-composer';
 import { ControllersMetadataFactoryComposer } from './composers/factory/controllers-metadata-factory.composer';
 import { BrokerClientComposer } from './composers/broker-client.composer';
-import { IpcTransportComposer } from './composers/ipc-transport.composer';
 import { MetadataReadersComposer } from './composers/metadata-readers.composer';
 import { MiddlewareComposer } from './composers/middleware.composer';
 import { ConfigComposer } from './composers/config.composer';
@@ -17,7 +16,6 @@ import { BrokerResponseListenerFactoryComposer } from './composers/factory/broke
 
 export class ContainerComposition {
   private static composersOrder: ClassType<AbstractContainerComposer>[] = [
-    IpcTransportComposer,
     BrokerClientComposer,
     MetadataReadersComposer,
     MiddlewareFactoryComposer,
@@ -30,24 +28,31 @@ export class ContainerComposition {
     ModeComposer,
   ];
 
-  constructor(private container: Container, private config: ModuleConfig) {}
+  constructor(
+    private container: Container,
+    private config: ModuleConfig,
+    private extraComposers: ClassType<AbstractContainerComposer>[],
+  ) {}
 
-  public composeDependencies(): void {
+  public async composeDependencies(): Promise<void> {
     this.composeConfigDependency();
-    this.composeDependenciesInOrder();
+    await this.composeDependenciesInOrder();
   }
 
   private composeConfigDependency(): void {
     new ConfigComposer(this.container, this.config).compose();
   }
 
-  private composeDependenciesInOrder(): void {
-    for (const ComposerClass of ContainerComposition.composersOrder) {
+  private async composeDependenciesInOrder(): Promise<void> {
+    for (const ComposerClass of [
+      ...this.extraComposers,
+      ...ContainerComposition.composersOrder,
+    ]) {
       const composerInstance: AbstractContainerComposer = new ComposerClass(
         this.container,
       );
 
-      composerInstance.compose();
+      await composerInstance.compose();
     }
   }
 }

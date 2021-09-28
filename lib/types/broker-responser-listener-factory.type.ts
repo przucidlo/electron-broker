@@ -3,4 +3,4 @@ import { BrokerEvent } from '../interfaces/broker-event.interface';
 
 export type BrokerResponseListenerFactory = (
   brokerEvent: BrokerEvent,
-) => BrokerResponseListener;
+) => Promise<BrokerResponseListener>;

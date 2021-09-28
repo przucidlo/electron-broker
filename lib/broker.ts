@@ -2,7 +2,6 @@ import { Container } from 'inversify';
 import { Middleware, TransformableBrokerClient } from '.';
 import BrokerClient from './client/broker.client';
 import { Symbols } from './constants/symbols';
-import { ContainerComposition } from './container/container-composition';
 import { ModuleMode } from './interfaces/module-mode.interface';
 import { ClassType } from './types/class.type';
 import { Controller } from './types/controller.type';
@@ -10,33 +9,20 @@ import { ModuleConfig } from './types/module-config.type';
 
 export default class Broker {
   private container: Container;
+  private config: ModuleConfig;
 
   constructor(config: ModuleConfig) {
-    this.setContainer(config);
-    this.composeDependencies(config);
-    this.setMaxListeners();
-  }
+    this.config = config;
+    this.container = config.container;
 
-  private setContainer(config: ModuleConfig) {
-    if (config.container) {
-      this.container = config.container;
-    } else {
-      this.container = new Container({
-        autoBindInjectable: true,
-        defaultScope: 'Transient',
-      });
-    }
-  }
-
-  private composeDependencies(config: ModuleConfig): void {
-    new ContainerComposition(this.container, config).composeDependencies();
+    // this.setMaxListeners();
   }
 
   private setMaxListeners() {
     process.setMaxListeners(0);
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(
       Symbols.ModuleMode,
     );
