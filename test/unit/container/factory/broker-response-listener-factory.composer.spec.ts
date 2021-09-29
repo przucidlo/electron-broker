@@ -16,7 +16,7 @@ describe('BrokerResponseListenerFactoryComposer', () => {
   });
 
   describe('BrokerResponseListenerFactory', () => {
-    it('Should return a new instance of MiddlewareExecutor class', () => {
+    it('Should return a new instance of BrokerResponseListener class', () => {
       expect(
         brokerResponseListenerFactory(getMockBrokerEventData()) instanceof
           BrokerResponseListener,
