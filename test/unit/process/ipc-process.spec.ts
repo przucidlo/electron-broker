@@ -1,4 +1,4 @@
-import IpcProcess from '../../../lib/process/ipc-process';
+import IpcProcess from '../../../lib/core/process/ipc-process';
 import { mockProcess } from './mocks/mock-process';
 
 describe('IpcProcess', () => {

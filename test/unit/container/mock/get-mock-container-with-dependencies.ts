@@ -1,12 +1,19 @@
 import { Container } from 'inversify';
-import { ContainerComposition } from '../../../../lib/container/container-composition';
-import { ModuleConfig } from '../../../../lib/types/module-config.type';
+import { ProcessIpcTransportComposer } from '../../../../lib/core/container/composers/ipc/process-ipc-transport.composer';
+import { ContainerComposition } from '../../../../lib/core/container/container-composition';
+import { ModuleConfig } from '../../../../lib/core/types/module-config.type';
 
-export function getMockContainerWithDependencies(config?: ModuleConfig): Container {
-  const moduleConfig: ModuleConfig = config ? config : { mode: 'CLIENT' };
+export async function getMockContainerWithDependencies(
+  config?: ModuleConfig,
+): Promise<Container> {
+  const moduleConfig: ModuleConfig = config
+    ? config
+    : { mode: 'CLIENT', options: { secure: false } };
   const container = new Container({ autoBindInjectable: true });
 
-  new ContainerComposition(container, moduleConfig).composeDependencies();
+  await new ContainerComposition(container, moduleConfig, [
+    ProcessIpcTransportComposer,
+  ]).composeDependencies();
 
   return container;
 }

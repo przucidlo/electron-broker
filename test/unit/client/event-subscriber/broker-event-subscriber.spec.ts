@@ -1,6 +1,6 @@
-import { BrokerEventSubscriber } from '../../../../lib/client/event-subscriber/broker-event-subscriber';
-import { ListenerFactory } from '../../../../lib/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../../lib/client/listener-adapter/listener-adapter.interface';
+import { BrokerEventSubscriber } from '../../../../lib/core/client/event-subscriber/broker-event-subscriber';
+import { ListenerFactory } from '../../../../lib/core/client/listener-adapter/factory/listener-factory';
+import { ListenerAdapter } from '../../../../lib/core/client/listener-adapter/listener-adapter.interface';
 import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
 describe('BrokerEventSubscriber', () => {

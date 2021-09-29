@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { Middleware } from '../..';
+import { Middleware } from '../../..';
 import ExecutionContext from '../../controllers/execution-context';
 import { ClassTransformOptions, plainToClass } from 'class-transformer';
 

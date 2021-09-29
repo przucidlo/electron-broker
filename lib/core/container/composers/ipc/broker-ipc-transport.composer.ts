@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { Mode } from '../../..';
+import { Mode } from '../../../..';
 import { BrokerMainAdapter } from '../../../adapters/broker/broker-main.adapter';
 import { BrokerProcessAdapter } from '../../../adapters/broker/broker-process.adapter';
 import { BrokerRendererAdapter } from '../../../adapters/broker/broker-renderer.adapter';

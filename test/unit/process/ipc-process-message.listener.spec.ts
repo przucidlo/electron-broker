@@ -1,7 +1,7 @@
-import { IpcProcessChannels } from '../../../lib/process/ipc-process-channels';
-import { IpcProcessMessage } from '../../../lib/process/ipc-process-message.interface';
-import { IpcProcessMessageListener } from '../../../lib/process/ipc-process-message.listener';
-import { MessageHandler } from '../../../lib/types/message-handler.type';
+import { IpcProcessChannels } from '../../../lib/core/process/ipc-process-channels';
+import { IpcProcessMessage } from '../../../lib/core/process/ipc-process-message.interface';
+import { IpcProcessMessageListener } from '../../../lib/core/process/ipc-process-message.listener';
+import { MessageHandler } from '../../../lib/core/types/message-handler.type';
 import { mockProcess } from './mocks/mock-process';
 
 describe('IpcProcessMessageListener', () => {

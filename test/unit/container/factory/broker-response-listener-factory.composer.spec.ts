@@ -1,14 +1,14 @@
-import { BrokerResponseListener } from '../../../../lib/client/response-listener/broker-response-listener';
-import { Symbols } from '../../../../lib/constants/symbols';
-import { BrokerResponseListenerFactory } from '../../../../lib/types/broker-responser-listener-factory.type';
+import { BrokerResponseListener } from '../../../../lib/core/client/response-listener/broker-response-listener';
+import { Symbols } from '../../../../lib/core/constants/symbols';
+import { BrokerResponseListenerFactory } from '../../../../lib/core/types/broker-responser-listener-factory.type';
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
 import { getMockContainerWithDependencies } from '../mock/get-mock-container-with-dependencies';
 
 describe('BrokerResponseListenerFactoryComposer', () => {
   let brokerResponseListenerFactory: BrokerResponseListenerFactory;
 
-  beforeEach(() => {
-    const container = getMockContainerWithDependencies();
+  beforeEach(async () => {
+    const container = await getMockContainerWithDependencies();
 
     brokerResponseListenerFactory = container.get(
       Symbols.BrokerResponseListenerFactory,

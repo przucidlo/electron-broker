@@ -1,12 +1,12 @@
 jest.useFakeTimers();
 
-import { ListenerFactory } from '../../../../lib/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../../lib/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../../lib/client/response-listener/broker-response-listener';
-import { BROKER_EXCEPTION_MARKER } from '../../../../lib/constants/exceptions';
-import BrokerExceptionError from '../../../../lib/errors/broker-exception.error';
-import { RequestTimeoutError } from '../../../../lib/errors/request-timeout.error';
-import { BrokerEvent } from '../../../../lib/interfaces/broker-event.interface';
+import { ListenerFactory } from '../../../../lib/core/client/listener-adapter/factory/listener-factory';
+import { ListenerAdapter } from '../../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { BrokerResponseListener } from '../../../../lib/core/client/response-listener/broker-response-listener';
+import { BROKER_EXCEPTION_MARKER } from '../../../../lib/core/constants/exceptions';
+import BrokerExceptionError from '../../../../lib/core/errors/broker-exception.error';
+import { RequestTimeoutError } from '../../../../lib/core/errors/request-timeout.error';
+import { BrokerEvent } from '../../../../lib/core/interfaces/broker-event.interface';
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
 import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
@@ -22,6 +22,7 @@ describe('BrokerResponseListener', () => {
 
     brokerResponseListener = new BrokerResponseListener(
       getMockBrokerEventData(),
+      listenerAdapter,
     );
   });
 

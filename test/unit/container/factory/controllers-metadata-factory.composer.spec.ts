@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
-import { Symbols } from '../../../../lib/constants/symbols';
-import { ControllersMetadataFactory } from '../../../../lib/types/controllers-metadata-factory.type';
+import { Symbols } from '../../../../lib/core/constants/symbols';
+import { ControllersMetadataFactory } from '../../../../lib/core/types/controllers-metadata-factory.type';
 import {
   getMockTestControllerMetadata,
   MockTestController,
@@ -11,10 +11,13 @@ describe('ControllersMetadataFactoryComposer', () => {
   let controllersMetadataFactory: ControllersMetadataFactory;
   let container: Container;
 
-  beforeEach(() => {
-    container = getMockContainerWithDependencies({
+  beforeEach(async () => {
+    container = await getMockContainerWithDependencies({
       mode: 'CLIENT',
       controllers: [new MockTestController()],
+      options: {
+        secure: false,
+      },
     });
 
     controllersMetadataFactory = container.get(
@@ -31,10 +34,13 @@ describe('ControllersMetadataFactoryComposer', () => {
       );
     });
 
-    it('If controller is marked as injectable, it should be initialized using DI', () => {
-      container = getMockContainerWithDependencies({
+    it('If controller is marked as injectable, it should be initialized using DI', async () => {
+      container = await getMockContainerWithDependencies({
         mode: 'CLIENT',
         controllers: [MockTestController],
+        options: {
+          secure: false,
+        },
       });
       container
         .bind(MockTestController)

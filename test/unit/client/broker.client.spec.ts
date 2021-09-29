@@ -1,12 +1,12 @@
 jest.useFakeTimers();
 import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
-import { ListenerFactory } from '../../../lib/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../lib/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../lib/client/response-listener/broker-response-listener';
-import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
-import { MiddlewareExecutor } from '../../../lib/middleware/middleware-executor';
-import { MiddlewareExecutorFactory } from '../../../lib/types/middleware-executor-factory.type';
+import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
+import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { BrokerResponseListener } from '../../../lib/core/client/response-listener/broker-response-listener';
+import { BROKER_EVENT } from '../../../lib/core/constants/channels';
+import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
+import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
+import { MiddlewareExecutorFactory } from '../../../lib/core/types/middleware-executor-factory.type';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
@@ -29,7 +29,10 @@ describe('BrokerClient', () => {
 
     ipcTransport = getMockIpcTransport();
     mockMiddleware = { onRequest: jest.fn(), onResponse: jest.fn() };
-    brokerResponseListener = new BrokerResponseListener(brokerEvent);
+    brokerResponseListener = new BrokerResponseListener(
+      brokerEvent,
+      listenerAdapter,
+    );
 
     brokerClient = new BrokerClient(
       ipcTransport,

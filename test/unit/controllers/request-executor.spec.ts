@@ -1,10 +1,10 @@
-import { BROKER_EXCEPTION_MARKER } from '../../../lib/constants/exceptions';
-import { ExecutionContext } from '../../../lib/controllers/execution-context';
-import { HandlerParamsMapper } from '../../../lib/controllers/handler-params-mapper';
-import { RequestExecutor } from '../../../lib/controllers/request-executor';
-import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
-import Middleware from '../../../lib/interfaces/middleware.interface';
-import { MiddlewareExecutor } from '../../../lib/middleware/middleware-executor';
+import { BROKER_EXCEPTION_MARKER } from '../../../lib/core/constants/exceptions';
+import { ExecutionContext } from '../../../lib/core/controllers/execution-context';
+import { HandlerParamsMapper } from '../../../lib/core/controllers/handler-params-mapper';
+import { RequestExecutor } from '../../../lib/core/controllers/request-executor';
+import { ControllerHandlerMetadata } from '../../../lib/core/interfaces/controller-handler-metadata.interface';
+import Middleware from '../../../lib/core/interfaces/middleware.interface';
+import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import {
   getMockTestControllerMetadata,

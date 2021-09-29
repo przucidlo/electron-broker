@@ -1,6 +1,6 @@
-import { HANDLER_ARGS_METADATA } from '../../../lib/constants/decorators';
-import createParamDecorator from '../../../lib/decorators/create-param-decorator';
-import { HandlerParamMetadata } from '../../../lib/interfaces/handler-param-metadata.interface';
+import { HANDLER_ARGS_METADATA } from '../../../lib/core/constants/decorators';
+import createParamDecorator from '../../../lib/core/decorators/create-param-decorator';
+import { HandlerParamMetadata } from '../../../lib/core/interfaces/handler-param-metadata.interface';
 
 describe('createParamDecorator', () => {
   const MockDecorator = createParamDecorator((options, eventData) => {

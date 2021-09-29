@@ -1,5 +1,5 @@
-import { ProcessListener } from '../../../../lib/client/listener-adapter/adapters/process-listener';
-import { IpcProcessMessage } from '../../../../lib/process/ipc-process-message.interface';
+import { ProcessListener } from '../../../../lib/core/client/listener-adapter/adapters/process-listener';
+import { IpcProcessMessage } from '../../../../lib/core/process/ipc-process-message.interface';
 
 describe('ProcessListener', () => {
   const processSpy = jest.spyOn(process, 'on');

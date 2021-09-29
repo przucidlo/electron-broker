@@ -1,6 +1,6 @@
 import { IsoDateTransformerMiddleware } from '../../../lib';
-import { IsoDateTransformer } from '../../../lib/helpers/iso-date-transformer';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
+import { IsoDateTransformer } from '../../../lib/core/helpers/iso-date-transformer';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
 import { getMockExecutionContext } from '../controllers/__mocks__/get-mock-execution-context';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import {

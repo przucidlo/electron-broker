@@ -1,6 +1,6 @@
 import { ExecutionContext } from '../../../../lib';
-import { BrokerEvent } from '../../../../lib/interfaces/broker-event.interface';
-import { ControllerMetadata } from '../../../../lib/interfaces/controller-metadata.interface';
+import { BrokerEvent } from '../../../../lib/core/interfaces/broker-event.interface';
+import { ControllerMetadata } from '../../../../lib/core/interfaces/controller-metadata.interface';
 
 export function getMockExecutionContext(
   metadata: ControllerMetadata,

@@ -11,10 +11,10 @@ export class BrokerResponseListenerFactoryComposer extends ContainerConfiguarabl
 
   private bindFactory(): void {
     this.container.bind(Symbols.BrokerResponseListenerFactory).toFactory(
-      (): BrokerResponseListenerFactory => async (brokerEvent) => {
+      (): BrokerResponseListenerFactory => (brokerEvent) => {
         return new BrokerResponseListener(
           brokerEvent,
-          await ListenerFactory.createListener(),
+          ListenerFactory.createListener(),
         );
       },
     );

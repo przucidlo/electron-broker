@@ -1,4 +1,4 @@
-import { IsoDateTransformer } from '../../../lib/helpers/iso-date-transformer';
+import { IsoDateTransformer } from '../../../lib/core/helpers/iso-date-transformer';
 
 describe('IsoDateTransformer', () => {
   describe('transform', () => {

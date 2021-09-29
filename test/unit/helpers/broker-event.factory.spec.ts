@@ -1,5 +1,5 @@
-import { BrokerEventFactory } from '../../../lib/helpers/broker-event.factory';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
+import { BrokerEventFactory } from '../../../lib/core/helpers/broker-event.factory';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 
 describe('BrokerEventFactory', () => {

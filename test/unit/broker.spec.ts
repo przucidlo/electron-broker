@@ -1,9 +1,9 @@
 import { Container } from 'inversify';
 import { Broker, BrokerClient, TransformableBrokerClient } from '../../lib';
-import { Symbols } from '../../lib/constants/symbols';
-import ProcessTypeUnsupportedModeError from '../../lib/errors/process-type-unsupported-mode.error';
-import { ModuleMode } from '../../lib/interfaces/module-mode.interface';
-import { ModuleConfig } from '../../lib/types/module-config.type';
+import { Symbols } from '../../lib/core/constants/symbols';
+import { ModuleMode } from '../../lib/core/interfaces/module-mode.interface';
+import { ModuleConfig } from '../../lib/core/types/module-config.type';
+import { getMockContainerWithDependencies } from './container/mock/get-mock-container-with-dependencies';
 import { MockMiddleware } from './__mocks__/mock-middleware';
 import { MockTestController } from './__mocks__/mock-test-controller';
 
@@ -11,26 +11,24 @@ describe('Broker', () => {
   let container: Container;
   let broker: Broker;
 
-  beforeEach(() => {
-    container = new Container({ autoBindInjectable: true });
-    broker = new Broker({ container: container, mode: 'CLIENT' });
+  beforeEach(async () => {
+    container = await getMockContainerWithDependencies();
+    broker = new Broker({
+      container: container,
+      mode: 'CLIENT',
+      options: { secure: false },
+    });
   });
 
   describe('constructor', () => {
     it('If user doesnt provide a container object, should fallback to use internal container', () => {
-      broker = new Broker({ mode: 'CLIENT' });
+      broker = new Broker({
+        container: container,
+        mode: 'CLIENT',
+        options: { secure: false },
+      });
 
       expect(() => broker.start()).not.toThrowError();
-    });
-
-    it('Should throw ProcessTypeUnsupportedModeError', () => {
-      expect(
-        () =>
-          new Broker({
-            mode: 'BROKER',
-            options: { browserWindows: [], processes: [] },
-          }),
-      ).toThrowError(ProcessTypeUnsupportedModeError);
     });
   });
 

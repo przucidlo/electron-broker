@@ -1,4 +1,4 @@
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
 
 export function getMockBrokerEventData(): BrokerEvent {
   return {

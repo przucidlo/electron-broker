@@ -1,4 +1,4 @@
-import { BrokerListener } from '../../../../lib/client/listener-adapter/adapters/broker-listener';
+import { BrokerListener } from '../../../../lib/core/client/listener-adapter/adapters/broker-listener';
 import { clearElectronMock, ipcMain } from '../../__mocks__/electron-mock';
 
 describe('BrokerListener', () => {

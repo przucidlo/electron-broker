@@ -1,8 +1,8 @@
 import { ExecutionContext } from '../../../lib';
-import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
-import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
-import { ResultBroadcastMiddleware } from '../../../lib/middleware/internal/result-broadcast.middleware';
+import { BROKER_EVENT } from '../../../lib/core/constants/channels';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
+import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
+import { ResultBroadcastMiddleware } from '../../../lib/core/middleware/internal/result-broadcast.middleware';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 

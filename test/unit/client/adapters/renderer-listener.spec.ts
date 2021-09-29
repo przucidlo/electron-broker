@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { RendererListener } from '../../../../lib/client/listener-adapter/adapters/renderer-listener';
+import { RendererListener } from '../../../../lib/core/client/listener-adapter/adapters/renderer-listener';
 import { clearElectronMock } from '../../__mocks__/electron-mock';
 
 describe('RendererListener', () => {

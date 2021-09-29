@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { ExecutionContext } from '../../../lib/controllers/execution-context';
+import { ExecutionContext } from '../../../lib/core/controllers/execution-context';
 
 describe('ExecutionContext', () => {
   let executionContext: ExecutionContext;

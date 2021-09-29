@@ -1,4 +1,4 @@
-import { BrokerClient } from '../..';
+import { BrokerClient } from '../../..';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
 export class BrokerClientComposer extends ContainerConfiguarableComposer {

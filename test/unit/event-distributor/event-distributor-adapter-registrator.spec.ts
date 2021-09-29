@@ -1,9 +1,9 @@
-import { BrokerProcessAdapter } from '../../../lib/adapters/broker/broker-process.adapter';
-import { BrokerRendererAdapter } from '../../../lib/adapters/broker/broker-renderer.adapter';
-import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { EventDistributor } from '../../../lib/event-distributor/event-distributor';
-import { EventDistributorAdapterRegistrator } from '../../../lib/event-distributor/event-distributor-adapter-registrator';
-import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
+import { BrokerProcessAdapter } from '../../../lib/core/adapters/broker/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../../lib/core/adapters/broker/broker-renderer.adapter';
+import { BROKER_EVENT } from '../../../lib/core/constants/channels';
+import { EventDistributor } from '../../../lib/core/event-distributor/event-distributor';
+import { EventDistributorAdapterRegistrator } from '../../../lib/core/event-distributor/event-distributor-adapter-registrator';
+import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 

@@ -5,7 +5,7 @@ import Middleware from '../../interfaces/middleware.interface';
 import { isBrokerEvent } from '../../type-guards/is-broker-event.typeguard';
 
 /**
- * Built-in middleware that transforms ISO strings to Date object,
+ * Built-in middleware that transforms ISO strings to Date object
  * in outcoming and incoming messages.
  *
  * (Works both in broker and client modes)

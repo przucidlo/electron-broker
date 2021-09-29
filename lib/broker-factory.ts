@@ -1,15 +1,18 @@
 import { Container } from 'inversify';
 import { Broker } from '.';
-import { AbstractContainerComposer } from './container/abstract/abstract-container-composer';
-import { ContainerComposition } from './container/container-composition';
-import { ClassType } from './types/class.type';
-import { ModuleConfig } from './types/module-config.type';
+import { AbstractContainerComposer } from './core/container/abstract/abstract-container-composer';
+import { ContainerComposition } from './core/container/container-composition';
+import { ClassType } from './core/types/class.type';
+import { ModuleConfig } from './core/types/module-config.type';
 
 export default class BrokerFactory {
   public static async createMainBroker(config: ModuleConfig): Promise<Broker> {
     await this.composeDependencies(config, [
-      (await import('./container/composers/ipc/broker-ipc-transport.composer'))
-        .BrokerIpcTransportComposer,
+      (
+        await import(
+          './core/container/composers/ipc/broker-ipc-transport.composer'
+        )
+      ).BrokerIpcTransportComposer,
     ]);
 
     return new Broker(config);
@@ -21,7 +24,7 @@ export default class BrokerFactory {
     await this.composeDependencies(config, [
       (
         await import(
-          './container/composers/ipc/renderer-ipc-transport.composer'
+          './core/container/composers/ipc/renderer-ipc-transport.composer'
         )
       ).RendererIpcTransportComposer,
     ]);
@@ -33,8 +36,11 @@ export default class BrokerFactory {
     config: ModuleConfig,
   ): Promise<Broker> {
     await this.composeDependencies(config, [
-      (await import('./container/composers/ipc/process-ipc-transport.composer'))
-        .ProcessIpcTransportComposer,
+      (
+        await import(
+          './core/container/composers/ipc/process-ipc-transport.composer'
+        )
+      ).ProcessIpcTransportComposer,
     ]);
 
     return new Broker(config);

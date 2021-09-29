@@ -1,14 +1,14 @@
-import { RequestExecutorInjector } from '../../../lib/controllers/request-executor-injector';
-import { ExecutionContext } from '../../../lib/controllers/execution-context';
-import { RequestExecutor } from '../../../lib/controllers/request-executor';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
-import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
+import { RequestExecutorInjector } from '../../../lib/core/controllers/request-executor-injector';
+import { ExecutionContext } from '../../../lib/core/controllers/execution-context';
+import { RequestExecutor } from '../../../lib/core/controllers/request-executor';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
+import { ControllerMetadata } from '../../../lib/core/interfaces/controller-metadata.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import {
   getMockTestControllerMetadata,
   MOCK_TEST_CONTROLLER_PATTERN,
 } from '../__mocks__/mock-test-controller';
-import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
+import { ControllerHandlerMetadata } from '../../../lib/core/interfaces/controller-handler-metadata.interface';
 import { getMockExecutionContext } from './__mocks__/get-mock-execution-context';
 
 describe('RequestExecutorInjector', () => {

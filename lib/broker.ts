@@ -1,11 +1,11 @@
 import { Container } from 'inversify';
 import { Middleware, TransformableBrokerClient } from '.';
-import BrokerClient from './client/broker.client';
-import { Symbols } from './constants/symbols';
-import { ModuleMode } from './interfaces/module-mode.interface';
-import { ClassType } from './types/class.type';
-import { Controller } from './types/controller.type';
-import { ModuleConfig } from './types/module-config.type';
+import BrokerClient from './core/client/broker.client';
+import { Symbols } from './core/constants/symbols';
+import { ModuleMode } from './core/interfaces/module-mode.interface';
+import { ClassType } from './core/types/class.type';
+import { Controller } from './core/types/controller.type';
+import { ModuleConfig } from './core/types/module-config.type';
 
 export default class Broker {
   private container: Container;

@@ -1,7 +1,7 @@
-import { ControllersRegistrator } from '../../../lib/controllers/controllers-registrator';
-import { EventDistributor } from '../../../lib/event-distributor/event-distributor';
-import { EventDistributorAdapterRegistrator } from '../../../lib/event-distributor/event-distributor-adapter-registrator';
-import { BrokerMode } from '../../../lib/modes/broker.mode';
+import { ControllersRegistrator } from '../../../lib/core/controllers/controllers-registrator';
+import { EventDistributor } from '../../../lib/core/event-distributor/event-distributor';
+import { EventDistributorAdapterRegistrator } from '../../../lib/core/event-distributor/event-distributor-adapter-registrator';
+import { BrokerMode } from '../../../lib/core/modes/broker.mode';
 import { getMockControllersRegistrator } from './mocks/mock-controllers-registrator';
 
 describe('BrokerMode', () => {

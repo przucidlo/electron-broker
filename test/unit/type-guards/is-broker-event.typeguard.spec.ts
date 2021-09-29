@@ -1,4 +1,4 @@
-import { isBrokerEvent } from '../../../lib/type-guards/is-broker-event.typeguard';
+import { isBrokerEvent } from '../../../lib/core/type-guards/is-broker-event.typeguard';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 
 describe('isBrokerEvent', () => {

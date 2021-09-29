@@ -1,9 +1,9 @@
 import { ExecutionContext, TransformableBrokerClient } from '../../../lib';
-import { ListenerFactory } from '../../../lib/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../lib/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../lib/client/response-listener/broker-response-listener';
-import { MiddlewareExecutor } from '../../../lib/middleware/middleware-executor';
-import { MiddlewareExecutorFactory } from '../../../lib/types/middleware-executor-factory.type';
+import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
+import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { BrokerResponseListener } from '../../../lib/core/client/response-listener/broker-response-listener';
+import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
+import { MiddlewareExecutorFactory } from '../../../lib/core/types/middleware-executor-factory.type';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
@@ -13,7 +13,7 @@ describe('TransformableDoveClient', () => {
   let brokerResponseListener: BrokerResponseListener;
   let listenerAdapter: ListenerAdapter;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     listenerAdapter = getMockListenerAdapter();
     ListenerFactory.createListener = () => listenerAdapter;
 
@@ -23,6 +23,7 @@ describe('TransformableDoveClient', () => {
     const ipcTransport = getMockIpcTransport();
     brokerResponseListener = new BrokerResponseListener(
       getMockBrokerEventData(),
+      listenerAdapter,
     );
 
     transformableClient = new TransformableBrokerClient(
