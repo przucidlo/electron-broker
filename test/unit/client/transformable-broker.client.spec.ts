@@ -1,7 +1,7 @@
 import { ExecutionContext, TransformableBrokerClient } from '../../../lib';
 import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../lib/core/client/response-listener/broker-response-listener';
+import { ResponseListener } from '../../../lib/core/client/response-listener/response-listener';
 import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
 import { MiddlewareExecutorFactory } from '../../../lib/core/types/middleware-executor-factory.type';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
@@ -10,7 +10,7 @@ import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
 
 describe('TransformableDoveClient', () => {
   let transformableClient: TransformableBrokerClient;
-  let brokerResponseListener: BrokerResponseListener;
+  let responseListener: ResponseListener;
   let listenerAdapter: ListenerAdapter;
 
   beforeEach(async () => {
@@ -21,7 +21,7 @@ describe('TransformableDoveClient', () => {
       new MiddlewareExecutor((middleware) => <any>middleware, middleware);
 
     const ipcTransport = getMockIpcTransport();
-    brokerResponseListener = new BrokerResponseListener(
+    responseListener = new ResponseListener(
       getMockBrokerEventData(),
       listenerAdapter,
     );
@@ -31,7 +31,7 @@ describe('TransformableDoveClient', () => {
       middlewareExecutorFactory,
       (brokerEvent) => new ExecutionContext(undefined, brokerEvent),
       () => {
-        return brokerResponseListener;
+        return responseListener;
       },
     );
   });
@@ -43,7 +43,7 @@ describe('TransformableDoveClient', () => {
       const brokerEvent = getMockBrokerEventData();
       brokerEvent.data = {};
 
-      brokerResponseListener.listen = () =>
+      responseListener.listen = () =>
         new Promise((resolve) => resolve(brokerEvent));
 
       const result = await transformableClient.invoke('', {}, TestClass);

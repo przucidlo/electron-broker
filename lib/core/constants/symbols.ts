@@ -1,6 +1,6 @@
 export const Symbols = {
   BrokerIpcTransport: Symbol.for('BrokerIpcTransport'),
-  BrokerResponseListenerFactory: Symbol.for('BrokerResponseListenerFactory'),
+  ResponseListenerFactory: Symbol.for('ResponseListenerFactory'),
   ControllerMetadata: Symbol.for('ControllerMetadata'),
   ControllersMetadataFactory: Symbol.for('ControllersMetadataFactory'),
   ControllerMetadataReader: Symbol.for('ControllerMetadataReader'),

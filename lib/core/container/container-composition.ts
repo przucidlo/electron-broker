@@ -12,7 +12,7 @@ import { RequestExecutorFactoryComposer } from './composers/factory/request-exec
 import { MiddlewareFactoryComposer } from './composers/factory/middleware-factory.composer';
 import { MiddlewareExecutorFactoryComposer } from './composers/factory/middleware-executor-factory.composer';
 import { ClassType } from '../types/class.type';
-import { BrokerResponseListenerFactoryComposer } from './composers/factory/broker-response-listener-factory.composer';
+import { ResponseListenerFactoryComposer } from './composers/factory/response-listener-factory.composer';
 
 export class ContainerComposition {
   private static composersOrder: ClassType<AbstractContainerComposer>[] = [
@@ -22,7 +22,7 @@ export class ContainerComposition {
     MiddlewareExecutorFactoryComposer,
     ExecutionContextFactoryComposer,
     RequestExecutorFactoryComposer,
-    BrokerResponseListenerFactoryComposer,
+    ResponseListenerFactoryComposer,
     ControllersMetadataFactoryComposer,
     MiddlewareComposer,
     ModeComposer,

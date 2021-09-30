@@ -2,7 +2,7 @@ jest.useFakeTimers();
 import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
 import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../lib/core/client/response-listener/broker-response-listener';
+import { ResponseListener } from '../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EVENT } from '../../../lib/core/constants/channels';
 import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
 import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
@@ -14,7 +14,7 @@ import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
 describe('BrokerClient', () => {
   const brokerEvent = getMockBrokerEventData();
 
-  let brokerResponseListener: BrokerResponseListener;
+  let responseListener: ResponseListener;
   let listenerAdapter: ListenerAdapter;
   let brokerClient: BrokerClient;
   let ipcTransport: IpcTransport;
@@ -29,17 +29,14 @@ describe('BrokerClient', () => {
 
     ipcTransport = getMockIpcTransport();
     mockMiddleware = { onRequest: jest.fn(), onResponse: jest.fn() };
-    brokerResponseListener = new BrokerResponseListener(
-      brokerEvent,
-      listenerAdapter,
-    );
+    responseListener = new ResponseListener(brokerEvent, listenerAdapter);
 
     brokerClient = new BrokerClient(
       ipcTransport,
       middlewareExecutorFactory,
       (brokerEvent) => new ExecutionContext(undefined, brokerEvent),
       () => {
-        return brokerResponseListener;
+        return responseListener;
       },
     );
   });
@@ -117,7 +114,7 @@ describe('BrokerClient', () => {
     });
 
     it('Should return a response from Broker process', async () => {
-      brokerResponseListener.listen = () =>
+      responseListener.listen = () =>
         new Promise((resolve) => resolve(brokerEvent));
 
       const result = await brokerClient.invokeForBrokerEvent(pattern, data);
@@ -128,7 +125,7 @@ describe('BrokerClient', () => {
 
   describe('invoke', () => {
     it('Should call invokeForBrokerEvent and return data property of BrokerEvent', async () => {
-      brokerResponseListener.listen = () =>
+      responseListener.listen = () =>
         new Promise((resolve) => resolve(brokerEvent));
 
       const result = await brokerClient.invoke('', '');

@@ -7,7 +7,7 @@ import { BrokerEventFactory } from '../helpers/broker-event.factory';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
 import { IpcTransport } from '../interfaces/ipc-transport.interface';
 import { MiddlewareExecutor } from '../middleware/middleware-executor';
-import { BrokerResponseListenerFactory } from '../types/broker-responser-listener-factory.type';
+import { ResponseListenerFactory } from '../types/response-listener-factory.type';
 import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';
 import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
@@ -28,8 +28,8 @@ export default class BrokerClient {
     private middlewareExecutorFactory: MiddlewareExecutorFactory,
     @inject(Symbols.ClientExecutionContextFactory)
     private executionContextFactory: ClientExecutionContextFactory,
-    @inject(Symbols.BrokerResponseListenerFactory)
-    private brokerResponseListenerFactory: BrokerResponseListenerFactory,
+    @inject(Symbols.ResponseListenerFactory)
+    private brokerResponseListenerFactory: ResponseListenerFactory,
   ) {
     this.middleware = [];
   }

@@ -5,9 +5,9 @@ import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import { SerializedError } from '../../interfaces/serialized-error.interface';
 import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
 
-type BrokerListener = (response: BrokerEvent) => void;
+type Listener = (response: BrokerEvent) => void;
 
-export class BrokerResponseListener {
+export class ResponseListener {
   private readonly PROMISE_TIMEOUT: number = 30;
   private timeout: NodeJS.Timeout;
 
@@ -45,7 +45,7 @@ export class BrokerResponseListener {
   private createResponseListener(
     resolve: (value?: unknown) => void,
     reject: (value?: unknown) => void,
-  ): BrokerListener {
+  ): Listener {
     return (response) => {
       if (this.isExpectedResponse(response)) {
         const data = response.data;

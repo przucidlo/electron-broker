@@ -2,7 +2,7 @@ jest.useFakeTimers();
 
 import { ListenerFactory } from '../../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../../lib/core/client/listener-adapter/listener-adapter.interface';
-import { BrokerResponseListener } from '../../../../lib/core/client/response-listener/broker-response-listener';
+import { ResponseListener } from '../../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EXCEPTION_MARKER } from '../../../../lib/core/constants/exceptions';
 import BrokerExceptionError from '../../../../lib/core/errors/broker-exception.error';
 import { RequestTimeoutError } from '../../../../lib/core/errors/request-timeout.error';
@@ -10,8 +10,8 @@ import { BrokerEvent } from '../../../../lib/core/interfaces/broker-event.interf
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
 import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
-describe('BrokerResponseListener', () => {
-  let brokerResponseListener: BrokerResponseListener;
+describe('ResponseListener', () => {
+  let responseListener: ResponseListener;
   let listenerAdapter: ListenerAdapter;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('BrokerResponseListener', () => {
       .fn()
       .mockImplementation((): ListenerAdapter => listenerAdapter);
 
-    brokerResponseListener = new BrokerResponseListener(
+    responseListener = new ResponseListener(
       getMockBrokerEventData(),
       listenerAdapter,
     );
@@ -33,7 +33,7 @@ describe('BrokerResponseListener', () => {
         type: 'RESPONSE',
       };
 
-      const result = brokerResponseListener.listen();
+      const result = responseListener.listen();
 
       const listener = (<jest.Mock>listenerAdapter.listen).mock.calls[0][1];
       listener(response);
@@ -51,7 +51,7 @@ describe('BrokerResponseListener', () => {
           eventId: 'whatever-else-id-123',
         };
 
-        const result = brokerResponseListener.listen();
+        const result = responseListener.listen();
 
         const listener = (<jest.Mock>listenerAdapter.listen).mock.calls[0][1];
         listener(response);
@@ -67,7 +67,7 @@ describe('BrokerResponseListener', () => {
       expect.assertions(1);
 
       try {
-        const result = brokerResponseListener.listen();
+        const result = responseListener.listen();
 
         jest.runAllTimers();
 
@@ -89,7 +89,7 @@ describe('BrokerResponseListener', () => {
       };
 
       try {
-        const result = brokerResponseListener.listen();
+        const result = responseListener.listen();
 
         const listener = (<jest.Mock>listenerAdapter.listen).mock.calls[0][1];
         listener(response);
