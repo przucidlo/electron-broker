@@ -38,10 +38,10 @@ export default class IpcProcess {
   }
 
   public on(channel: string, listener: MessageHandler): void {
-    if (this.channels.isChannelFree(channel)) {
-      this.channels.addChannel(channel, listener);
-    } else {
-      throw new Error(`Listener for channel "${channel}" already exists.`);
-    }
+    this.channels.addChannel(channel, listener);
+  }
+
+  public removeListener(channel: string, listener: MessageHandler): void {
+    this.channels.removeChannel(channel, listener);
   }
 }

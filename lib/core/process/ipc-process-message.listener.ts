@@ -21,7 +21,7 @@ export class IpcProcessMessageListener {
   }
 
   private async forwardToChannel(message: IpcProcessMessage): Promise<void> {
-    const channelListener = this.channels.getChannelListenerByName(
+    const channelListener = this.channels.getChannelListenersByName(
       message.channelName,
     );
 
@@ -31,12 +31,22 @@ export class IpcProcessMessageListener {
   }
 
   private async callListenerAndRespond(
-    channelListener: MessageHandler,
+    channelListeners: MessageHandler[],
     message: IpcProcessMessage,
   ): Promise<void> {
-    const response = await Promise.resolve(channelListener(message.payload));
+    const listeners: Promise<void>[] = [];
 
-    this.respond(message.messageId, response);
+    for (const channelListener of channelListeners) {
+      const listenerExecution = async () => {
+        const response = await channelListener(message.payload);
+
+        this.respond(message.messageId, response);
+      };
+
+      listeners.push(listenerExecution());
+    }
+
+    await Promise.all(listeners);
   }
 
   private respond(messageId: string, response: any): void {
