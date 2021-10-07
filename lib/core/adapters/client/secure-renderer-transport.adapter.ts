@@ -1,13 +1,18 @@
 import { injectable } from 'inversify';
-import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import { ClientIpcTransport } from '../../interfaces/client-ipc-transport.interface';
 import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
-export class SecureRendererTransportAdapter implements IpcTransport {
-  send(pattern: string, data: unknown): void {
+export class SecureRendererTransportAdapter implements ClientIpcTransport {
+  public send(pattern: string, data: unknown): void {
     globalThis.broker.send(pattern, data);
   }
-  register(pattern: string, handler: MessageHandler): void {
+
+  public register(pattern: string, handler: MessageHandler): void {
     globalThis.broker.on(pattern, handler);
+  }
+
+  public unregister(pattern: string, handler: MessageHandler): void {
+    globalThis.broker.removeListener(pattern, handler);
   }
 }

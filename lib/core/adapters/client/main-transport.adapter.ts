@@ -2,22 +2,26 @@ import { ipcMain } from 'electron';
 import { inject, injectable } from 'inversify';
 import { EventDistributor } from '../../event-distributor/event-distributor';
 import { BrokerEvent } from '../../interfaces/broker-event.interface';
-import { IpcTransport } from '../../interfaces/ipc-transport.interface';
+import { ClientIpcTransport } from '../../interfaces/client-ipc-transport.interface';
 import { MessageHandler } from '../../types/message-handler.type';
 
 @injectable()
-export class MainTransportAdapter implements IpcTransport {
+export class MainTransportAdapter implements ClientIpcTransport {
   constructor(
     @inject(EventDistributor) private eventDistributor: EventDistributor,
   ) {}
 
-  send(pattern: string, data: BrokerEvent): void {
+  public send(pattern: string, data: BrokerEvent): void {
     this.eventDistributor.broadcast(data);
   }
 
-  register(pattern: string, handler: MessageHandler): void {
+  public register(pattern: string, handler: MessageHandler): void {
     ipcMain.on(pattern, (event, data) => {
       handler(data);
     });
+  }
+
+  public unregister(pattern: string, handler: MessageHandler): void {
+    ipcMain.removeListener(pattern, handler);
   }
 }
