@@ -1,3 +1,3 @@
-import { ListenerAdapter } from '../client/listener-adapter/listener-adapter.interface';
+import { IpcListener } from '../client/response-listener/ipc-listener';
 
-export type ListenerFactory = () => ListenerAdapter;
+export type ListenerFactory = () => IpcListener;

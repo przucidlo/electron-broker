@@ -3,7 +3,7 @@ import BrokerExceptionError from '../../errors/broker-exception.error';
 import { RequestTimeoutError } from '../../errors/request-timeout.error';
 import { BrokerEvent } from '../../interfaces/broker-event.interface';
 import { SerializedError } from '../../interfaces/serialized-error.interface';
-import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
+import { IpcListener } from './ipc-listener';
 
 type Listener = (response: BrokerEvent) => void;
 
@@ -13,7 +13,7 @@ export class ResponseListener {
 
   constructor(
     private brokerEvent: BrokerEvent,
-    private listenerAdapter: ListenerAdapter,
+    private listener: IpcListener,
   ) {}
 
   public async listen(): Promise<BrokerEvent> {
@@ -27,13 +27,13 @@ export class ResponseListener {
   }
 
   private cleanUp(): void {
-    this.listenerAdapter.removeListener();
+    this.listener.removeListener();
     clearTimeout(this.timeout);
   }
 
   private listenWithTimeout<T>(): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.listenerAdapter.listen(
+      this.listener.listen(
         this.brokerEvent.pattern,
         this.createResponseListener(resolve, reject),
       );

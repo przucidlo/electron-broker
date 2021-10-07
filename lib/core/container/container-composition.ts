@@ -13,9 +13,12 @@ import { MiddlewareFactoryComposer } from './composers/factory/middleware-factor
 import { MiddlewareExecutorFactoryComposer } from './composers/factory/middleware-executor-factory.composer';
 import { ClassType } from '../types/class.type';
 import { ResponseListenerFactoryComposer } from './composers/factory/response-listener-factory.composer';
+import { IpcListenerFactoryComposer } from './composers/factory/ipc-listener-factory.composer';
+import { Symbols } from '../constants/symbols';
 
 export class ContainerComposition {
   private static composersOrder: ClassType<AbstractContainerComposer>[] = [
+    IpcListenerFactoryComposer,
     BrokerClientComposer,
     MetadataReadersComposer,
     MiddlewareFactoryComposer,
