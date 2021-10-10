@@ -1,11 +1,8 @@
-import { BROKER_EXCEPTION_MARKER } from '../../constants/exceptions';
-import BrokerExceptionError from '../../errors/broker-exception.error';
 import { RequestTimeoutError } from '../../errors/request-timeout.error';
 import { BrokerEvent } from '../../interfaces/broker-event.interface';
-import { SerializedError } from '../../interfaces/serialized-error.interface';
+import { BrokerEventListener } from '../../types/broker-event-listener.type';
+import { ListenerBrokerEventFilter } from '../listener-broker-event-filter/broker-listener-event-filter';
 import { IpcListener } from './ipc-listener';
-
-type Listener = (response: BrokerEvent) => void;
 
 export class ResponseListener {
   private readonly PROMISE_TIMEOUT: number = 30;
@@ -18,7 +15,14 @@ export class ResponseListener {
 
   public async listen(): Promise<BrokerEvent> {
     try {
-      return await this.listenWithTimeout();
+      return await new Promise((resolve, reject) => {
+        this.listener.listen(
+          this.brokerEvent.pattern,
+          this.createResponseListener(resolve, reject),
+        );
+
+        this.setResponseTimeout(reject);
+      });
     } catch (err) {
       throw err;
     } finally {
@@ -27,47 +31,26 @@ export class ResponseListener {
   }
 
   private cleanUp(): void {
-    this.listener.removeListener();
     clearTimeout(this.timeout);
+    this.listener.removeListener();
   }
 
-  private listenWithTimeout<T>(): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.listener.listen(
-        this.brokerEvent.pattern,
-        this.createResponseListener(resolve, reject),
-      );
-
-      this.setResponseTimeout(reject);
-    });
-  }
-
-  private createResponseListener(
+  public createResponseListener(
     resolve: (value?: unknown) => void,
     reject: (value?: unknown) => void,
-  ): Listener {
+  ): BrokerEventListener {
     return (response) => {
-      if (this.isExpectedResponse(response)) {
-        const data = response.data;
-
-        if (!this.isBrokerException(data)) {
-          resolve(response);
-        } else {
-          reject(new BrokerExceptionError(data));
-        }
+      if (this.compareEventId(response)) {
+        return ListenerBrokerEventFilter.createEventFilter(
+          resolve,
+          reject,
+        )(response);
       }
     };
   }
 
-  private isExpectedResponse(response: BrokerEvent): boolean {
-    return (
-      response.eventId === this.brokerEvent.eventId &&
-      response.type === 'RESPONSE'
-    );
-  }
-
-  private isBrokerException(data?: unknown): data is SerializedError {
-    return data && data[BROKER_EXCEPTION_MARKER];
+  private compareEventId(response: BrokerEvent): boolean {
+    return response.eventId === this.brokerEvent.eventId;
   }
 
   private setResponseTimeout(reject: (reason: any) => void) {

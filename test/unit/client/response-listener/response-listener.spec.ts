@@ -2,6 +2,7 @@ jest.useFakeTimers();
 
 import { ListenerFactory } from '../../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { IpcListener } from '../../../../lib/core/client/response-listener/ipc-listener';
 import { ResponseListener } from '../../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EXCEPTION_MARKER } from '../../../../lib/core/constants/exceptions';
 import BrokerExceptionError from '../../../../lib/core/errors/broker-exception.error';
@@ -12,7 +13,7 @@ import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
 describe('ResponseListener', () => {
   let responseListener: ResponseListener;
-  let listenerAdapter: ListenerAdapter;
+  let listenerAdapter: IpcListener;
 
   beforeEach(() => {
     listenerAdapter = getMockListenerAdapter();

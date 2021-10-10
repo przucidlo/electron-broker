@@ -48,7 +48,7 @@ describe('IpcProcessMessageListener', () => {
     it('Should deny any message that isnt an instance of IpcProcessMessage', () => {
       const channelsSpy = jest.spyOn(
         ipcProcessChannels,
-        'getChannelListenerByName',
+        'getChannelListenersByName',
       );
 
       messageListener({ whatever: 'param' });

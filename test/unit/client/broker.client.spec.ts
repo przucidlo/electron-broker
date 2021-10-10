@@ -1,7 +1,9 @@
 jest.useFakeTimers();
 import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
+import { BrokerEventSubscriber } from '../../../lib/core/client/event-subscriber/broker-event-subscriber';
 import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { IpcListener } from '../../../lib/core/client/response-listener/ipc-listener';
 import { ResponseListener } from '../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EVENT } from '../../../lib/core/constants/channels';
 import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
@@ -15,13 +17,13 @@ describe('BrokerClient', () => {
   const brokerEvent = getMockBrokerEventData();
 
   let responseListener: ResponseListener;
-  let listenerAdapter: ListenerAdapter;
+  let listenerAdapter: IpcListener;
   let brokerClient: BrokerClient;
   let ipcTransport: IpcTransport;
   let mockMiddleware: Middleware;
 
   beforeEach(() => {
-    listenerAdapter = getMockListenerAdapter();
+    listenerAdapter = getMockListenerAdapter() as IpcListener;
     ListenerFactory.createListener = () => listenerAdapter;
 
     const middlewareExecutorFactory: MiddlewareExecutorFactory = (middleware) =>
@@ -38,6 +40,8 @@ describe('BrokerClient', () => {
       () => {
         return responseListener;
       },
+      (pattern, listener) =>
+        new BrokerEventSubscriber(listenerAdapter, pattern, listener),
     );
   });
 

@@ -15,4 +15,5 @@ export const Symbols = {
   ExecutionContextFactory: Symbol.for('ExecutionContextFactory'),
   ClientExecutionContextFactory: Symbol.for('ClientExecutionContextFactory'),
   RequestExecutorFactory: Symbol.for('RequestExecutorFactory'),
+  ClientSubscriberFactory: Symbol.for('ClientSubscriberFactory'),
 };

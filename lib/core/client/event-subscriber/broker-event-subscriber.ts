@@ -1,21 +1,26 @@
 import { BrokerEvent } from '../../interfaces/broker-event.interface';
-import { ListenerAdapter } from '../listener-adapter/listener-adapter.interface';
+import { IpcListener } from '../response-listener/ipc-listener';
 
 export class BrokerEventSubscriber {
-  private listenerAdapter: ListenerAdapter;
+  private ipcListener: IpcListener;
 
-  constructor(pattern: string, listener: (data: BrokerEvent) => void) {
-    this.subscribe(pattern, listener);
-  }
-
-  private async subscribe(
+  constructor(
+    ipcListener: IpcListener,
     pattern: string,
     listener: (data: BrokerEvent) => void,
   ) {
-    this.listenerAdapter.listen(pattern, listener);
+    this.ipcListener = ipcListener;
+    this.subscribe(pattern, listener);
+  }
+
+  protected subscribe(
+    pattern: string,
+    listener: (data: BrokerEvent) => void,
+  ): void {
+    this.ipcListener.listen(pattern, listener);
   }
 
   public unsubscribe(): void {
-    this.listenerAdapter.removeListener();
+    this.ipcListener.removeListener();
   }
 }

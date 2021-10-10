@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { ProcessIpcTransportComposer } from '../../../../lib/core/container/composers/ipc/process-ipc-transport.composer';
+import { IpcTransportProcessComposer } from '../../../../lib/process/container/composers/ipc-transport-process.composer';
 import { ContainerComposition } from '../../../../lib/core/container/container-composition';
 import { ModuleConfig } from '../../../../lib/core/types/module-config.type';
 
@@ -12,7 +12,7 @@ export async function getMockContainerWithDependencies(
   const container = new Container({ autoBindInjectable: true });
 
   await new ContainerComposition(container, moduleConfig, [
-    ProcessIpcTransportComposer,
+    IpcTransportProcessComposer,
   ]).composeDependencies();
 
   return container;

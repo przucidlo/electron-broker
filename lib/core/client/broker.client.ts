@@ -12,6 +12,7 @@ import { ClassType } from '../types/class.type';
 import { ClientExecutionContextFactory } from '../types/client-execution-context-factory.type';
 import { MiddlewareExecutorFactory } from '../types/middleware-executor-factory.type';
 import { BrokerEventSubscriber } from './event-subscriber/broker-event-subscriber';
+import { BrokerEventSubscriberFactory } from '../types/broker-event-subscriber-factory.type';
 
 type MiddlewareContext = {
   middlewareExecutor: MiddlewareExecutor;
@@ -30,6 +31,8 @@ export default class BrokerClient {
     private executionContextFactory: ClientExecutionContextFactory,
     @inject(Symbols.ResponseListenerFactory)
     private brokerResponseListenerFactory: ResponseListenerFactory,
+    @inject(Symbols.ClientSubscriberFactory)
+    private subscriberFactory: BrokerEventSubscriberFactory,
   ) {
     this.middleware = [];
   }
@@ -44,7 +47,7 @@ export default class BrokerClient {
     pattern: string,
     listener: (data: T, brokerEvent?: BrokerEvent) => void,
   ): BrokerEventSubscriber {
-    return new BrokerEventSubscriber(pattern, (event) => {
+    return this.subscriberFactory(pattern, (event) => {
       listener(<T>event.data, event);
     });
   }
