@@ -14,11 +14,9 @@ export default class Broker {
   constructor(config: ModuleConfig) {
     this.config = config;
     this.container = config.container;
-
-    // this.setMaxListeners();
   }
 
-  private setMaxListeners() {
+  protected setMaxListeners(): void {
     process.setMaxListeners(0);
   }
 

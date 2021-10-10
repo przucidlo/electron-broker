@@ -8,14 +8,11 @@ import { ModuleConfig } from './core/types/module-config.type';
 export default class BrokerFactory {
   public static async createMainBroker(config: ModuleConfig): Promise<Broker> {
     await this.composeDependencies(config, [
-      (
-        await import(
-          './core/container/composers/ipc/broker-ipc-transport.composer'
-        )
-      ).BrokerIpcTransportComposer,
+      (await import('./main/container/composers/ipc-transport-main.composer'))
+        .IpcTransportMainComposer,
     ]);
 
-    return new Broker(config);
+    return new (await import('./main/broker-main')).default(config);
   }
 
   public static async createRendererBroker(
@@ -24,12 +21,12 @@ export default class BrokerFactory {
     await this.composeDependencies(config, [
       (
         await import(
-          './core/container/composers/ipc/renderer-ipc-transport.composer'
+          './renderer/container/composers/renderer-ipc-transport.composer'
         )
       ).RendererIpcTransportComposer,
     ]);
 
-    return new Broker(config);
+    return new (await import('./renderer/broker-renderer')).default(config);
   }
 
   public static async createProcessBroker(
@@ -38,12 +35,12 @@ export default class BrokerFactory {
     await this.composeDependencies(config, [
       (
         await import(
-          './core/container/composers/ipc/process-ipc-transport.composer'
+          './process/container/composers/ipc-transport-process.composer'
         )
-      ).ProcessIpcTransportComposer,
+      ).IpcTransportProcessComposer,
     ]);
 
-    return new Broker(config);
+    return new (await import('./process/broker-process')).default(config);
   }
 
   private static async composeDependencies(
