@@ -1,10 +1,11 @@
 import { Mode } from '../../constants/mode.enum';
 import { Symbols } from '../../constants/symbols';
 import { ModuleMode } from '../../interfaces/module-mode.interface';
+import { CommonConfig } from '../../interfaces/options/common-config.interface';
 import { ClassType } from '../../types/class.type';
 import { ContainerConfiguarableComposer } from '../abstract/container-configurable-composer';
 
-export class ModeComposer extends ContainerConfiguarableComposer {
+export class ModeComposer extends ContainerConfiguarableComposer<CommonConfig> {
   public async compose(): Promise<void> {
     let mode: ClassType<ModuleMode>;
 

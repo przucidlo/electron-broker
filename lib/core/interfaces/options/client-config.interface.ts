@@ -1,7 +1,6 @@
 import { CommonConfig } from './common-config.interface';
 
-export interface ClientConfig extends CommonConfig {
-  mode: 'CLIENT';
+export interface ClientConfig extends Omit<CommonConfig, 'mode'> {
   options: {
     /**
      * Uses exposed methods of ipcRenderer object from preload.js file.

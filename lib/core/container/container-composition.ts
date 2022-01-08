@@ -14,11 +14,11 @@ import { MiddlewareExecutorFactoryComposer } from './composers/factory/middlewar
 import { ClassType } from '../types/class.type';
 import { ResponseListenerFactoryComposer } from './composers/factory/response-listener-factory.composer';
 import { IpcListenerFactoryComposer } from './composers/factory/ipc-listener-factory.composer';
-import { Symbols } from '../constants/symbols';
 import { BrokerEventSubscriberFactoryComposer } from './composers/factory/broker-event-subscriber-factory.composer';
+import { Composer } from '../types/composer.type';
 
 export class ContainerComposition {
-  private static composersOrder: ClassType<AbstractContainerComposer>[] = [
+  private static composersOrder: Composer[] = [
     IpcListenerFactoryComposer,
     BrokerClientComposer,
     MetadataReadersComposer,

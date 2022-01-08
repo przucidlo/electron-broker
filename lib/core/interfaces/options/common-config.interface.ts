@@ -5,5 +5,5 @@ import { Controller } from '../../types/controller.type';
 export interface CommonConfig {
   container?: Container;
   controllers?: Controller[];
-  mode: keyof typeof Mode;
+  mode?: keyof typeof Mode;
 }
