@@ -7,4 +7,8 @@ export default class BrokerProcess extends Broker {
 
     this.setMaxListeners();
   }
+
+  private setMaxListeners() {
+    process.setMaxListeners(0);
+  }
 }

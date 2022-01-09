@@ -16,10 +16,6 @@ export default class Broker {
     this.container = config.container;
   }
 
-  protected setMaxListeners(): void {
-    process.setMaxListeners(0);
-  }
-
   public async start(): Promise<void> {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(
       Symbols.ModuleMode,
