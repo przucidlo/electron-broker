@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron';
-import { IpcTransport } from '../../interfaces/ipc-transport.interface';
-import { MessageHandler } from '../../types/message-handler.type';
+import { IpcTransport } from '../../core/interfaces/ipc-transport.interface';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 export class BrokerRendererAdapter implements IpcTransport {
   constructor(private browserWindow: BrowserWindow) {}

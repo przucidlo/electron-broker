@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron';
 import { inject, injectable } from 'inversify';
-import { EventDistributor } from '../../event-distributor/event-distributor';
-import { BrokerEvent } from '../../interfaces/broker-event.interface';
-import { ClientIpcTransport } from '../../interfaces/client-ipc-transport.interface';
-import { MessageHandler } from '../../types/message-handler.type';
+import { EventDistributor } from '../../core/event-distributor/event-distributor';
+import { BrokerEvent } from '../../core/interfaces/broker-event.interface';
+import { ClientIpcTransport } from '../../core/interfaces/client-ipc-transport.interface';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 @injectable()
 export class MainTransportAdapter implements ClientIpcTransport {

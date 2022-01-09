@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { BrokerRendererAdapter } from '../../../../lib/core/adapters/broker/broker-renderer.adapter';
+import { BrokerRendererAdapter } from '../../../../lib/main/adapters/broker-renderer.adapter';
 import { ipcMain } from '../../__mocks__/electron-mock';
 
 describe('BrokerRendererAdapter', () => {

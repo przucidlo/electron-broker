@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
-import { ClientIpcTransport } from '../../interfaces/client-ipc-transport.interface';
-import IpcProcess from '../../process/ipc-process';
-import { MessageHandler } from '../../types/message-handler.type';
+import { ClientIpcTransport } from '../../core/interfaces/client-ipc-transport.interface';
+import IpcProcess from '../../core/process/ipc-process';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 @injectable()
 export class ProcessTransportAdapter implements ClientIpcTransport {

@@ -1,4 +1,4 @@
-import { BrokerProcessAdapter } from '../../../../lib/core/adapters/broker/broker-process.adapter';
+import { BrokerProcessAdapter } from '../../../../lib/main/adapters/broker-process.adapter';
 import IpcProcess from '../../../../lib/core/process/ipc-process';
 
 describe('BrokerProcessAdapter', () => {

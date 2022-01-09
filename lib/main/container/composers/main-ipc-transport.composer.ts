@@ -1,8 +1,8 @@
 import { BrowserWindow } from 'electron';
-import { BrokerMainAdapter } from '../../../core/adapters/broker/broker-main.adapter';
-import { BrokerProcessAdapter } from '../../../core/adapters/broker/broker-process.adapter';
-import { BrokerRendererAdapter } from '../../../core/adapters/broker/broker-renderer.adapter';
-import { MainTransportAdapter } from '../../../core/adapters/client/main-transport.adapter';
+import { BrokerMainAdapter } from '../../adapters/broker-main.adapter';
+import { BrokerProcessAdapter } from '../../adapters/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../adapters/broker-renderer.adapter';
+import { MainTransportAdapter } from '../../adapters/main-transport.adapter';
 import { Symbols } from '../../../core/constants/symbols';
 import IpcProcess from '../../../core/process/ipc-process';
 import { ContainerConfiguarableComposer } from '../../../core/container/abstract/container-configurable-composer';

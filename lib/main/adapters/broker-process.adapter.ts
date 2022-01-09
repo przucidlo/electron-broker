@@ -1,6 +1,6 @@
-import { IpcTransport } from '../../interfaces/ipc-transport.interface';
-import IpcProcess from '../../process/ipc-process';
-import { MessageHandler } from '../../types/message-handler.type';
+import { IpcTransport } from '../../core/interfaces/ipc-transport.interface';
+import IpcProcess from '../../core/process/ipc-process';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 export class BrokerProcessAdapter implements IpcTransport {
   constructor(private ipcProcess: IpcProcess) {}

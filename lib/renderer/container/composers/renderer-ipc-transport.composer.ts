@@ -10,14 +10,11 @@ export class RendererIpcTransportComposer extends ContainerConfiguarableComposer
 
     if (this.config.options.secure) {
       adapter = (
-        await import(
-          '../../../core/adapters/client/secure-renderer-transport.adapter'
-        )
+        await import('../../adapters/secure-renderer-transport.adapter')
       ).SecureRendererTransportAdapter;
     } else {
-      adapter = (
-        await import('../../../core/adapters/client/renderer-transport.adapter')
-      ).RendererTransportAdapter;
+      adapter = (await import('../../adapters/renderer-transport.adapter'))
+        .RendererTransportAdapter;
     }
 
     this.container.bind(Symbols.IpcTransport).to(adapter).inSingletonScope();

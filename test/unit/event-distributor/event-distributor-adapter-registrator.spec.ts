@@ -1,5 +1,5 @@
-import { BrokerProcessAdapter } from '../../../lib/core/adapters/broker/broker-process.adapter';
-import { BrokerRendererAdapter } from '../../../lib/core/adapters/broker/broker-renderer.adapter';
+import { BrokerProcessAdapter } from '../../../lib/main/adapters/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../../lib/main/adapters/broker-renderer.adapter';
 import { BROKER_EVENT } from '../../../lib/core/constants/channels';
 import { EventDistributor } from '../../../lib/core/event-distributor/event-distributor';
 import { EventDistributorAdapterRegistrator } from '../../../lib/core/event-distributor/event-distributor-adapter-registrator';

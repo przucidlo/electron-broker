@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
-import { ClientIpcTransport } from '../../interfaces/client-ipc-transport.interface';
-import { MessageHandler } from '../../types/message-handler.type';
+import { ClientIpcTransport } from '../../core/interfaces/client-ipc-transport.interface';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 @injectable()
 export class SecureRendererTransportAdapter implements ClientIpcTransport {

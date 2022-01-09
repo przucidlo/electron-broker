@@ -1,4 +1,4 @@
-import { ProcessTransportAdapter } from '../../../core/adapters/client/process-transport.adapter';
+import { ProcessTransportAdapter } from '../../adapters/process-transport.adapter';
 import { Symbols } from '../../../core/constants/symbols';
 import IpcProcess from '../../../core/process/ipc-process';
 import { ContainerConfiguarableComposer } from '../../../core/container/abstract/container-configurable-composer';

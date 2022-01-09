@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import { injectable } from 'inversify';
-import { IpcTransport } from '../../interfaces/ipc-transport.interface';
-import { MessageHandler } from '../../types/message-handler.type';
+import { IpcTransport } from '../../core/interfaces/ipc-transport.interface';
+import { MessageHandler } from '../../core/types/message-handler.type';
 
 @injectable()
 export class BrokerMainAdapter implements IpcTransport {

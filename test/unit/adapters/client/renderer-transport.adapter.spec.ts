@@ -1,4 +1,4 @@
-import { RendererTransportAdapter } from '../../../../lib/core/adapters/client/renderer-transport.adapter';
+import { RendererTransportAdapter } from '../../../../lib/renderer/adapters/renderer-transport.adapter';
 import { clearElectronMock, ipcRenderer } from '../../__mocks__/electron-mock';
 
 describe('RendererTransportAdapter', () => {

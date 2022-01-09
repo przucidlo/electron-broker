@@ -1,4 +1,4 @@
-import { ProcessTransportAdapter } from '../../../../lib/core/adapters/client/process-transport.adapter';
+import { ProcessTransportAdapter } from '../../../../lib/process/adapters/process-transport.adapter';
 import IpcProcess from '../../../../lib/core/process/ipc-process';
 
 describe('ProcessTransportAdapter', () => {

@@ -1,6 +1,6 @@
 import { inject, injectable, multiInject } from 'inversify';
-import { BrokerProcessAdapter } from '../adapters/broker/broker-process.adapter';
-import { BrokerRendererAdapter } from '../adapters/broker/broker-renderer.adapter';
+import { BrokerProcessAdapter } from '../../main/adapters/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../main/adapters/broker-renderer.adapter';
 import { BROKER_EVENT } from '../constants/channels';
 import { Symbols } from '../constants/symbols';
 import { BrokerEvent } from '../interfaces/broker-event.interface';
