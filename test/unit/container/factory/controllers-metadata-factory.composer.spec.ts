@@ -13,11 +13,9 @@ describe('ControllersMetadataFactoryComposer', () => {
 
   beforeEach(async () => {
     container = await getMockContainerWithDependencies({
-      mode: 'CLIENT',
+      mode: 'BROKER',
       controllers: [new MockTestController()],
-      options: {
-        secure: false,
-      },
+      secure: false,
     });
 
     controllersMetadataFactory = container.get(
@@ -38,9 +36,7 @@ describe('ControllersMetadataFactoryComposer', () => {
       container = await getMockContainerWithDependencies({
         mode: 'CLIENT',
         controllers: [MockTestController],
-        options: {
-          secure: false,
-        },
+        secure: false,
       });
       container
         .bind(MockTestController)

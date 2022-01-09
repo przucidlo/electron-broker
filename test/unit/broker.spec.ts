@@ -15,7 +15,7 @@ describe('Broker', () => {
     container = await getMockContainerWithDependencies();
     broker = new Broker({
       container: container,
-      options: { secure: false },
+      secure: false,
     });
   });
 
@@ -23,7 +23,7 @@ describe('Broker', () => {
     it('If user doesnt provide a container object, should fallback to use internal container', () => {
       broker = new Broker({
         container: container,
-        options: { secure: false },
+        secure: false,
       });
 
       expect(() => broker.start()).not.toThrowError();

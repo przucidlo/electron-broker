@@ -8,7 +8,7 @@ export class RendererIpcTransportComposer extends ContainerConfiguarableComposer
   public async compose(): Promise<void> {
     let adapter: ClassType<IpcTransport>;
 
-    if (this.config.options.secure) {
+    if (this.config.secure) {
       adapter = (
         await import('../../adapters/secure-renderer-transport.adapter')
       ).SecureRendererTransportAdapter;

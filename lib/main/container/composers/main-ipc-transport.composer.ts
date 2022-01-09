@@ -23,7 +23,7 @@ export class MainIpcTransportComposer extends ContainerConfiguarableComposer<Bro
   }
 
   private bindBrokerIpcTransportAdapters(): void {
-    const { browserWindows, processes } = this.config.options;
+    const { browserWindows, processes } = this.config;
 
     for (const adapterSource of [...browserWindows, ...processes]) {
       const adapter = this.createBrokerIpcTransportAdapter(adapterSource);
