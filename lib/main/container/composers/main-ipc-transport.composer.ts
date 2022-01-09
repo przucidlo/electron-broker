@@ -9,7 +9,7 @@ import { ContainerConfiguarableComposer } from '../../../core/container/abstract
 import { ChildProcess } from 'child_process';
 import { BrokerConfig } from '../../../core/interfaces/options/broker-config.interface';
 
-export class IpcTransportMainComposer extends ContainerConfiguarableComposer<BrokerConfig> {
+export class MainIpcTransportComposer extends ContainerConfiguarableComposer<BrokerConfig> {
   public compose(): void {
     this.container
       .bind(Symbols.IpcTransport)
