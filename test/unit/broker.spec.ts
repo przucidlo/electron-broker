@@ -75,14 +75,14 @@ describe('Broker', () => {
 
   describe('getClient', () => {
     it('Should return instance of BrokerClient', () => {
-      expect(broker.getClient() instanceof BrokerClient).toBe(true);
+      expect(broker.createClient() instanceof BrokerClient).toBe(true);
     });
   });
 
   describe('getTransformableClient', () => {
     it('Should return instance of TransformableBrokerClient', () => {
       expect(
-        broker.getTransformableClient() instanceof TransformableBrokerClient,
+        broker.createTransformableClient() instanceof TransformableBrokerClient,
       ).toBe(true);
     });
   });

@@ -55,11 +55,11 @@ export default class Broker {
     moduleConfig.controllers = [...controllers];
   }
 
-  public getClient(): BrokerClient {
+  public createClient(): BrokerClient {
     return this.container.get(BrokerClient);
   }
 
-  public getTransformableClient(): TransformableBrokerClient {
+  public createTransformableClient(): TransformableBrokerClient {
     return this.container.get(TransformableBrokerClient);
   }
 }
