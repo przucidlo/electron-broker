@@ -5,10 +5,10 @@ import TabItem from '@theme/TabItem';
 
 ## Introduction
 
-In this section, we will show you how to bind your `BrowserWindow` or `child process` instance to
-a `Broker` object. Which on the `main` process works as a bridge between all of the application processes
-that you decide to bind to it, besides that function It can also handle and send Its messages.
-It's a **crucial** part of the library, so make sure you set it up and connect your processes to it.
+In this section, you'll learn to how to bind your `BrowserWindow` or `ChildProcess` instance to
+a `Broker` object. Which created on the `main` process works as a bridge between all of the application
+processes. Besides that function, it can also handle and send its messages.
+It's a **crucial** part of the library, so make sure you set it up and bind your processes to it.
 
 ## Project structure
 
@@ -44,6 +44,17 @@ src/
 
 </TabItem>
 </Tabs>
+
+<div style={{display: "flex", justifyContent: "center"}}>
+
+| File          |                         Description                         |
+| ------------- | :---------------------------------------------------------: |
+| main.ts/js    |           An entry point file for `main` process.           |
+| preload.js    | A script exposing Electron internals to `renderer` process. |
+| index.html    |            An html file for renderer `process`.             |
+| index.tsx/jsx |         An entry point file for `renderer` process.         |
+
+</div>
 
 ## Setup
 
@@ -170,7 +181,7 @@ app.whenReady().then(bootstrap);
 ### Bind ChildProcess
 
 Besides `BrowserWindow` binding, `Broker` also supports binding of `ChildProcess` by providing its reference to
-config object. Let's assume that we already have a pre-bundled .js file in `./webpack/child.js` directory
+config object. Let's assume that we already have a pre-bundled javascript file in `./webpack/child.js` directory
 of our project, and we are going to spawn a `ChildProcess` with that file, then we are going to bind it
 to our `Broker` and start its instance.
 
