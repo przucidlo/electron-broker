@@ -121,7 +121,7 @@ import { join } from 'path';
 let mainWindow: BrowserWindow;
 let broker: Broker;
 
-function bootstrap() {
+async function bootstrap() {
   mainWindow = new BrowserWindow({
     width: 1024,
     heigt: 728,
@@ -130,7 +130,7 @@ function bootstrap() {
     },
   });
 
-  broker = BrokerFactory.createMainBroker({
+  broker = await BrokerFactory.createMainBroker({
     browserWindows: [mainWindow],
   });
 
@@ -154,7 +154,7 @@ import { join } from 'path';
 let mainWindow;
 let broker;
 
-function bootstrap() {
+async function bootstrap() {
   mainWindow = new BrowserWindow({
     width: 1024,
     heigt: 728,
@@ -163,7 +163,7 @@ function bootstrap() {
     },
   });
 
-  broker = BrokerFactory.createMainBroker({
+  broker = await BrokerFactory.createMainBroker({
     browserWindows: [mainWindow],
   });
 
@@ -199,7 +199,7 @@ let mainWindow: BrowserWindow;
 let broker: Broker;
 let childProcess: ChildProcess;
 
-function bootstrap() {
+async function bootstrap() {
   mainWindow = new BrowserWindow({
     width: 1024,
     heigt: 728,
@@ -210,7 +210,7 @@ function bootstrap() {
 
   childProcess = fork('./webpack/child.js', [], { silent: false });
 
-  broker = BrokerFactory.createMainBroker({
+  broker = await BrokerFactory.createMainBroker({
     browserWindows: [mainWindow],
     processes: [childProcess],
   });
@@ -237,7 +237,7 @@ let mainWindow;
 let broker;
 let childProcess;
 
-function bootstrap() {
+async function bootstrap() {
   mainWindow = new BrowserWindow({
     width: 1024,
     heigt: 728,
@@ -248,7 +248,7 @@ function bootstrap() {
 
   childProcess = fork('./webpack/child.js', [], { silent: false });
 
-  broker = BrokerFactory.createMainBroker({
+  broker = await BrokerFactory.createMainBroker({
     browserWindows: [mainWindow],
     processes: [childProcess],
   });
