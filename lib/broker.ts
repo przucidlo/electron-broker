@@ -16,7 +16,7 @@ export default class Broker {
     this.container = config.container;
   }
 
-  public async start(): Promise<void> {
+  public start(): void {
     const moduleMode: ModuleMode = this.container.get<ModuleMode>(
       Symbols.ModuleMode,
     );
