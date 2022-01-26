@@ -1,0 +1,146 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Setting-up the client
+
+## Introduction
+
+The `BrowserWindow` and `ChildProcess` are considered as the clients by the library, as you're not able to use those processes to forward the messages to any other process than `main` one. Beside that aspect, `Broker` object created on them uses the same API and features, as the one spawned on `main` process.
+
+## Connect BrowserWindow
+
+This example uses `React` as frontend framework, but rest of the code is universal, and you can apply it to any framework of your choice. Connecting the `BrowserWindow` is simple and fast as you can see in following example:
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {11} title="/src/renderer/index.tsx"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+let broker: Broker;
+let client: BrokerClient;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    secure: true,
+  });
+
+  broker.start();
+
+  client = broker.createClient();
+}
+
+async function init() {
+  await createBroker();
+
+  ReactDOM.render(
+    <App brokerClient={client} />,
+    document.getElementById('root'),
+  );
+}
+
+init();
+```
+
+</TabItem>
+
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {11} title="/src/renderer/index.jsx"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+let broker;
+let client;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    secure: true,
+  });
+
+  broker.start();
+
+  client = broker.createClient();
+}
+
+async function init() {
+  await createBroker();
+
+  ReactDOM.render(
+    <App brokerClient={client} />,
+    document.getElementById('root'),
+  );
+}
+
+init();
+```
+
+</TabItem>
+</Tabs>
+
+The `secure` property is used to indicate if your `BrowserWindow` is using `preload.js` file, but if you're not planning to use it, make sure to set this property to `false`, to make `Broker` send and receive messages by directly accessing `ipcRenderer` object.
+
+## Connect ChildProcess
+
+Connecting the `ChildProcess` is pretty straightforward, let's look at the following example:
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="/src/child/index.ts"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+
+let broker: Broker;
+let client: BrokerClient;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker();
+
+  broker.start();
+
+  client = broker.createClient();
+}
+
+async function init() {
+  await createBroker();
+}
+
+init();
+```
+
+</TabItem>
+
+<TabItem value="javascript" label="JavaScript">
+
+```js title="/src/child/index.js"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+
+let broker;
+let client;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker();
+
+  broker.start();
+
+  client = broker.createClient();
+}
+
+async function init() {
+  await createBroker();
+}
+
+init();
+```
+
+</TabItem>
+</Tabs>
+
+The `Broker` on `ChildProcess` does not require any further configuration, to start sending and receiving messages.
