@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 The `BrowserWindow` and `ChildProcess` are considered as the clients by the library, as you're not able to use those processes to forward the messages to any other process than `main` one. Beside that aspect, `Broker` object created on them uses the same API and features, as the one spawned on `main` process.
 
-## Connect BrowserWindow
+## BrowserWindow
 
 This example uses `React` as frontend framework, but rest of the code is universal, and you can apply it to any framework of your choice. Connecting the `BrowserWindow` is simple and fast as you can see in following example:
 
@@ -85,7 +85,7 @@ init();
 
 The `secure` property is used to indicate if your `BrowserWindow` is using `preload.js` file, but if you're not planning to use it, make sure to set this property to `false`, to make `Broker` send and receive messages by directly accessing `ipcRenderer` object.
 
-## Connect ChildProcess
+## ChildProcess
 
 Connecting the `ChildProcess` is pretty straightforward, let's look at the following example:
 

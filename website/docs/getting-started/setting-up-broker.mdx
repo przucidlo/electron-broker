@@ -58,7 +58,7 @@ src/
 
 ## Setup
 
-### Create preload.js file
+### Preload.js
 
 By default `BrowserWindow` has `nodeIntegration` disabled and `contextIsolation` enabled, and to be able
 to send and receive messages from the `renderer` process, you need to create a `preload.js` file, that will expose functions
@@ -99,7 +99,7 @@ If any definition of these methods differs, you might end up with unexpected beh
 
 :::
 
-### Bind BrowserWindow
+### BrowserWindow
 
 Our entry file for the `main` process will be very simple, we will create a new `BrowserWindow`, and
 pinpoint the location of our `preload.js` file by using `__dirname`, which gives us an absolute path
@@ -178,7 +178,7 @@ app.whenReady().then(bootstrap);
 </TabItem>
 </Tabs>
 
-### Bind ChildProcess
+### ChildProcess
 
 Besides `BrowserWindow` binding, `Broker` also supports binding of `ChildProcess` by providing its reference to
 config object. Let's assume that we already have a pre-bundled javascript file in `./webpack/child.js` directory
