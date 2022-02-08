@@ -64,13 +64,10 @@ export default class BrokerClient {
   }
 
   public async invoke<T>(pattern: string, data: unknown): Promise<T> {
-    return <T>(await this.invokeForBrokerEvent(pattern, data)).data;
+    return <T>(await this.invokeRaw(pattern, data)).data;
   }
 
-  public async invokeForBrokerEvent(
-    pattern: string,
-    data: unknown,
-  ): Promise<BrokerEvent> {
+  public async invokeRaw(pattern: string, data: unknown): Promise<BrokerEvent> {
     const {
       middlewareExecutor,
       executionContext,

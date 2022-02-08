@@ -2,7 +2,6 @@ jest.useFakeTimers();
 import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
 import { BrokerEventSubscriber } from '../../../lib/core/client/event-subscriber/broker-event-subscriber';
 import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../lib/core/client/listener-adapter/listener-adapter.interface';
 import { IpcListener } from '../../../lib/core/client/response-listener/ipc-listener';
 import { ResponseListener } from '../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EVENT } from '../../../lib/core/constants/channels';
@@ -101,12 +100,12 @@ describe('BrokerClient', () => {
     });
   });
 
-  describe('invokeForBrokerEvent', () => {
+  describe('invokeRaw', () => {
     const pattern = 'test';
     const data = 'test';
 
     it('Should send a BrokerEvent to Broker process', async () => {
-      brokerClient.invokeForBrokerEvent(pattern, data);
+      brokerClient.invokeRaw(pattern, data);
       jest.clearAllTimers();
 
       await Promise.resolve();
@@ -121,7 +120,7 @@ describe('BrokerClient', () => {
       responseListener.listen = () =>
         new Promise((resolve) => resolve(brokerEvent));
 
-      const result = await brokerClient.invokeForBrokerEvent(pattern, data);
+      const result = await brokerClient.invokeRaw(pattern, data);
 
       expect(result).toBe(brokerEvent);
     });
