@@ -27,13 +27,13 @@ export default class TransformableBrokerClient extends BrokerClient {
 
   public subscribe<T>(
     pattern: string,
-    listener: (data: T, brokerEvent?: BrokerEvent) => void,
+    listener: (data: T, brokerEvent?: BrokerEvent<T>) => void,
     target?: ClassType<T>,
   ): BrokerEventSubscriber {
-    return super.subscribe(pattern, (data, brokerEvent) => {
+    return super.subscribe(pattern, (data, event: BrokerEvent<T>) => {
       return listener(
         plainToClass(target, data, this.classTransformOptions),
-        brokerEvent,
+        event,
       );
     });
   }

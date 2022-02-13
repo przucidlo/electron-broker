@@ -45,10 +45,10 @@ export default class BrokerClient {
 
   public subscribe<T>(
     pattern: string,
-    listener: (data: T, brokerEvent?: BrokerEvent) => void,
+    listener: (data: T, brokerEvent?: BrokerEvent<T>) => void,
   ): BrokerEventSubscriber {
-    return this.subscriberFactory(pattern, (event) => {
-      listener(<T>event.data, event);
+    return this.subscriberFactory(pattern, (event: BrokerEvent<T>) => {
+      listener(event.data, event);
     });
   }
 
