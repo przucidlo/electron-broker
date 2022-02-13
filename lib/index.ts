@@ -27,6 +27,8 @@ export { default as IsoDateTransformerMiddleware } from './core/middleware/inter
 
 export * from './core/interfaces/middleware.interface';
 export { default as Middleware } from './core/interfaces/middleware.interface';
+export * from './core/interfaces/broker-event.interface';
+export { default as BrokerEvent } from './core/interfaces/broker-event.interface';
 
 export * from './core/controllers/execution-context';
 export { default as ExecutionContext } from './core/controllers/execution-context';
