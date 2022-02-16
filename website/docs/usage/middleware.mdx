@@ -1,0 +1,89 @@
+---
+sidebar_position: 3
+---
+
+# Middleware
+
+## Introduction
+Middleware methods have the access to `ExecutionContext` object. Which allows to modify the 
+incoming and outgoing messages. Execution order is reversed for outgoing messages.
+Therefore, the first Middleware will have its `onResponse()` method executed as last one.
+
+```typescript title="message-logger.middleware.ts"
+import { Middleware } from 'electron-broker';
+
+export class MessageLoggerMiddleware implements Middleware {
+  public onRequest(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+
+  public onResponse(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+}
+```
+
+## Applying middleware
+
+
+### Controller
+
+Middleware can be applied globally on controller, or its method by use of `UseMiddleware()` decorator.  
+```typescript {2,11} title="controller-middleware.ts"
+@Controller()
+@UseMiddleware([new MessageLoggerMiddleware()])
+export default class MiddlewareController {
+
+  @MessagePattern('test-route')
+  public testRoute(): string{
+    return "test";
+  }
+  
+  @MessagePattern('another-route')
+  @UseMiddleware([new RouteSpecificMiddleware()])
+  public anotherRoute(): number {
+    return 1;
+  }
+}
+```
+Controller level middleware is always executed before method one. Therefore, execution order in 
+this example will start with `MessageLoggerMiddleware` first, then end with `RouteSpecificMiddleware`.  
+
+Middleware can also be bound globally, to be available in every controller. By use of `setMiddleware()` method from `Broker` class.
+But it has to be done **before** calling the `start()` method.
+
+```typescript title="global-middleware.ts"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import MessageLogMiddleware from './message-logger.middleware.ts'
+
+let broker: Broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker();
+
+  broker.setMiddleware([new MessageLogMiddleware()])
+
+  broker.start();
+}
+
+createBroker();
+```
+
+### Client
+
+Client's middleware is set **per** `BrokerClient` class instance, with use of `setMiddleware()` method. 
+And is executed after usage of `send()`, `invoke()`, and `invokeRaw()` methods.
+
+```typescript title="client-middleware.ts"
+brokerClient.setMiddleware([new MessageLogMiddleware()])
+```
+:::info
+Middleware set in `Broker` context, is **not** available in `BrokerClient` context.
+:::
+
+
