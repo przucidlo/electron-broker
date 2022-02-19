@@ -9,6 +9,9 @@ Middleware methods have the access to `ExecutionContext` object. Which allows to
 incoming and outgoing messages. Execution order is reversed for outgoing messages.
 Therefore, the first Middleware will have its `onResponse()` method executed as last one.
 
+## Implementation
+Creating of middleware is done by implementation of `Middleware` interface.
+
 ```typescript title="message-logger.middleware.ts"
 import { Middleware } from 'electron-broker';
 
@@ -53,8 +56,8 @@ export default class MiddlewareController {
 Controller level middleware is always executed before method one. Therefore, execution order in 
 this example will start with `MessageLoggerMiddleware` first, then end with `RouteSpecificMiddleware`.  
 
-Middleware can also be bound globally, to be available in every controller. By use of `setMiddleware()` method from `Broker` class.
-But it has to be done **before** calling the `start()` method.
+By use of `setMiddleware()` method of `Broker` class, it's possible to apply middleware to each 
+controller that you bind to `Broker` instance. But it has to be done **before** calling the `start()` method.
 
 ```typescript title="global-middleware.ts"
 import 'reflect-metadata';
@@ -86,4 +89,22 @@ brokerClient.setMiddleware([new MessageLogMiddleware()])
 Middleware set in `Broker` context, is **not** available in `BrokerClient` context.
 :::
 
+## Stopping execution
+While creating the middleware feature there was no plan to disrupt the message handling. 
+Therefore, the only way to stop it now, is to throw an error either in `onRequest()` or `onResponse()` methods. 
 
+```typescript title="user-guard.middleware.ts"
+export default class UserGuardMiddleware { 
+  public onRequest(context: ExecutionContext) {
+    const { user } = context.brokerEvent;
+
+    if(!user) {
+      throw new Error('BrokerEvent lacks user property, stopping the execution...')
+    }
+  }
+}
+```
+
+## Lifecycle
+Each time the middleware executes, broker creates a copy of it, and discards it after
+the message leaves its origin. 
