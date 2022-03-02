@@ -3,4 +3,5 @@ import { BrokerEvent } from '../interfaces/broker-event.interface';
 
 export type ResponseListenerFactory = (
   brokerEvent: BrokerEvent,
+  timeoutInSeconds: number,
 ) => ResponseListener;

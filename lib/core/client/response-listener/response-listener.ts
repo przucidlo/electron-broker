@@ -5,12 +5,12 @@ import { ListenerBrokerEventFilter } from '../listener-broker-event-filter/broke
 import { IpcListener } from './ipc-listener';
 
 export class ResponseListener {
-  private readonly PROMISE_TIMEOUT: number = 30;
   private timeout: NodeJS.Timeout;
 
   constructor(
     private brokerEvent: BrokerEvent,
     private listener: IpcListener,
+    private timeoutInSeconds: number = 30,
   ) {}
 
   public async listen(): Promise<BrokerEvent> {
@@ -23,8 +23,6 @@ export class ResponseListener {
 
         this.setResponseTimeout(reject);
       });
-    } catch (err) {
-      throw err;
     } finally {
       this.cleanUp();
     }
@@ -56,7 +54,7 @@ export class ResponseListener {
   private setResponseTimeout(reject: (reason: any) => void) {
     this.timeout = setTimeout(
       () => reject(new RequestTimeoutError()),
-      this.PROMISE_TIMEOUT * 1000,
+      this.timeoutInSeconds * 1000,
     );
   }
 }

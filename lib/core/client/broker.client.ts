@@ -22,6 +22,7 @@ type MiddlewareContext = {
 @injectable()
 export default class BrokerClient {
   private middleware: (ClassType<Middleware> | Middleware)[];
+  private timeoutInSeconds: number;
 
   constructor(
     @inject(Symbols.IpcTransport) private ipcTransport: IpcTransport,
@@ -83,6 +84,10 @@ export default class BrokerClient {
     );
   }
 
+  public setTimeout(timeoutInSeconds: number): void {
+    this.timeoutInSeconds = timeoutInSeconds;
+  }
+
   private prepareMiddlewareContext(
     pattern: string,
     data: unknown,
@@ -100,6 +105,9 @@ export default class BrokerClient {
   private async listenForResponse(
     brokerEvent: BrokerEvent,
   ): Promise<BrokerEvent> {
-    return await this.brokerResponseListenerFactory(brokerEvent).listen();
+    return await this.brokerResponseListenerFactory(
+      brokerEvent,
+      this.timeoutInSeconds,
+    ).listen();
   }
 }

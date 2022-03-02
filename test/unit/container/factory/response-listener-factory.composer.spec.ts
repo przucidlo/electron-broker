@@ -16,7 +16,7 @@ describe('ResponseListenerFactoryComposer', () => {
   describe('ResponseListenerFactory', () => {
     it('Should return a new instance of ResponseListener class', () => {
       expect(
-        responseListenerFactory(getMockBrokerEventData()) instanceof
+        responseListenerFactory(getMockBrokerEventData(), 30) instanceof
           ResponseListener,
       ).toBe(true);
     });

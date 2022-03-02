@@ -15,8 +15,12 @@ export class ResponseListenerFactoryComposer extends ContainerConfiguarableCompo
     );
 
     this.container.bind(Symbols.ResponseListenerFactory).toFactory(
-      (): ResponseListenerFactory => (brokerEvent) => {
-        return new ResponseListener(brokerEvent, listenerFactory());
+      (): ResponseListenerFactory => (brokerEvent, timeoutInSeconds) => {
+        return new ResponseListener(
+          brokerEvent,
+          listenerFactory(),
+          timeoutInSeconds,
+        );
       },
     );
   }
