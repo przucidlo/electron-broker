@@ -14,14 +14,13 @@ This example uses `React` as frontend framework, but rest of the code is univers
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
-```typescript {11} title="/src/renderer/index.tsx"
+```typescript {10} title="/src/renderer/index.tsx"
 import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 let broker: Broker;
-let client: BrokerClient;
 
 async function createBroker() {
   broker = await BrokerFactory.createRendererBroker({
@@ -29,15 +28,13 @@ async function createBroker() {
   });
 
   broker.start();
-
-  client = broker.createClient();
 }
 
 async function init() {
   await createBroker();
 
   ReactDOM.render(
-    <App brokerClient={client} />,
+    <App />,
     document.getElementById('root'),
   );
 }
@@ -49,14 +46,13 @@ init();
 
 <TabItem value="javascript" label="JavaScript">
 
-```typescript {11} title="/src/renderer/index.jsx"
+```typescript {10} title="/src/renderer/index.jsx"
 import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 let broker;
-let client;
 
 async function createBroker() {
   broker = await BrokerFactory.createRendererBroker({
@@ -64,15 +60,13 @@ async function createBroker() {
   });
 
   broker.start();
-
-  client = broker.createClient();
 }
 
 async function init() {
   await createBroker();
 
   ReactDOM.render(
-    <App brokerClient={client} />,
+    <App />,
     document.getElementById('root'),
   );
 }
@@ -97,14 +91,11 @@ import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 
 let broker: Broker;
-let client: BrokerClient;
 
 async function createBroker() {
   broker = await BrokerFactory.createProcessBroker();
 
   broker.start();
-
-  client = broker.createClient();
 }
 
 async function init() {
@@ -123,14 +114,11 @@ import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 
 let broker;
-let client;
 
 async function createBroker() {
   broker = await BrokerFactory.createProcessBroker();
 
   broker.start();
-
-  client = broker.createClient();
 }
 
 async function init() {
