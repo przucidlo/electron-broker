@@ -1,0 +1,206 @@
+---
+sidebar_position: 4
+---
+
+# Dependency Injection
+
+## Introduction
+Dependency injection is a design pattern, that moves building of object dependencies out of its scope,
+and provides them by injecting them through many means (e.g by passing them in constructor), and freeing the object
+from manually building its dependencies. Therefore, achieving [seperation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns),
+as said object doesn't need to "know" how its dependencies are built.
+
+Broker internally uses the IoC container from `InversifyJS` package, to manage its dependencies.
+Currently it's the only container it works out of a box with, but in future it might support 
+all major javascript DI libraries. But it's possible to use different containers, 
+see [custom container](#custom-container) section.
+
+The use of it is completly optional, if you want to manually build your classes, you're free to
+skip this part of documentation.
+
+
+:::note
+We won't be explaining details about `InversifyJS` in this section. Find out more about it at its [documentation](https://github.com/inversify/InversifyJS).
+:::
+
+## Installation
+Make sure to install `InversifyJS` and `reflect-metadata` packages.
+
+```
+npm install inversify reflect-metadata 
+```
+
+## Setup
+To make Inversify automatically resolve dependencies between our objects, let's set the `autoBindInjectable`
+property to `true`, and pass the `container` object to broker options. 
+
+```typescript {6,13} title="index.ts"
+import { BrokerFactory, Broker } from 'electron-broker';
+import { Container } from 'inversify';
+import 'reflect-metadata';
+
+const container: Container = new Container({
+  autoBindInjectable: true,
+})
+
+let broker: Broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker({
+    container: container,
+  });
+
+  broker.start();
+}
+```
+
+## Binding controllers
+
+Mark the controller with `@Injectable()` decorator, to make it resolveable by the container,
+and specify its dependency in the constructor.
+```typescript {4} title="cats.controller.ts"
+import { Injectable } from 'inversify';
+import { Controller, MessagePattern } from 'electron-broker';
+
+@Injectable()
+@Controller('cats')
+export default class CatsController {
+  @MessagePattern('get-breeds')
+  public getBreeds(): string[] {
+    return ["Persian", "Maine Coon", "Sphynx"];
+  }
+}
+```
+
+And provide the controller class reference to `controllers` to broker settings. When you provide the broker 
+with controller class definition, it will attempt to resolve it within the container, and will throw an error
+if fails to do so. 
+
+```typescript {9} title="index.ts"
+import "reflect-metadata";
+import { BrokerFactory } from "electron-broker";
+import { Container } from "inversify";
+import CatsController from "./cats.controller.ts";
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker({
+    container: container,
+    controllers: [CatsController]
+  });
+
+  broker.start();
+}
+
+createBroker();
+```
+
+## Binding middleware
+Mark the Middleware with `@Injectable()` decorator, to make it resolveable by the container.
+
+```typescript {4} title="message-logger.middleware.ts"
+import { Middleware } from 'electron-broker';
+import { Injectable } from 'inversify';
+
+@Injectable()
+export class MessageLoggerMiddleware implements Middleware {
+  public onRequest(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+
+  public onResponse(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+}
+```
+
+And pass the middleware class reference to `UseMiddleware()` decorator. If broker fails to resolve the reference
+within its container, it will thrown an error.
+
+```typescript {9} title="ping.controller.ts"
+import { Controller, MessagePattern } from 'electron-broker';
+import { Injectable } from 'inversify';
+import { MessageLoggerMiddleware } from './message-logger.middleware.ts'
+
+@Controller()
+@Injectable()
+export default class PingPongController {
+  @MessagePattern('ping')
+  @UseMiddleware([MessageLoggerMiddleware])
+  public getPong(): string {
+    return "pong";
+  }
+}
+```
+
+## Accesing BrokerClient
+Accessing `BrokerClient` instance within any of your classes, is possible by specifing it in their constructors.
+Keep in mind that each of those instances will be **unique**.
+
+
+```typescript {6} title="mock.service.ts"
+import { BrokerClient } from "electron-broker";
+import { Injectable } from 'inversifyjs'
+
+@Injectable()
+export default class MockService {
+  constructor(private brokerClient: BrokerClient) {}
+
+  public sendSomething(): void {
+    this.brokerClient.send('something', 'anything');
+  }
+}
+```
+
+To use the same instance of `BrokerClient` across all of your classes, simply bind the instance to the container,
+before calling the `start()` method of `Broker` class.
+
+```typescript {18} title="index.ts"
+import "reflect-metadata";
+import { BrokerFactory } from "electron-broker";
+import { Container } from "inversify";
+import CatsController from "./cats.controller.ts";
+
+// Token used to identify our custom broker client
+export CUSTOM_BROKER_CLIENT: string = Symbol.for('custom-broker-client');
+
+async function createBroker() {
+  const container = new Container({ autoBindInjectable: true });
+
+  broker = await BrokerFactory.createProcessBroker({
+    container: container,
+  });
+  
+  const customBrokerClient = broker.createClient();
+
+  container.bind(CUSTOM_BROKER_CLIENT).toConstantValue(customBrokerClient);
+
+  broker.start();
+}
+
+createBroker();
+```
+
+And inject it to any constructor by use of `Inject()` decorator.
+
+```typescript {7} title="mock.service.ts"
+import { BrokerClient } from "electron-broker";
+import { Injectable, Inject } from "inversifyjs";
+import { CUSTOM_BROKER_CLIENT } from "./index.ts";
+
+@Injectable()
+export default class MockService {
+  constructor(@Inject(CUSTOM_BROKER_CLIENT) private brokerClient: BrokerClient) {}
+
+  public sendSomething(): void {
+    this.brokerClient.send('something', 'anything');
+  }
+}
+```
+
+## Custom container
+
+WIP
