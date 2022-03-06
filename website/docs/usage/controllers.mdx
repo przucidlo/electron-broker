@@ -17,14 +17,14 @@ By usage of `MessagePattern()` decorator we can create a route, that controller 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
-```typescript {6} title="ping.controller.ts"
+```typescript {5} title="ping.controller.ts"
 import { Controller, MessagePattern } from 'electron-broker';
 
 @Controller()
 export default class PingPongController {
   @MessagePattern('ping')
   public getPong(): string {
-    return "pong";
+    return 'pong';
   }
 }
 
@@ -33,7 +33,7 @@ export default class PingPongController {
 </TabItem>
 <TabItem value="javascript" label="JavaScript">
 
-```typescript {6} title="ping.controller.js"
+```typescript {5} title="ping.controller.js"
 import { Controller, MessagePattern } from 'electron-broker';
 
 @Controller()
@@ -103,7 +103,6 @@ import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 import ShopController from './shop.controller.ts';
 
 let broker: Broker;
-let client: BrokerClient;
 
 async function createBroker() {
   broker = await BrokerFactory.createRendererBroker({
@@ -112,8 +111,6 @@ async function createBroker() {
   });
 
   broker.start();
-
-  client = broker.createClient();
 }
 ```
 
@@ -126,7 +123,6 @@ import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 import ShopController from './shop.controller.ts';
 
 let broker;
-let client;
 
 async function createBroker() {
   broker = await BrokerFactory.createRendererBroker({
@@ -135,8 +131,6 @@ async function createBroker() {
   });
 
   broker.start();
-
-  client = broker.createClient();
 }
 ```
 
@@ -256,7 +250,7 @@ export default class EventIdController {
 ## Custom decorators
 
 Custom decorators are useful while working with middleware, that is injecting
-custom properties into the `BrokerEvent`, as it provides you with the access to them.
+custom properties into the `BrokerEvent`, as it provides you with easy the access to them.
 
 <Tabs>
 <TabItem value="typescript" label="Typescript">
