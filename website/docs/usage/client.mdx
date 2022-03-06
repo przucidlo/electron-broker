@@ -12,7 +12,7 @@ Each instance it returns is **unique**. Therefore, middleware bound to one insta
 in another one.  
 
 ```typescript {14} title="index.tsx"
-import "reflect-metadata";
+import 'reflect-metadata';
 import { BrokerClient, Broker } from 'electron-broker';
 
 let broker: Broker;
@@ -53,7 +53,7 @@ It takes the pattern as first arguement, and payload as second one.
 ```typescript {5} title="invoke.ts"
 async function checkWeather(): Promise<string> {
   const pattern = 'check-weather';
-  const payload = { city: "Warsaw" }; 
+  const payload = { city: 'Warsaw' }; 
 
   return broker.invoke(pattern, payload);
 }
@@ -68,7 +68,7 @@ But upon response, it returns the `BrokerEvent` object instead of its `data` pro
 ```typescript {5} title="invoke-raw.ts"
 async function checkWeatherRaw(): Promise<BrokerEvent> {
   const pattern = 'check-weather';
-  const payload = { city: "Warsaw" };
+  const payload = { city: 'Warsaw' };
   
   return broker.invokeRaw(pattern, payload);
 }
@@ -125,5 +125,9 @@ class MessageLogMiddleware implements Middleware {
 brokerClient.setMiddleware([new MessageLogMiddleware()])
 ```
 
+## SetTimeout
+Sets the amount of seconds that client will await for the answer to the message, by default it fallbacks to 30 seconds.
 
-
+```typescript title="timeout.ts"
+brokerClient.setTimeout(30);
+```
