@@ -3,11 +3,59 @@
  * and scoped locally.
  */
 
+.main {
+  /* display: flex; */
+}
+
+.image {
+  max-height: 298px;
+}
+
 .heroBanner {
-  padding: 4rem 0;
+  align-self: center;
+  width: 100%;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  padding: 6rem;
+}
+
+[data-theme='dark'] .heroBannerBackground {
+  background-color: var(--ifm-color-primary-darkest);
+}
+
+[data-theme='light'] .heroBannerBackground {
+  background-color: #e1f5fe;
+}
+
+.heroWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.githubButton {
+  margin-left: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.githubLogo {
+  mask-image: url(/img/github.svg);
+  /* -webkit-mask-image: url(/img/github.svg); */
+  margin-right: 0.25rem;
+  width: 24px;
+  height: 24px;
+  background-color: var(--ifm-color-primary);
+  font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
+}
+
+[data-theme='light'] .githubButton:hover .githubLogo {
+  background-color: white;
+}
+
+[data-theme='dark'] .githubButton:hover .githubLogo {
+  background-color: black;
 }
 
 @media screen and (max-width: 966px) {
@@ -16,8 +64,16 @@
   }
 }
 
+@media screen and (max-width: 480px) {
+  .githubButton {
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
+}
+
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }

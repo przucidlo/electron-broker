@@ -7,18 +7,38 @@ import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx(styles.heroBanner, styles.heroBannerBackground)}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
+        <div className="row row--no--gutters">
+          <div className={clsx('col col--3')}>
+            <img src="/img/logo.svg" className={styles.image} />
+          </div>
+          <div className="col col--9">
+            <div className={styles.heroWrapper}>
+              <h1 className="hero__title">{siteConfig.title}</h1>
+              <p className="hero__subtitle">{siteConfig.tagline}</p>
+              <div className={styles.buttons}>
+                <Link
+                  className="button button--secondary button--lg shadow--lw"
+                  to="/docs/intro"
+                >
+                  Get started
+                </Link>
+                <Link
+                  className={clsx(
+                    styles.githubButton,
+                    'button button--outline button--primary button--lg shadow--lw',
+                  )}
+                  to=""
+                >
+                  <div className={styles.githubLogo} />
+                  Source code
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -26,13 +46,14 @@ function HomepageHeader() {
 }
 
 export default function Home(): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`ElectronBroker - ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />"
+    >
       <HomepageHeader />
-      <main>
+      <main className={styles.main}>
         <HomepageFeatures />
       </main>
     </Layout>
