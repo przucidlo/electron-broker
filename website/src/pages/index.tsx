@@ -31,7 +31,7 @@ function HomepageHeader() {
                     styles.githubButton,
                     'button button--outline button--primary button--lg shadow--lw',
                   )}
-                  to=""
+                  to="https://github.com/abbl/electron-broker"
                 >
                   <div className={styles.githubLogo} />
                   Source code
