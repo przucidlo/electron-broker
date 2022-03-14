@@ -8,22 +8,22 @@ import TabItem from '@theme/TabItem';
 # Dependency Injection
 
 ## Introduction
-Dependency injection is a design pattern, that moves building of object dependencies out of its scope,
-and provides them by injecting them through many means (e.g by passing them in constructor), and freeing the object
-from manually building its dependencies. Therefore, achieving [seperation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns),
+Dependency injection is a design pattern, that moves the building of object dependencies out of its scope,
+and provides them by injecting them through many means (e.g by passing them in constructor) and freeing the object
+from manually building its dependencies. Therefore, achieving [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns),
 as said object doesn't need to "know" how its dependencies are built.
 
-Broker internally uses the IoC container from `InversifyJS` package, to manage its dependencies.
-Currently it's the only container it works out of a box with, but in future it might support 
+The broker internally uses the IoC container from the `InversifyJS` package, to manage its dependencies.
+Currently, it's the only container it works out of a box with, but in the future, it might support 
 all major javascript DI libraries. But it's possible to use different containers, 
-see [custom container](#custom-container) section.
+see the [custom container](#custom-container) section.
 
-The use of it is completly optional, if you want to manually build your classes, you're free to
-skip this part of documentation.
+The use of it is completely optional, if you want to manually build your classes, you're free to
+skip this part of the documentation.
 
 
 :::note
-To find out more about `InversifyJS`, head to its [documentation](https://github.com/inversify/InversifyJS).
+To find out more about the `InversifyJS`, head to its [documentation](https://github.com/inversify/InversifyJS).
 :::
 
 ## Installation
@@ -88,7 +88,7 @@ async function createBroker() {
 
 ## Binding controllers
 
-Mark the controller with `@Injectable()` decorator, to make it resolveable by the container.
+Mark the controller with `@Injectable()` decorator, to make it resolvable by the container.
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
@@ -127,17 +127,17 @@ export default class CatsController {
 </Tabs>
 
 And provide the controller class reference to `controllers` to broker settings. When you provide the broker 
-with controller class definition, it will attempt to resolve it within the container, and will throw an error
+with controller class definition, it will attempt to resolve it within the container and will throw an error
 if fails to do so. 
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
 ```typescript {9} title="index.js"
-import "reflect-metadata";
-import { BrokerFactory } from "electron-broker";
-import { Container } from "inversify";
-import CatsController from "./cats.controller.js";
+import 'reflect-metadata';
+import { BrokerFactory } from 'electron-broker';
+import { Container } from 'inversify';
+import CatsController from './cats.controller.js';
 
 async function createBroker() {
   broker = await BrokerFactory.createProcessBroker({
@@ -155,10 +155,10 @@ createBroker();
 <TabItem value="javascript" label="JavaScript">
 
 ```javascript {9} title="index.js"
-import "reflect-metadata";
-import { BrokerFactory } from "electron-broker";
-import { Container } from "inversify";
-import CatsController from "./cats.controller.js";
+import 'reflect-metadata';
+import { BrokerFactory } from 'electron-broker';
+import { Container } from 'inversify';
+import CatsController from './cats.controller.js';
 
 async function createBroker() {
   broker = await BrokerFactory.createProcessBroker({
@@ -176,7 +176,7 @@ createBroker();
 </Tabs>
 
 ## Binding middleware
-Mark the Middleware with `@Injectable()` decorator, to make it resolveable by the container.
+Mark the Middleware with `@Injectable()` decorator, to make it resolvable by the container.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -227,8 +227,8 @@ export class MessageLoggerMiddleware {
 </TabItem>
 </Tabs>
 
-And pass the middleware class reference to `UseMiddleware()` decorator. If broker fails to resolve the reference
-within its container, it will thrown an error.
+And pass the middleware class reference to `UseMiddleware()` decorator. If the broker fails to resolve the reference
+within its container, it will throw an error.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -272,14 +272,14 @@ export default class PingPongController {
 </Tabs>
 
 ## Accesing BrokerClient
-Accessing `BrokerClient` instance within any of your classes, is possible by specifing it in their constructors.
+Accessing `BrokerClient` instances within any of your classes, is possible by specifying them in their constructors.
 Keep in mind that each of those instances will be **unique**.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
 ```typescript {6} title="mock.service.ts"
-import { BrokerClient } from "electron-broker";
+import { BrokerClient } from 'electron-broker';
 import { Injectable } from 'inversifyjs'
 
 @Injectable()
@@ -296,7 +296,7 @@ export default class MockService {
 <TabItem value="javascript" label="JavaScript">
 
 ```typescript {6} title="mock.service.js"
-import { BrokerClient } from "electron-broker";
+import { BrokerClient } from 'electron-broker';
 import { Injectable, Inject } from 'inversifyjs'
 
 @Injectable()
@@ -319,10 +319,10 @@ before calling the `start()` method of `Broker` class.
 <TabItem value="typescript" label="TypeScript">
 
 ```typescript {18} title="index.ts"
-import "reflect-metadata";
-import { BrokerFactory } from "electron-broker";
-import { Container } from "inversify";
-import CatsController from "./cats.controller.ts";
+import 'reflect-metadata';
+import { BrokerFactory } from 'electron-broker';
+import { Container } from 'inversify';
+import CatsController from './cats.controller.ts';
 
 // Token to identify our custom broker client
 export CUSTOM_BROKER_CLIENT: symbol = Symbol.for('custom-broker-client');
@@ -348,10 +348,10 @@ createBroker();
 <TabItem value="javascript" label="JavaScript">
 
 ```typescript {18} title="index.js"
-import "reflect-metadata";
-import { BrokerFactory } from "electron-broker";
-import { Container } from "inversify";
-import CatsController from "./cats.controller.js";
+import 'reflect-metadata';
+import { BrokerFactory } from 'electron-broker';
+import { Container } from 'inversify';
+import CatsController from './cats.controller.js';
 
 // Token to identify our custom broker client
 export CUSTOM_BROKER_CLIENT = Symbol.for('custom-broker-client');
@@ -382,9 +382,9 @@ And inject it to any constructor by use of `Inject()` decorator.
 <TabItem value="typescript" label="TypeScript">
 
 ```typescript {7} title="mock.service.ts"
-import { BrokerClient } from "electron-broker";
-import { Injectable, Inject } from "inversifyjs";
-import { CUSTOM_BROKER_CLIENT } from "./index.ts";
+import { BrokerClient } from 'electron-broker';
+import { Injectable, Inject } from 'inversifyjs';
+import { CUSTOM_BROKER_CLIENT } from './index.ts';
 
 @Injectable()
 export default class MockService {
