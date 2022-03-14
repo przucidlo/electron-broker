@@ -8,11 +8,12 @@ import TabItem from '@theme/TabItem';
 # Client
 
 ## Introduction
-As opposed to usage of multiple Event Emitters (such as `ipcMain` or `ipcRenderer`),
-broker exposes single `BrokerClient` class. Which acts as universal message broadcaster on every process.
-It also does not accept multiple arguments as a message content, it uses one argument instead.
+As opposed to the usage of multiple Event Emitters (such as `ipcMain` or `ipcRenderer`), 
+the broker exposes a single `BrokerClient` class. Which acts as a universal message 
+broadcaster on every process. It also does not accept multiple arguments as message payload, 
+it uses one argument instead.
 
-Building of `BrokerClient` object is done by usage of `Broker` class method called `createClient()`. 
+Building of `BrokerClient` object is done by the usage of `Broker` class method called `createClient()`. 
 Each instance it returns is **unique**. Therefore, middleware bound to one instance, won't be present 
 in another one.  
 
@@ -62,8 +63,8 @@ async function createBroker() {
 </Tabs>
 
 ## Send
-Synchronously emits message on specific pattern, and does not listen for the 
-response. It takes the pattern as first arguement, and payload as the second one. 
+Synchronously emits the message on a specific pattern, and does not listen for the response. 
+It takes the pattern as the first argument and payload as the second one.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -98,8 +99,8 @@ The `send()` method only triggers `onRequest()` part of `Middleware` interface.
 
 
 ## Invoke
-Asynchronously emits the message on specific pattern, and listens for the response.
-It takes the pattern as first arguement, and payload as second one.
+Asynchronously emits the message on a specific pattern, and listens for the response. 
+It takes the pattern as the first argument and payload as the second one.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -133,8 +134,9 @@ const weather = await checkWeather();
 </Tabs>
 
 ## InvokeRaw
-Asynchronously emits the message on specific pattern, and listens for the response.
-But upon response, it returns the `BrokerEvent` object instead of its `data` property, as in `invoke()` method. 
+Asynchronously emits the message on a specific pattern, and listens for the response. 
+But upon the response, it returns the `BrokerEvent` object instead of its `data` property,
+as in `invoke()` method.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -174,7 +176,7 @@ console.log(brokerEvent.data);
 </Tabs>
 
 ## Subscribe
-Creates the subscriber, which listens for message on specific pattern by usage listener function.
+Creates the subscriber, which listens for messages on the specific pattern by usage listener function.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -214,11 +216,11 @@ const oneTimeSubscriber = broker.subscribe(
 </Tabs>
 
 :::info
-  Messages received through subscriber **don't** trigger the execution of middlewares.
+  Messages received through subscribers **don't** trigger the execution of middlewares.
 :::
 
 ## SetMiddleware
-Sets the middleware, that will be executed after usage of `send()`, `invoke()` and `invokeRaw()` methods.
+Sets the middlewares, that will be executed after usage of `send()`, `invoke()`, and `invokeRaw()` methods.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -230,13 +232,13 @@ class MessageLogMiddleware implements Middleware {
   public onRequest(context: ExecutionContext) {
     const { eventId } = context.brokerEvent;
 
-    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
   }
 
   public onResponse(context: ExecutionContext) {
     const { eventId } = context.brokerEvent;
 
-    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
   }
 }
 
@@ -253,13 +255,13 @@ class MessageLogMiddleware {
   public onRequest(context) {
     const { eventId } = context.brokerEvent;
 
-    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
   }
 
   public onResponse(context) {
     const { eventId } = context.brokerEvent;
 
-    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
   }
 }
 
@@ -270,7 +272,7 @@ brokerClient.setMiddleware([new MessageLogMiddleware()])
 </Tabs>
 
 ## SetTimeout
-Sets the amount of seconds that client will await for the answer to the message, by default it fallbacks to 30 seconds.
+Sets the number of seconds that client will wait for the answer to the message, by default it fallbacks to 30 seconds.
 
 ```typescript title="timeout.ts"
 brokerClient.setTimeout(30);
