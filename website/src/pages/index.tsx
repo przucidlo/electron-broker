@@ -5,6 +5,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
+import LogoSvg from '@site/static/img/logo.svg';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -13,7 +14,7 @@ function HomepageHeader() {
       <div className="container">
         <div className="row row--no--gutters">
           <div className={clsx('col col--3')}>
-            <img src="/img/logo.svg" className={styles.image} />
+            <LogoSvg className={styles.image} />
           </div>
           <div className="col col--9">
             <div className={styles.heroWrapper}>
