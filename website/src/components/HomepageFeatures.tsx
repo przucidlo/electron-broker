@@ -13,8 +13,8 @@ const FeatureList: FeatureItem[] = [
     title: 'Simple API',
     description: (
       <>
-        Create endpoints for your messages, with use of classes and decorators,
-        and reuse them between the processes.
+        Create endpoints for your messages, with the use of classes and
+        decorators, and reuse them between the processes.
       </>
     ),
     iconClass: styles.simpleApiSvg,
@@ -25,7 +25,7 @@ const FeatureList: FeatureItem[] = [
       <>
         {' '}
         Easily broadcast your messages between all Electron's processes, such as
-        renderer, main or node child process.
+        renderer, main, or node child process.
       </>
     ),
     iconClass: styles.crossProcessSvg,
