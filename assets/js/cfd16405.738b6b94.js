@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[443],{2390:function(e){e.exports=JSON.parse('{"allTagsPath":"/electron-broker/blog/tags","slug":"/electron-broker/blog/tags/hello","name":"hello","count":2,"permalink":"/electron-broker/blog/tags/hello"}')}}]);
