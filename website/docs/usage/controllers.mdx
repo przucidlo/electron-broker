@@ -7,12 +7,15 @@ import TabItem from '@theme/TabItem';
 
 # Controllers
 
-Controllers are one of two ways of handling the messages, and returning the response to the client.
-They're fully reusuable between any type of a process.
+## Introduction
+Controller groups a set of handlers, that are meant to receive messages, 
+and return responses to them. By using decorators, we describe a route that 
+points to a handler, which is free to perform any task we want to, 
+and optionally return a result, that will be sent to the client.
 
 ## Routing
 
-By usage of `MessagePattern()` decorator we can create a route, that controller will use to handle specific **pattern**.
+By use of `MessagePattern()` decorator we can create a route, that will the handle specific message.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -87,12 +90,14 @@ export default class ShopController {
 </Tabs>
 
 
-Broker will perform concatenation with `-` symbol on both of the patterns. Therefore, this route will accessible on `shop-get-products` pattern.
+The broker will perform concatenation with `-` symbol on both patterns. 
+Therefore, this route will be accessible on `shop-get-products` pattern.
 
 ## Registration
 
-Broker object exposes the `controllers` property in its configuration,
-that's where you'll have to provide a references to your controllers, to register them within Broker context.
+`Broker` class exposes the `controllers` property in its configuration,
+that's where you'll have to provide references to your controllers, 
+to register them within the broker context.
 
 <Tabs>
 <TabItem value="typescript" label="Typescript">
@@ -139,15 +144,15 @@ async function createBroker() {
 
 :::note
 
-It's also possible to register your controllers with built-in support of dependency injection, see Dependency Injection section for more information.
-
+It's also possible to register your controllers with built-in support of dependency injection, 
+see [Dependency Injection](/docs/usage/dependency-injection) section for more information.
 :::
 
 ## Message structure
 
 Each message sent by the Broker is wrapped into `BrokerEvent` object,
-which contains all information required by Broker to correctly handle forwading them.
-Let's have a look at it's structure:
+which contains all information required to correctly forward them.
+Let's have a look at its structure:
 
 <div style={{display: "flex", justifyContent: "center"}}>
 
@@ -155,14 +160,14 @@ Let's have a look at it's structure:
 | -------- | :------------------------------: |
 | type     |     `REQUEST` or `RESPONSE`      |
 | eventId  | Unique identifier of the message |
-| pattern  |          Target pattern          |
+| pattern  |          Message pattern         |
 | data     |      Payload of the message      |
 
 </div>
 
 ## Data
 
-Accessing the `data` property of BrokerEvent interface is done through usage of a `@Data()` decorator.
+Accessing the `data` property of BrokerEvent interface is done through use of a `@Data()` decorator.
 
 <Tabs>
 <TabItem value="typescript" label="Typescript">
@@ -203,16 +208,9 @@ export default class ShopController {
 </TabItem>
 </Tabs>
 
-:::note
-
-By writing your code in TypeScript, you can transform your payload
-into argument class type by usage of ParamTransformerMiddleware.
-
-:::
-
 ## EventId
 
-It's also also possible to access `eventId` property by usage of a `@EventId()` decorator.
+It's also also possible to access `eventId` property with `@EventId()` decorator.
 
 <Tabs>
 <TabItem value="typescript" label="Typescript">
@@ -249,8 +247,8 @@ export default class EventIdController {
 
 ## Custom decorators
 
-Custom decorators are useful while working with middleware, that is injecting
-custom properties into the `BrokerEvent`, as it provides you with easy the access to them.
+Custom decorators allow you to access any property of `BrokerEvent` object. 
+This becomes useful, when you decide to inject a custom property, with your own middleware.
 
 <Tabs>
 <TabItem value="typescript" label="Typescript">
