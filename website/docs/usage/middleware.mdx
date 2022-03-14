@@ -8,12 +8,12 @@ import TabItem from '@theme/TabItem';
 # Middleware
 
 ## Introduction
-Middleware methods have the access to `ExecutionContext` object. Which allows to modify the 
-incoming and outgoing messages. Execution order is reversed for outgoing messages.
-Therefore, the first Middleware will have its `onResponse()` method executed as last one.
+Middleware methods have the access to `ExecutionContext` object. Which allows modifying the 
+incoming and outgoing messages. The execution order is reversed for outgoing messages. 
+Therefore, the first Middleware will have its `onResponse()` method executed as the last one.
 
 ## Implementation
-Creating of middleware is done by implementation of `Middleware` interface.
+Creating of middleware is done by the implementation of the `Middleware` interface.
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -66,11 +66,14 @@ export class MessageLoggerMiddleware {
 
 ### Controller
 
-Middleware can be applied globally on controller, or its method by use of `UseMiddleware()` decorator.  
+Middleware can be applied globally on a controller, or its method by the use of `UseMiddleware()` decorator.  
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
-```typescript {2,11} title="controller-middleware.ts"
+```typescript {5,14} title="controller-middleware.ts"
+import MessageLoggerMiddleware from './message-logger.middleware.ts'
+import RouteSpecificMiddleware from './route-specific.middleware.ts'
+
 @Controller()
 @UseMiddleware([new MessageLoggerMiddleware()])
 export default class MiddlewareController {
@@ -91,7 +94,10 @@ export default class MiddlewareController {
 </TabItem>
 <TabItem value="javascript" label="JavaScript">
 
-```javascript {2,11} title="controller-middleware.js"
+```javascript {5,14} title="controller-middleware.js"
+import MessageLoggerMiddleware from './message-logger.middleware.js'
+import RouteSpecificMiddleware from './route-specific.middleware.js'
+
 @Controller()
 @UseMiddleware([new MessageLoggerMiddleware()])
 export default class MiddlewareController {
@@ -112,10 +118,10 @@ export default class MiddlewareController {
 </TabItem>
 </Tabs>
 
-Controller level middleware is always executed before method one. Therefore, execution order in 
+Controller-level middleware is always executed before method one. Therefore, the execution order in 
 this example will start with `MessageLoggerMiddleware` first, then end with `RouteSpecificMiddleware`.  
 
-By use of `setMiddleware()` method of `Broker` class, it's possible to apply middleware to each 
+By use of the `setMiddleware()` method of `Broker` class, it's possible to apply middleware to each 
 controller that you bind to `Broker` instance. But it has to be done **before** calling the `start()` method.
 
 <Tabs>
@@ -165,7 +171,7 @@ createBroker();
 
 ### Client
 
-Client's middleware is set **per** `BrokerClient` class instance, with use of `setMiddleware()` method. 
+The client's middleware is set **per** `BrokerClient` class instance, with the use of the `setMiddleware()` method. 
 And is executed after usage of `send()`, `invoke()`, and `invokeRaw()` methods.
 
 <Tabs>
@@ -191,7 +197,7 @@ Middleware set in `Broker` context, is **not** available in `BrokerClient` conte
 
 ## Stopping execution
 While creating the middleware feature there was no plan to disrupt the message handling. 
-Therefore, the only way to stop it now, is to throw an error either in `onRequest()` or `onResponse()` methods. 
+Therefore, the only way to stop it now is to throw an error either in `onRequest()` or `onResponse()` methods. 
 
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
@@ -227,5 +233,5 @@ export default class UserGuardMiddleware {
 </Tabs>
 
 ## Lifecycle
-Each time the middleware executes, broker creates a copy of it, and discards it after
+Each time the middleware executes, the broker creates a copy of it and discards it after
 the message leaves its origin. 
