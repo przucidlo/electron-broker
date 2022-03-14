@@ -8,14 +8,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Simple and seamless messaging for Electron',
   tagline: "with built-in inter-process communication protocol.",
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://abbl.github.io/',
+  baseUrl: '/electron-broker/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'abbl', // Usually your GitHub org/user name.
   projectName: 'electron-broker', // Usually your repo name.
-
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
   presets: [
     [
       'classic',
