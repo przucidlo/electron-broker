@@ -86,7 +86,7 @@ Connecting the `ChildProcess` is pretty straightforward, let's look at the follo
 <Tabs>
 <TabItem value="typescript" label="TypeScript">
 
-```typescript title="/src/child/index.ts"
+```typescript {7} title="/src/child/index.ts"
 import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 
@@ -109,7 +109,7 @@ init();
 
 <TabItem value="javascript" label="JavaScript">
 
-```js title="/src/child/index.js"
+```js {7} title="/src/child/index.js"
 import 'reflect-metadata';
 import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
 
