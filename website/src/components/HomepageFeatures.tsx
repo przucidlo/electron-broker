@@ -20,12 +20,12 @@ const FeatureList: FeatureItem[] = [
     iconClass: styles.simpleApiSvg,
   },
   {
-    title: 'Cross process',
+    title: 'Cross process compatibility',
     description: (
       <>
         {' '}
         Easily broadcast your messages between all Electron's processes, such as
-        renderer, main, or node child process.
+        renderer, main, or node's child process.
       </>
     ),
     iconClass: styles.crossProcessSvg,
