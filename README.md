@@ -1,11 +1,14 @@
-<div style="display: flex; flex-direction: column; text-align: center; justify-content: center; align-items: center;">
+<p align="center">
   <img src="https://abbl.github.io/electron-broker/img/logo.svg" width="256"/>
-  Simple and seamless messaging for Electron with built-in inter-process communication protocol.
+</p>
+<p align="center">
+  Simple and seamless messaging for Electron, with built-in inter-process communication protocol.
+</p>
 
-[![codecov](https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I)](https://codecov.io/gh/abbl/electron-dove)
-![example workflow](https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg)
-
-</div>
+<p align="center">
+  <img src="https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I"/>
+  <img src="https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg"/>
+</p>
 
 # About
 
@@ -13,9 +16,9 @@ The broker was created as a part of a side-project, that was built on top of Ele
 
 By abstracting the Electron API, broker provides you with simple and well known syntax, to handle your messages. If you used Spring or NestJS before, you will feel right at home.
 
-# Getting-started
+# Getting started
 
-Learn more at project's [documentation]() page
+Learn more at project [documentation](https://abbl.github.io/electron-broker/) page.
 
 # License
 
