@@ -1,6 +1,6 @@
 {
   "name": "electron-broker",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simple and seamless messaging for Electron, with built-in inter-process communication protocol.",
   "main": "dist/index.js",
   "module": "dist/index.js",
