@@ -1,6 +1,6 @@
 {
   "name": "electron-broker",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "description": "Library that makes electron ipc communication simple and effective.",
   "main": "dist/index.js",
   "module": "dist/index.js",
