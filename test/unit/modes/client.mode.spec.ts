@@ -1,5 +1,5 @@
-import { ControllersRegistrator } from '../../../lib/controllers/controllers-registrator';
-import { ClientMode } from '../../../lib/modes/client.mode';
+import { ControllersRegistrator } from '../../../lib/core/controllers/controllers-registrator';
+import { ClientMode } from '../../../lib/core/modes/client.mode';
 import { getMockControllersRegistrator } from './mocks/mock-controllers-registrator';
 
 describe('ClientMode', () => {

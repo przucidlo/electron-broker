@@ -1,15 +1,15 @@
-import { BrokerEventSubscriber } from '../../../../lib/client/event-subscriber/broker-event-subscriber';
-import { ListenerFactory } from '../../../../lib/client/listener-adapter/factory/listener-factory';
-import { ListenerAdapter } from '../../../../lib/client/listener-adapter/listener-adapter.interface';
+import { BrokerEventSubscriber } from '../../../../lib/core/client/event-subscriber/broker-event-subscriber';
+import { ListenerFactory } from '../../../../lib/core/client/listener-adapter/factory/listener-factory';
+import { IpcListener } from '../../../../lib/core/client/response-listener/ipc-listener';
 import { getMockListenerAdapter } from '../__mocks__/get-mock-listener-adapter';
 
 describe('BrokerEventSubscriber', () => {
-  let listenerAdapter: ListenerAdapter;
+  let ipcListener: IpcListener;
 
   beforeEach(() => {
-    listenerAdapter = getMockListenerAdapter();
+    ipcListener = getMockListenerAdapter();
 
-    ListenerFactory.createListener = jest.fn().mockReturnValue(listenerAdapter);
+    ListenerFactory.createListener = jest.fn().mockReturnValue(ipcListener);
   });
 
   describe('constructor', () => {
@@ -17,17 +17,17 @@ describe('BrokerEventSubscriber', () => {
       const pattern = 'test';
       const listener = () => 'test';
 
-      new BrokerEventSubscriber(pattern, listener);
+      new BrokerEventSubscriber(ipcListener, pattern, listener);
 
-      expect(listenerAdapter.listen).toBeCalledWith(pattern, listener);
+      expect(ipcListener.listen).toBeCalledWith(pattern, listener);
     });
   });
 
   describe('unsubscribe', () => {
     it('Should remove the listener', () => {
-      new BrokerEventSubscriber('test', () => ({})).unsubscribe();
+      new BrokerEventSubscriber(ipcListener, 'test', () => ({})).unsubscribe();
 
-      expect(listenerAdapter.removeListener).toBeCalled();
+      expect(ipcListener.removeListener).toBeCalled();
     });
   });
 });

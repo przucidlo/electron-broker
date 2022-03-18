@@ -1,9 +1,9 @@
-import { BrokerProcessAdapter } from '../../../lib/adapters/broker/broker-process.adapter';
-import { BrokerRendererAdapter } from '../../../lib/adapters/broker/broker-renderer.adapter';
-import { BROKER_EVENT } from '../../../lib/constants/channels';
-import { EventDistributor } from '../../../lib/event-distributor/event-distributor';
-import { EventDistributorAdapterRegistrator } from '../../../lib/event-distributor/event-distributor-adapter-registrator';
-import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
+import { BrokerProcessAdapter } from '../../../lib/main/adapters/broker-process.adapter';
+import { BrokerRendererAdapter } from '../../../lib/main/adapters/broker-renderer.adapter';
+import { BROKER_EVENT } from '../../../lib/core/constants/channels';
+import { EventDistributor } from '../../../lib/core/event-distributor/event-distributor';
+import { EventDistributorAdapterRegistrator } from '../../../lib/core/event-distributor/event-distributor-adapter-registrator';
+import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 
@@ -24,7 +24,10 @@ describe('EventDistributorAdapterRegistrator', () => {
     const adapters = [brokerRendererAdapter, brokerProcessAdapter];
 
     eventDistributor = new EventDistributor(adapters);
-    adapterRegistrator = new EventDistributorAdapterRegistrator(adapters, eventDistributor);
+    adapterRegistrator = new EventDistributorAdapterRegistrator(
+      adapters,
+      eventDistributor,
+    );
   });
 
   describe('register', () => {
@@ -32,13 +35,19 @@ describe('EventDistributorAdapterRegistrator', () => {
       it('An instance of BrokerProcessAdapter', () => {
         adapterRegistrator.register();
 
-        expect(brokerProcessAdapter.register).toBeCalledWith(BROKER_EVENT, expect.any(Function));
+        expect(brokerProcessAdapter.register).toBeCalledWith(
+          BROKER_EVENT,
+          expect.any(Function),
+        );
       });
 
       it('An instance of BrokerRendererAdapter', () => {
         adapterRegistrator.register();
 
-        expect(brokerRendererAdapter.register).toBeCalledWith(BROKER_EVENT, expect.any(Function));
+        expect(brokerRendererAdapter.register).toBeCalledWith(
+          BROKER_EVENT,
+          expect.any(Function),
+        );
       });
     });
   });

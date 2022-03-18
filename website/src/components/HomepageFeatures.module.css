@@ -1,0 +1,41 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+[data-theme='light'] .featureSvg {
+  background-color: var(--ifm-color-primary);
+  width: 64px;
+  height: 64px;
+  mask-size: 64px;
+}
+
+[data-theme='dark'] .featureSvg {
+  background-color: var(--ifm-color-primary-darker);
+  width: 64px;
+  height: 64px;
+  mask-size: 64px;
+}
+
+.svgWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.simpleApiSvg {
+  mask: url(/img/build.svg);
+}
+
+.crossProcessSvg {
+  mask: url(/img/sync.svg);
+  width: 96px;
+  height: 96px;
+}
+
+.extendableSvg {
+  mask: url(/img/extension.svg);
+  width: 96px;
+  height: 96px;
+}

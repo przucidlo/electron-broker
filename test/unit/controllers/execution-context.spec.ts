@@ -1,15 +1,21 @@
 import 'reflect-metadata';
-import { ExecutionContext } from '../../../lib/controllers/execution-context';
+import { ExecutionContext } from '../../../lib/core/controllers/execution-context';
 
 describe('ExecutionContext', () => {
   let executionContext: ExecutionContext;
   const mockHandler = () => '123';
+  const mockParamsMetadata = [{}];
 
   class Test {}
 
   beforeAll(() => {
     executionContext = new ExecutionContext(
-      { controller: new Test(), handler: mockHandler, middleware: [], paramsMetadata: [] },
+      {
+        controller: new Test(),
+        handler: mockHandler,
+        middleware: [],
+        paramsMetadata: mockParamsMetadata as any,
+      },
       <any>{},
     );
   });
@@ -24,6 +30,14 @@ describe('ExecutionContext', () => {
     it('Should return reference to the handler function', () => {
       const handler = executionContext.getHandler();
       expect(handler()).toBe(mockHandler());
+    });
+  });
+
+  describe('getParamMetadata', () => {
+    it('Should return array of handler params metadata', () => {
+      const metadata = executionContext.getParamsMetadata();
+
+      expect(metadata).toBe(mockParamsMetadata);
     });
   });
 });

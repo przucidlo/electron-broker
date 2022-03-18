@@ -1,5 +1,5 @@
-import { BrokerEventFactory } from '../../../lib/helpers/broker-event.factory';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
+import { BrokerEventFactory } from '../../../lib/core/helpers/broker-event.factory';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 
 describe('BrokerEventFactory', () => {
@@ -12,7 +12,9 @@ describe('BrokerEventFactory', () => {
         data: {},
       };
 
-      expect(BrokerEventFactory.createBrokerEvent('test', {})).toStrictEqual(expectedBrokerEvent);
+      expect(BrokerEventFactory.createBrokerEvent('test', {})).toStrictEqual(
+        expectedBrokerEvent,
+      );
     });
   });
 
@@ -26,7 +28,9 @@ describe('BrokerEventFactory', () => {
         data: '123',
       };
 
-      expect(BrokerEventFactory.createBrokerEventAsResponse(brokerEvent, '123')).toStrictEqual(expectedBrokerEvent);
+      expect(
+        BrokerEventFactory.createBrokerEventAsResponse(brokerEvent, '123'),
+      ).toStrictEqual(expectedBrokerEvent);
     });
   });
 });

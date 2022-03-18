@@ -1,13 +1,21 @@
 import { Container } from 'inversify';
-import { DoveMode } from '../../../../lib';
-import { ContainerComposition } from '../../../../lib/container/container-composition';
-import { ModuleConfig } from '../../../../lib/types/ipc-module-config.type';
+import { ProcessIpcTransportComposer } from '../../../../lib/process/container/composers/process-ipc-transport.composer';
+import { ContainerComposition } from '../../../../lib/core/container/container-composition';
+import { CommonConfig } from '../../../../lib/core/interfaces/options/common-config.interface';
+import { ClientConfig } from '../../../../lib/core/interfaces/options/client-config.interface';
+import { BrokerConfig } from '../../../../lib/core/interfaces/options/broker-config.interface';
 
-export function getMockContainerWithDependencies(config?: ModuleConfig): Container {
-  const moduleConfig: ModuleConfig = config ? config : { mode: DoveMode.PROCESS, options: {} };
+export async function getMockContainerWithDependencies(
+  config?: CommonConfig & (ClientConfig | BrokerConfig),
+): Promise<Container> {
+  const moduleConfig: CommonConfig & ClientConfig = config
+    ? config
+    : { mode: 'CLIENT', secure: false };
   const container = new Container({ autoBindInjectable: true });
 
-  new ContainerComposition(container, moduleConfig).composeDependencies();
+  await new ContainerComposition(container, moduleConfig, [
+    ProcessIpcTransportComposer,
+  ]).composeDependencies();
 
   return container;
 }

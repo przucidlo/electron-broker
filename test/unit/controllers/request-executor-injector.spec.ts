@@ -1,11 +1,14 @@
-import { RequestExecutorInjector } from '../../../lib/controllers/request-executor-injector';
-import { ExecutionContext } from '../../../lib/controllers/execution-context';
-import { RequestExecutor } from '../../../lib/controllers/request-executor';
-import { BrokerEvent } from '../../../lib/interfaces/broker-event.interface';
-import { ControllerMetadata } from '../../../lib/interfaces/controller-metadata.interface';
+import { RequestExecutorInjector } from '../../../lib/core/controllers/request-executor-injector';
+import { ExecutionContext } from '../../../lib/core/controllers/execution-context';
+import { RequestExecutor } from '../../../lib/core/controllers/request-executor';
+import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
+import { ControllerMetadata } from '../../../lib/core/interfaces/controller-metadata.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
-import { getMockTestControllerMetadata, MOCK_TEST_CONTROLLER_PATTERN } from '../__mocks__/mock-test-controller';
-import { ControllerHandlerMetadata } from '../../../lib/interfaces/controller-handler-metadata.interface';
+import {
+  getMockTestControllerMetadata,
+  MOCK_TEST_CONTROLLER_PATTERN,
+} from '../__mocks__/mock-test-controller';
+import { ControllerHandlerMetadata } from '../../../lib/core/interfaces/controller-handler-metadata.interface';
 import { getMockExecutionContext } from './__mocks__/get-mock-execution-context';
 
 describe('RequestExecutorInjector', () => {
@@ -18,10 +21,15 @@ describe('RequestExecutorInjector', () => {
 
   beforeEach(() => {
     controllerMetadata = getMockTestControllerMetadata();
-    handlerMetadata = controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
+    handlerMetadata =
+      controllerMetadata.messageHandlers[MOCK_TEST_CONTROLLER_PATTERN];
     mockEventData = getMockBrokerEventData();
 
-    executionContext = getMockExecutionContext(controllerMetadata, MOCK_TEST_CONTROLLER_PATTERN, mockEventData);
+    executionContext = getMockExecutionContext(
+      controllerMetadata,
+      MOCK_TEST_CONTROLLER_PATTERN,
+      mockEventData,
+    );
 
     requestExecutor = Object.create(RequestExecutor);
     requestExecutor.executeRequest = jest.fn();
@@ -34,7 +42,9 @@ describe('RequestExecutorInjector', () => {
 
   describe('inject', () => {
     it('Should wrap message handlers with request executor', () => {
-      const messageHandlers = requestInjector.injectIntoControllersHandlers([controllerMetadata]);
+      const messageHandlers = requestInjector.injectIntoControllersHandlers([
+        controllerMetadata,
+      ]);
 
       messageHandlers[0].handler(mockEventData);
 
@@ -42,7 +52,9 @@ describe('RequestExecutorInjector', () => {
     });
 
     it('Should make the controller accept only the requests', () => {
-      const messageHandlers = requestInjector.injectIntoControllersHandlers([controllerMetadata]);
+      const messageHandlers = requestInjector.injectIntoControllersHandlers([
+        controllerMetadata,
+      ]);
 
       mockEventData.type = 'RESPONSE';
 

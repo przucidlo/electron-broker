@@ -1,5 +1,5 @@
-import { MainTransportAdapter } from '../../../../lib/adapters/client/main-transport.adapter';
-import { EventDistributor } from '../../../../lib/event-distributor/event-distributor';
+import { MainTransportAdapter } from '../../../../lib/main/adapters/main-transport.adapter';
+import { EventDistributor } from '../../../../lib/core/event-distributor/event-distributor';
 import { clearElectronMock, ipcMain } from '../../__mocks__/electron-mock';
 import { getMockBrokerEventData } from '../../__mocks__/get-mock-broker-event-data';
 

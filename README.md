@@ -1,116 +1,25 @@
-# Electron-Dove
-[![codecov](https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I)](https://codecov.io/gh/abbl/electron-dove)
-![example workflow](https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg)
+<p align="center">
+  <img src="https://abbl.github.io/electron-broker/img/logo.svg" width="256"/>
+</p>
+<p align="center">
+  Simple and seamless messaging for Electron, with built-in inter-process communication protocol.
+</p>
 
-Encapsulates electron ipc communication to simplify it and make it more effective...
+<p align="center">
+  <img src="https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I"/>
+  <img src="https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg"/>
+</p>
 
-## Installation
+# About
 
-1. Install the npm package
+The broker was created as a part of a side-project, that was built on top of Electron, and its purpose was to reduce the boilerplate code that we had to write, to scale the application. By moving execution of certain tasks to different processes. I decided to make the code open-source, to benefit the community, and allow people to more efficiently code their apps, and overall improve the development experience.
 
-```
-npm install electron-dove
-```
+By abstracting the Electron API, broker provides you with simple and well known syntax, to handle your messages. If you used Spring or NestJS before, you will feel right at home.
 
-2. You need to install reflect-metadata package:
+# Getting started
 
-```
-npm install reflect-metadata --save
-```
+Learn more at project [documentation](https://abbl.github.io/electron-broker/) page.
 
-and you must import it in every process that you're planning to use the library in (for example Main, Renderer or ChildProcess):
+# License
 
-```
-import "reflect-metadata";
-```
-
-3. You may want to use InversifyJS If you're planning to use built-in dependency injection.
-
-```
-npm install inversify
-```
-
-#### Typescript configuration
-
-Enable these options in tsconfig.json.
-```typescript
-"emitDecoratorMetadata": true,
-"experimentalDecorators": true,
-```
-
-## Step-by-step guide
-
-### Setting-up broker instance in Main process
-
-Electron-Dove uses main process as a "bridge" between Renderer/s and ChildProcess/es of your electron app, this is essential part of the library and ignoring it will result in messages not leaving their origin.
-
-##### main.ts 
-```typescript
-import "reflect-metadata";
-import {Dove, DoveMode} from "electron-dove";
-import {app, BrowserWindow} from "electron";
-
-let mainWindow: BrowserWindow;
-let doveBroker: Dove;
-
-function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    webPreferences: {
-      nodeIntegration: true, // Required to use ipc communication.
-    },
-  });
-  
-  // Create dove broker.
-  doveBroker = new Dove({
-    mode: DoveMode.BROKER,
-    options: {
-      browserWindows: [mainWindow],
-      processes: []; 
-    }
-  });
-  
-  //Start the broker.
-  doveBroker.start();
-}
-
-app.whenReady().then(createWindow);
-```
-### Setting-up client instance in Renderer/ChildProcess
-
-##### index.tsx
-```typescript
-import "reflect-metadata";
-import { Dove, DoveClient, DoveMode } from "electron-dove";
-import { Container } from "inversify";
-import React from "react";
-import ReactDOM from "react-dom";
-
-const dove = new Dove({
-  mode: DoveMode.RENDERER,
-  controllers: [],
-  options: {},
-});
-
-export const doveClient = dove.getDoveClient();
-
-dove.start();
-
-ReactDOM.render(<div></div>, document.getElementById("root"));
-```
-### Adding your first controller
-
-```typescript
-import { MessagePattern } from "electron-dove";
-
-export class MyFirstController {
-  
-  @MessagePattern("ping")
-  public pong(): string {
-    return "pong";
-  }
-}
-
-```
-
-#### More docs coming soon.
+This project is published under [MIT](https://github.com/abbl/electron-broker/blob/master/LICENSE) license.

@@ -1,5 +1,5 @@
-import { EventDistributor } from '../../../lib/event-distributor/event-distributor';
-import { IpcTransport } from '../../../lib/interfaces/ipc-transport.interface';
+import { EventDistributor } from '../../../lib/core/event-distributor/event-distributor';
+import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 
@@ -18,7 +18,10 @@ describe('EventDistributor', () => {
 
       eventDistributor.broadcast(brokerEvent);
 
-      expect(ipcTransport.send).toBeCalledWith(brokerEvent.pattern, brokerEvent);
+      expect(ipcTransport.send).toBeCalledWith(
+        brokerEvent.pattern,
+        brokerEvent,
+      );
     });
   });
 });

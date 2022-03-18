@@ -1,0 +1,279 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Client
+
+## Introduction
+As opposed to the usage of multiple Event Emitters (such as `ipcMain` or `ipcRenderer`), 
+the broker exposes a single `BrokerClient` class. Which acts as a universal message 
+broadcaster on every process. It also does not accept multiple arguments as message payload, 
+it uses one argument instead.
+
+Building of `BrokerClient` object is done by the usage of `Broker` class method called `createClient()`. 
+Each instance it returns is **unique**. Therefore, middleware bound to one instance, won't be present 
+in another one.  
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {14} title="index.tsx"
+import 'reflect-metadata';
+import { BrokerClient, Broker } from 'electron-broker';
+
+let broker: Broker;
+let client: BrokerClient;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    secure: true,
+  });
+
+  broker.start();
+
+  client = broker.createClient();
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {14} title="index.jsx"
+import 'reflect-metadata';
+import { BrokerClient, Broker } from 'electron-broker';
+
+let broker;
+let client;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    secure: true,
+  });
+
+  broker.start();
+
+  client = broker.createClient();
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Send
+Synchronously emits the message on a specific pattern, and does not listen for the response. 
+It takes the pattern as the first argument and payload as the second one.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {5} title="send.ts"
+function incrementByValue(): void {
+  const pattern = 'increment-by-value';
+  const payload = { value: 2136.99 };
+
+  broker.send(pattern, payload);
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {5} title="send.js"
+function incrementByValue() {
+  const pattern = 'increment-by-value';
+  const payload = { value: 2136.99 };
+
+  broker.send(pattern, payload);
+}
+```
+
+</TabItem>
+</Tabs>
+
+:::info
+The `send()` method only triggers `onRequest()` part of `Middleware` interface.
+:::
+
+
+## Invoke
+Asynchronously emits the message on a specific pattern, and listens for the response. 
+It takes the pattern as the first argument and payload as the second one.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {5} title="invoke.ts"
+async function checkWeather(): Promise<string> {
+  const pattern = 'check-weather';
+  const payload = { city: 'Warsaw' }; 
+
+  return broker.invoke(pattern, payload);
+}
+
+const weather = await checkWeather();
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {5} title="invoke.js"
+async function checkWeather() {
+  const pattern = 'check-weather';
+  const payload = { city: 'Warsaw' }; 
+
+  return broker.invoke(pattern, payload);
+}
+
+const weather = await checkWeather();
+```
+
+</TabItem>
+</Tabs>
+
+## InvokeRaw
+Asynchronously emits the message on a specific pattern, and listens for the response. 
+But upon the response, it returns the `BrokerEvent` object instead of its `data` property,
+as in `invoke()` method.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {5} title="invoke-raw.ts"
+async function checkWeatherRaw(): Promise<BrokerEvent> {
+  const pattern = 'check-weather';
+  const payload = { city: 'Warsaw' };
+  
+  return broker.invokeRaw(pattern, payload);
+}
+
+const brokerEvent = await checkWeatherRaw();
+
+// Access the results of the message
+console.log(brokerEvent.data);
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {5} title="invoke-raw.js"
+async function checkWeatherRaw() {
+  const pattern = 'check-weather';
+  const payload = { city: 'Warsaw' };
+  
+  return broker.invokeRaw(pattern, payload);
+}
+
+const brokerEvent = await checkWeatherRaw();
+
+// Access the results of the message
+console.log(brokerEvent.data);
+```
+
+</TabItem>
+</Tabs>
+
+## Subscribe
+Creates the subscriber, which listens for messages on the specific pattern by usage listener function.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="subscriber.ts"
+interface UserSessionDto {
+  username: string;
+}
+
+const oneTimeSubscriber = broker.subscribe<UserSessionDto>(
+  'user-session-start', 
+  (data, brokerEvent) => { // brokerEvent arguement is optional.
+    console.log(`[LOG] Session for user ${data.username} has been initialised.`)
+    
+    // Remove the subscription after receiving the message. 
+    subscriber.unsubscribe();
+  }
+)
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript title="subscriber.js"
+const oneTimeSubscriber = broker.subscribe(
+  'user-session-start', 
+  (data, brokerEvent) => { // brokerEvent arguement is optional.
+    console.log(`[LOG] Session for user ${data.username} has been initialised.`)
+    
+    // Remove the subscription after receiving the message. 
+    subscriber.unsubscribe();
+  }
+)
+```
+
+</TabItem>
+</Tabs>
+
+:::info
+  Messages received through subscribers **don't** trigger the execution of middlewares.
+:::
+
+## SetMiddleware
+Sets the middlewares, that will be executed after usage of `send()`, `invoke()`, and `invokeRaw()` methods.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="middleware.ts"
+import {BrokerClient, Middleware, ExecutionContext} from 'electron-broker';
+
+class MessageLogMiddleware implements Middleware {
+  public onRequest(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+
+  public onResponse(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+}
+
+brokerClient.setMiddleware([new MessageLogMiddleware()])
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript title="middleware.js"
+import {BrokerClient, Middleware, ExecutionContext} from 'electron-broker';
+
+class MessageLogMiddleware {
+  public onRequest(context) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+
+  public onResponse(context) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+}
+
+brokerClient.setMiddleware([new MessageLogMiddleware()])
+```
+
+</TabItem>
+</Tabs>
+
+## SetTimeout
+Sets the number of seconds that client will wait for the answer to the message, by default it fallbacks to 30 seconds.
+
+```typescript title="timeout.ts"
+brokerClient.setTimeout(30);
+```

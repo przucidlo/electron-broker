@@ -1,5 +1,5 @@
-import { ProcessListener } from '../../../../lib/client/listener-adapter/adapters/process-listener';
-import { IpcProcessMessage } from '../../../../lib/process/ipc-process-message.interface';
+import { ProcessListener } from '../../../../lib/core/client/listener-adapter/adapters/process-listener';
+import { IpcProcessMessage } from '../../../../lib/core/process/ipc-process-message.interface';
 
 describe('ProcessListener', () => {
   const processSpy = jest.spyOn(process, 'on');
@@ -23,7 +23,10 @@ describe('ProcessListener', () => {
       processListener.listen('test', listener);
 
       const internalListener = processSpy.mock.calls[0][1];
-      internalListener(<IpcProcessMessage>{ channelName: 'test', payload: '123' });
+      internalListener(<IpcProcessMessage>{
+        channelName: 'test',
+        payload: '123',
+      });
 
       expect(listener).toBeCalledWith('123');
     });
@@ -34,7 +37,10 @@ describe('ProcessListener', () => {
       processListener.listen('test', listener);
 
       const internalListener = processSpy.mock.calls[0][1];
-      internalListener(<IpcProcessMessage>{ channelName: 'test2', payload: '123' });
+      internalListener(<IpcProcessMessage>{
+        channelName: 'test2',
+        payload: '123',
+      });
 
       expect(listener).not.toBeCalled();
     });

@@ -1,5 +1,5 @@
-import { ControllerHandlersMetadataReader } from '../../../lib/metadata-readers/controller-handlers-metadata.reader';
-import { ControllerMetadataReader } from '../../../lib/metadata-readers/controller-metadata.reader';
+import { ControllerHandlersMetadataReader } from '../../../lib/core/metadata-readers/controller-handlers-metadata.reader';
+import { ControllerMetadataReader } from '../../../lib/core/metadata-readers/controller-metadata.reader';
 
 describe('ControllersMetadataReader', () => {
   let handlersMetadataReader: ControllerHandlersMetadataReader;
@@ -7,7 +7,9 @@ describe('ControllersMetadataReader', () => {
 
   beforeAll(() => {
     handlersMetadataReader = new ControllerHandlersMetadataReader();
-    controllerMetadataReader = new ControllerMetadataReader(handlersMetadataReader);
+    controllerMetadataReader = new ControllerMetadataReader(
+      handlersMetadataReader,
+    );
   });
 
   describe('read', () => {

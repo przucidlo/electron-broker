@@ -1,0 +1,269 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Broker process setup
+
+## Introduction
+
+In this section, you'll learn to how to bind your `BrowserWindow` or `ChildProcess` instance to
+a `Broker` object. Which created on the `main` process works as a bridge between all of the application
+processes. Besides that function, it can also handle and send its messages.
+It's a **crucial** part of the library, so make sure you set it up and bind your processes to it.
+
+## Project structure
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```
+...
+src/
+  main/
+    main.ts
+    preload.js
+  renderer/
+    index.html
+    index.tsx
+...
+```
+
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
+```
+...
+src/
+  main/
+    main.js
+    preload.js
+  renderer/
+    index.html
+    index.jsx
+...
+```
+
+</TabItem>
+</Tabs>
+
+<div style={{display: "flex", justifyContent: "center"}}>
+
+| File          |                         Description                         |
+| ------------- | :---------------------------------------------------------: |
+| main.ts/js    |           An entry point file for `main` process.           |
+| preload.js    | A script exposing Electron internals to `renderer` process. |
+| index.html    |            An html file for renderer `process`.             |
+| index.tsx/jsx |         An entry point file for `renderer` process.         |
+
+</div>
+
+## Setup
+
+### Preload.js
+
+By default `BrowserWindow` has `nodeIntegration` disabled and `contextIsolation` enabled, and to be able
+to send and receive messages from the `renderer` process, you need to create a `preload.js` file, that will expose functions
+required by `Broker` to `renderer` process.
+
+:::info
+
+You can enable `nodeIntegration` and disable `contextIsolation` to skip setup of preload.js file,
+but it's considered **UNSAFE** to expose whole **NodeJS API** to `renderer` process.
+
+:::
+
+You can create the `preload.js` file anywhere in your project,
+but for sake of this example will we will create it in the same folder as our main.js file,
+and this is how `Broker` requires it to look like:
+
+```js title="src/main/preload.js"
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('broker', {
+  send: (channel, data) => {
+    ipcRenderer.send(channel, data);
+  },
+  on: (channel, handler) => {
+    ipcRenderer.on(channel, (event, ...args) => {
+      handler(args[0]);
+    });
+  },
+  removeListener: (channel, handler) => {
+    ipcRenderer.removeListener(channel, handler);
+  },
+});
+```
+
+:::warning
+
+If any definition of these methods differs, you might end up with unexpected behavior.
+
+:::
+
+### BrowserWindow
+
+Our entry file for the `main` process will be very simple, we will create a new `BrowserWindow`, and
+pinpoint the location of our `preload.js` file by using `__dirname`, which gives us an absolute path
+to our `main.js` file, then by using `join(__dirname, 'preload.js')` we receive absolute path to
+`preload.js` file. After getting this done, we need to tell Broker to listen and send messages to our
+`BrowserWindow`, so we pass its reference to `browserWindows` array in config object of
+`BrokerFactory.createMainBroker()` function. And finally, we call `broker.start()` method to start `Broker`
+instance.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {14,18-20,22} title="src/main/main.ts"
+import 'reflect-metadata';
+import { Broker, BrokerFactory } from 'electron-broker';
+import { app, BrowserWindow } from 'electron';
+import { join } from 'path';
+
+let mainWindow: BrowserWindow;
+let broker: Broker;
+
+async function bootstrap() {
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    heigt: 728,
+    webPreferences: {
+      preload: join(__dirname, 'preload.js'),
+    },
+  });
+
+  broker = await BrokerFactory.createMainBroker({
+    browserWindows: [mainWindow],
+  });
+
+  broker.start();
+
+  mainWindow.loadFile('./src/renderer/index.html');
+}
+
+app.whenReady().then(bootstrap);
+```
+
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
+```js {14,18-20,22} title="src/main.js"
+import 'reflect-metadata';
+import { Broker, BrokerFactory } from 'electron-broker';
+import { app, BrowserWindow } from 'electron';
+import { join } from 'path';
+
+let mainWindow;
+let broker;
+
+async function bootstrap() {
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    heigt: 728,
+    webPreferences: {
+      preload: join(__dirname, 'preload.js'),
+    },
+  });
+
+  broker = await BrokerFactory.createMainBroker({
+    browserWindows: [mainWindow],
+  });
+
+  broker.start();
+
+  mainWindow.loadFile('./src/renderer/index.html');
+}
+
+app.whenReady().then(bootstrap);
+```
+
+</TabItem>
+</Tabs>
+
+### ChildProcess
+
+Besides `BrowserWindow` binding, `Broker` also supports binding of `ChildProcess` by providing its reference to
+config object. Let's assume that we already have a pre-bundled javascript file in `./webpack/child.js` directory
+of our project, and we are going to spawn a `ChildProcess` with that file, then we are going to bind it
+to our `Broker` and start its instance.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {20,24,27} title="src/main/main.ts"
+import 'reflect-metadata';
+import { Broker, BrokerFactory } from 'electron-broker';
+import { app, BrowserWindow } from 'electron';
+import { join } from 'path';
+import { ChildProcess, fork } from 'child_process';
+
+let mainWindow: BrowserWindow;
+let broker: Broker;
+let childProcess: ChildProcess;
+
+async function bootstrap() {
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    heigt: 728,
+    webPreferences: {
+      preload: join(__dirname, 'preload.js'),
+    },
+  });
+
+  childProcess = fork('./webpack/child.js', [], { silent: false });
+
+  broker = await BrokerFactory.createMainBroker({
+    browserWindows: [mainWindow],
+    processes: [childProcess],
+  });
+
+  broker.start();
+
+  mainWindow.loadFile('./src/renderer/index.html');
+}
+
+app.whenReady().then(bootstrap);
+```
+
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
+```js {20,24,27} title="src/main.js"
+import 'reflect-metadata';
+import { Broker, BrokerFactory } from 'electron-broker';
+import { app, BrowserWindow } from 'electron';
+import { join } from 'path';
+import { ChildProcess, fork } from 'child_process';
+
+let mainWindow;
+let broker;
+let childProcess;
+
+async function bootstrap() {
+  mainWindow = new BrowserWindow({
+    width: 1024,
+    heigt: 728,
+    webPreferences: {
+      preload: join(__dirname, 'preload.js'),
+    },
+  });
+
+  childProcess = fork('./webpack/child.js', [], { silent: false });
+
+  broker = await BrokerFactory.createMainBroker({
+    browserWindows: [mainWindow],
+    processes: [childProcess],
+  });
+
+  broker.start();
+
+  mainWindow.loadFile('./src/renderer/index.html');
+}
+
+app.whenReady().then(bootstrap);
+```
+
+</TabItem>
+</Tabs>

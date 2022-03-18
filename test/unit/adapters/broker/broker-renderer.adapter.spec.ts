@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { BrokerRendererAdapter } from '../../../../lib/adapters/broker/broker-renderer.adapter';
+import { BrokerRendererAdapter } from '../../../../lib/main/adapters/broker-renderer.adapter';
 import { ipcMain } from '../../__mocks__/electron-mock';
 
 describe('BrokerRendererAdapter', () => {
@@ -7,7 +7,9 @@ describe('BrokerRendererAdapter', () => {
   let rendererAdapter: BrokerRendererAdapter;
 
   beforeEach(() => {
-    browserWindow = <BrowserWindow>{ webContents: <Electron.WebContents>(<unknown>{ send: jest.fn() }) };
+    browserWindow = <BrowserWindow>{
+      webContents: <Electron.WebContents>(<unknown>{ send: jest.fn() }),
+    };
 
     rendererAdapter = new BrokerRendererAdapter(browserWindow);
   });

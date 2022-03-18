@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
-import { Symbols } from '../../../../lib/constants/symbols';
-import { MiddlewareFactory } from '../../../../lib/types/middleware-factory.type';
+import { Symbols } from '../../../../lib/core/constants/symbols';
+import { MiddlewareFactory } from '../../../../lib/core/types/middleware-factory.type';
 import { MockMiddleware } from '../../__mocks__/mock-middleware';
 import { getMockContainerWithDependencies } from '../mock/get-mock-container-with-dependencies';
 
@@ -8,8 +8,8 @@ describe('MiddlewareFactoryComposer', () => {
   let container: Container;
   let middlewareFactory: MiddlewareFactory;
 
-  beforeEach(() => {
-    container = getMockContainerWithDependencies();
+  beforeEach(async () => {
+    container = await getMockContainerWithDependencies();
 
     middlewareFactory = container.get(Symbols.MiddlewareFactory);
   });
@@ -40,7 +40,9 @@ describe('MiddlewareFactoryComposer', () => {
     });
 
     it('If middleware is not injectable and its not an instance of its class, factory should fallback to Object.create', () => {
-      expect(middlewareFactory(MockMiddleware) instanceof MockMiddleware).toBe(true);
+      expect(middlewareFactory(MockMiddleware) instanceof MockMiddleware).toBe(
+        true,
+      );
     });
   });
 });

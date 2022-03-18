@@ -1,5 +1,8 @@
-import { ListenerAdapter } from '../../../../lib/client/listener-adapter/listener-adapter.interface';
+import { ListenerAdapter } from '../../../../lib/core/client/listener-adapter/listener-adapter.interface';
+import { IpcListener } from '../../../../lib/core/client/response-listener/ipc-listener';
 
-export function getMockListenerAdapter(): ListenerAdapter {
-  return { listen: jest.fn(), removeListener: jest.fn() };
+export function getMockListenerAdapter(): IpcListener {
+  return <IpcListener>(
+    (<unknown>{ listen: jest.fn(), removeListener: jest.fn() })
+  );
 }

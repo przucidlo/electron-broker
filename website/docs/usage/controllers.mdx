@@ -1,0 +1,281 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Controllers
+
+## Introduction
+Controller groups a set of handlers, that are meant to receive messages, 
+and return responses to them. By using decorators, we describe a route that 
+points to a handler, which is free to perform any task we want to, 
+and optionally return a result, that will be sent to the client.
+
+## Routing
+
+By use of `MessagePattern()` decorator we can create a route, that will the handle specific message.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {5} title="ping.controller.ts"
+import { Controller, MessagePattern } from 'electron-broker';
+
+@Controller()
+export default class PingPongController {
+  @MessagePattern('ping')
+  public getPong(): string {
+    return 'pong';
+  }
+}
+
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript {5} title="ping.controller.js"
+import { Controller, MessagePattern } from 'electron-broker';
+
+@Controller()
+export default class PingPongController {
+  @MessagePattern('ping')
+  public getPong() {
+    return 'pong';
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+
+Optionally you can provide a **pattern** to `Controller()` decorator, and prefix each route with it.
+
+
+<Tabs>
+<TabItem value="typescript" label="Typescript">
+
+```typescript {3} title="shop.controller.ts"
+import { Controller, MessagePattern } from 'electron-broker';
+
+@Controller('shop')
+export default class ShopController {
+  @MessagePattern('get-products')
+  public getProducts(): string[] {
+    return ['bread', 'rice', 'noodles'];
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="javascript" label="Javascript">
+
+```js {3} title="shop.controller.js"
+import { Controller, MessagePattern } from 'electron-broker';
+
+@Controller('shop')
+export default class ShopController {
+  @MessagePattern('get-products')
+  public getProducts() {
+    return ['bread', 'rice', 'noodles'];
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+
+The broker will perform concatenation with `-` symbol on both patterns. 
+Therefore, this route will be accessible on `shop-get-products` pattern.
+
+## Registration
+
+`Broker` class exposes the `controllers` property in its configuration,
+that's where you'll have to provide references to your controllers, 
+to register them within the broker context.
+
+<Tabs>
+<TabItem value="typescript" label="Typescript">
+
+```typescript {9} title="/src/renderer/index.tsx"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import ShopController from './shop.controller.ts';
+
+let broker: Broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    controllers: [new ShopController()],
+    secure: true,
+  });
+
+  broker.start();
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="Javascript">
+
+```javascript {9} title="/src/renderer/index.jsx"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import ShopController from './shop.controller.ts';
+
+let broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createRendererBroker({
+    controllers: [new ShopController()],
+    secure: true,
+  });
+
+  broker.start();
+}
+```
+
+</TabItem>
+</Tabs>
+
+:::note
+
+It's also possible to register your controllers with built-in support of dependency injection, 
+see [Dependency Injection](/docs/usage/dependency-injection) section for more information.
+:::
+
+## Message structure
+
+Each message sent by the Broker is wrapped into `BrokerEvent` object,
+which contains all information required to correctly forward them.
+Let's have a look at its structure:
+
+<div style={{display: "flex", justifyContent: "center"}}>
+
+| Property |           Description            |
+| -------- | :------------------------------: |
+| type     |     `REQUEST` or `RESPONSE`      |
+| eventId  | Unique identifier of the message |
+| pattern  |          Message pattern         |
+| data     |      Payload of the message      |
+
+</div>
+
+## Data
+
+Accessing the `data` property of BrokerEvent interface is done through use of a `@Data()` decorator.
+
+<Tabs>
+<TabItem value="typescript" label="Typescript">
+
+```typescript {11} title="shop.controller.ts"
+import { Controller, MessagePattern, Data } from 'electron-broker';
+
+interface Product {
+  name: string;
+  price: number;
+}
+
+@Controller('shop')
+export default class ShopController {
+  @MessagePattern('add-product')
+  public addProduct(@Data() data: Product): Promise<string> {
+    return `Created product with name ${data.name}`;
+  }
+}
+```
+
+</TabItem>
+
+<TabItem value="javascript" label="Javascript">
+
+```javascript {11} title="shop.controller.js"
+import { Controller, MessagePattern, Data } from 'electron-broker';
+
+@Controller('shop')
+export default class ShopController {
+  @MessagePattern('add-product')
+  public addProduct(@Data() data) {
+    return `Created product with name ${data.name}`;
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## EventId
+
+It's also also possible to access `eventId` property with `@EventId()` decorator.
+
+<Tabs>
+<TabItem value="typescript" label="Typescript">
+
+```typescript {11} title="event-id.controller.ts"
+import { Controller, MessagePattern, EventId } from 'electron-broker';
+
+@Controller()
+export default class EventIdController {
+  @MessagePattern('display-event-id')
+  public addProduct(@EventId() eventId: string): void {
+    return `This message id is: ${eventId}`;
+  }
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="Javascript">
+
+```typescript {11} title="event-id.controller.js"
+import { Controller, MessagePattern, EventId } from 'electron-broker';
+
+@Controller()
+export default class EventIdController {
+  @MessagePattern('display-event-id')
+  public addProduct(@EventId() eventId) {
+    return `This message id is: ${eventId}`;
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Custom decorators
+
+Custom decorators allow you to access any property of `BrokerEvent` object. 
+This becomes useful, when you decide to inject a custom property, with your own middleware.
+
+<Tabs>
+<TabItem value="typescript" label="Typescript">
+
+```typescript title="type.decorator.ts"
+import { createParamDecorator } from 'electron-broker';
+
+const Type = createParamDecorator((options, brokerEvent) => {
+  return brokerEvent.type;
+});
+
+export default Type;
+```
+
+</TabItem>
+<TabItem value="javascript" label="Javascript">
+
+```typescript title="type.decorator.js"
+import { createParamDecorator } from 'electron-broker';
+
+const Type = createParamDecorator((options, brokerEvent) => {
+  return brokerEvent.type;
+});
+
+export default Type;
+```
+
+</TabItem>
+</Tabs>
+

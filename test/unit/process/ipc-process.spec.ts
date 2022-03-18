@@ -1,4 +1,4 @@
-import IpcProcess from '../../../lib/process/ipc-process';
+import IpcProcess from '../../../lib/core/process/ipc-process';
 import { mockProcess } from './mocks/mock-process';
 
 describe('IpcProcess', () => {
@@ -58,12 +58,6 @@ describe('IpcProcess', () => {
 
     it('Should register new channel', () => {
       expect(() => ipcProcess.on(mockChannelName, mockListener)).not.toThrow();
-    });
-
-    it('Should throw error if channel already exists', () => {
-      ipcProcess.on(mockChannelName, mockListener);
-
-      expect(() => ipcProcess.on(mockChannelName, mockListener)).toThrowError();
     });
   });
 });

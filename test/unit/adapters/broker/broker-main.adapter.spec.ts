@@ -1,4 +1,4 @@
-import { BrokerMainAdapter } from '../../../../lib/adapters/broker/broker-main.adapter';
+import { BrokerMainAdapter } from '../../../../lib/main/adapters/broker-main.adapter';
 import { clearElectronMock, ipcMain } from '../../__mocks__/electron-mock';
 
 describe('BrokerMainAdapter', () => {

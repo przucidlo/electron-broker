@@ -1,0 +1,237 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Middleware
+
+## Introduction
+Middleware methods have the access to `ExecutionContext` object. Which allows modifying the 
+incoming and outgoing messages. The execution order is reversed for outgoing messages. 
+Therefore, the first Middleware will have its `onResponse()` method executed as the last one.
+
+## Implementation
+Creating of middleware is done by the implementation of the `Middleware` interface.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="message-logger.middleware.ts"
+import { Middleware } from 'electron-broker';
+
+export class MessageLoggerMiddleware implements Middleware {
+  public onRequest(context: ExecutionContext) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+
+  
+  public onResponse(context: ExecutionContext) { 
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```js title="message-logger.middleware.js"
+import { Middleware } from 'electron-broker';
+
+export class MessageLoggerMiddleware { 
+  public onRequest(context) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Received message with eventId: ${eventId}`)    
+  }
+
+  public onResponse(context) {
+    const { eventId } = context.brokerEvent;
+
+    console.log(`[LOG] Sent message with eventId: ${eventId}`)    
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Applying middleware
+
+
+### Controller
+
+Middleware can be applied globally on a controller, or its method by the use of `UseMiddleware()` decorator.  
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript {5,14} title="controller-middleware.ts"
+import MessageLoggerMiddleware from './message-logger.middleware.ts'
+import RouteSpecificMiddleware from './route-specific.middleware.ts'
+
+@Controller()
+@UseMiddleware([new MessageLoggerMiddleware()])
+export default class MiddlewareController {
+
+  @MessagePattern('test-route')
+  public testRoute(): string {
+    return "test";
+  }
+  
+  @MessagePattern('another-route')
+  @UseMiddleware([new RouteSpecificMiddleware()])
+  public anotherRoute(): number {
+    return 1;
+  }
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```javascript {5,14} title="controller-middleware.js"
+import MessageLoggerMiddleware from './message-logger.middleware.js'
+import RouteSpecificMiddleware from './route-specific.middleware.js'
+
+@Controller()
+@UseMiddleware([new MessageLoggerMiddleware()])
+export default class MiddlewareController {
+
+  @MessagePattern('test-route')
+  public testRoute() {
+    return "test";
+  }
+  
+  @MessagePattern('another-route')
+  @UseMiddleware([new RouteSpecificMiddleware()])
+  public anotherRoute() {
+    return 1;
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+Controller-level middleware is always executed before method one. Therefore, the execution order in 
+this example will start with `MessageLoggerMiddleware` first, then end with `RouteSpecificMiddleware`.  
+
+By use of the `setMiddleware()` method of `Broker` class, it's possible to apply middleware to each 
+controller that you bind to `Broker` instance. But it has to be done **before** calling the `start()` method.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="global-middleware.ts"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import MessageLogMiddleware from './message-logger.middleware.ts'
+
+let broker: Broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker();
+
+  broker.setMiddleware([new MessageLogMiddleware()])
+
+  broker.start();
+}
+
+createBroker();
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript title="global-middleware.js"
+import 'reflect-metadata';
+import { Broker, BrokerClient, BrokerFactory } from 'electron-broker';
+import MessageLogMiddleware from './message-logger.middleware.ts'
+
+let broker;
+
+async function createBroker() {
+  broker = await BrokerFactory.createProcessBroker();
+
+  broker.setMiddleware([new MessageLogMiddleware()])
+
+  broker.start();
+}
+
+createBroker();
+```
+
+</TabItem>
+</Tabs>
+
+### Client
+
+The client's middleware is set **per** `BrokerClient` class instance, with the use of the `setMiddleware()` method. 
+And is executed after usage of `send()`, `invoke()`, and `invokeRaw()` methods.
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="client-middleware.ts"
+brokerClient.setMiddleware([new MessageLogMiddleware()])
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```typescript title="client-middleware.js"
+brokerClient.setMiddleware([new MessageLogMiddleware()])
+```
+
+</TabItem>
+</Tabs>
+
+:::info
+Middleware set in `Broker` context, is **not** available in `BrokerClient` context.
+:::
+
+## Stopping execution
+While creating the middleware feature there was no plan to disrupt the message handling. 
+Therefore, the only way to stop it now is to throw an error either in `onRequest()` or `onResponse()` methods. 
+
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="user-guard.middleware.ts"
+export default class UserGuardMiddleware { 
+  public onRequest(context: ExecutionContext) {
+    const { user } = context.brokerEvent;
+
+    if(!user) {
+      throw new Error('BrokerEvent lacks user property, stopping the execution...')
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```javascript title="user-guard.middleware.js"
+export default class UserGuardMiddleware { 
+  public onRequest(context) {
+    const { user } = context.brokerEvent;
+
+    if(!user) {
+      throw new Error('BrokerEvent lacks user property, stopping the execution...')
+    }
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Lifecycle
+Each time the middleware executes, the broker creates a copy of it and discards it after
+the message leaves its origin. 
