@@ -18,7 +18,7 @@ By abstracting the Electron API, broker provides you with simple and well known 
 
 # Getting started
 
-Learn more at project [documentation](https://abbl.github.io/electron-broker/) page.
+Learn more at project [documentation](https://przucidlo.github.io/electron-broker/) page.
 
 # License
 
