@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://abbl.github.io/electron-broker/img/logo.svg" width="256"/>
+  <img src="https://przucidlo.github.io/electron-broker/img/logo.svg" width="256"/>
 </p>
 <p align="center">
   Simple and seamless messaging for Electron, with built-in inter-process communication protocol.
