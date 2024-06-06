@@ -24,7 +24,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
        name: install
-    - name: Test
-      run: npm install      
+    - name: Install playwright
+      run: npx playwright install
     - name: Run tests
       run: npm run test:functional
