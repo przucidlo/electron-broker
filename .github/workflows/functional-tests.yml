@@ -24,7 +24,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
        name: install
-    - name: Display structure of downloaded files
-      run: ls -R      
+    - name: Test
+      run: npm run install      
     - name: Run tests
       run: npm run test:functional
