@@ -14,6 +14,7 @@ jobs:
     name: electron@latest
     runs-on: ubuntu-latest
     steps:
-    - uses: ./.github/workflows/functional-tests-install.yml      
+    - uses: actions/checkout@v2
+    - uses: .github/workflows/functional-tests-install.yml      
     - name: Run tests
       run: npm test:functional
