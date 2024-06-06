@@ -21,4 +21,4 @@ jobs:
 
     steps:
     - name: Run tests
-      run: npm test:functional
+      run: npm run test:functional
