@@ -23,6 +23,8 @@ jobs:
     - name: Download install artifact
       uses: actions/download-artifact@v4
       with:
-        name: install
+       name: install
+    - name: Display structure of downloaded files
+      run: ls -R      
     - name: Run tests
       run: npm run test:functional
