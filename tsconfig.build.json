@@ -3,5 +3,5 @@
   "compilerOptions": {
     "rootDir": "./lib"
   },
-  "exclude": ["node_modules", "dist", "test", "website"]
+  "exclude": ["node_modules", "dist", "test", "website", "playwright.config.ts"]
 }

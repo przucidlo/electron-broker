@@ -8,29 +8,26 @@
   "scripts": {
     "test": "jest --runInBand",
     "test:watch": "jest --watch --runInBand",
+    "test:functional": "playwright test",
+    "pretest:functional": "npm run link:functional:app && npm run build && npm run build:functional:app",
     "coverage": "jest ---coverage --runInBand",
     "build": "tsc -p ./tsconfig.build.json",
-    "postbuild": "cpx \"./lib/templates/*\" dist "
+    "build:functional:app": "cd test/functional/app && npm run package",
+    "postbuild": "cpx \"./lib/templates/*\" dist ",
+    "link:functional:app": "npm link && cd test/functional/app && npm link electron-broker"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abbl/electron-broker.git"
+    "url": "git+https://github.com/przucidlo/electron-broker.git"
   },
-  "keywords": [
-    "electron",
-    "ipc",
-    "library"
-  ],
-  "author": "Abbl (Patryk Rzucidło)",
+  "keywords": ["electron", "ipc", "library"],
+  "author": "przucidlo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/abbl/electron-broker/issues"
+    "url": "https://github.com/przucidlo/electron-broker/issues"
   },
-  "homepage": "https://github.com/abbl/electron-broker#readme",
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "homepage": "https://github.com/przucidlo/electron-broker#readme",
+  "files": ["dist", "README.md"],
   "peerDependencies": {
     "electron": ">= 8.0.0",
     "reflect-metadata": ">= 0.1.0"
@@ -44,6 +41,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.1",
     "@types/jest": "^26.0.22",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/uuid": "^8.3.0",
