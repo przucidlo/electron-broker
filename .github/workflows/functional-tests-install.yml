@@ -40,10 +40,13 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm --prefix test/functional/app ci test/functional/app
 
-    - name: Install specified electron version
-      if: ${{inputs.electron_version != null }}
-      run: npm install electron@${{ inputs.electron_version }}
-
     - name: Install electron latest
-      if: ${{inputs.electron_version == null }}
       run: npm install electron@latest
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: install
+        path: ./
+        retention-days: 1
+        overwrite: true
