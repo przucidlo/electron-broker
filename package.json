@@ -13,7 +13,7 @@
     "coverage": "jest ---coverage --runInBand",
     "build": "tsc -p ./tsconfig.build.json",
     "build:functional:app": "cd test/functional/app && npm run package",
-    "postbuild": "cpx \"./lib/templates/*\" dist ",
+    "postbuild": "cp -a lib/templates/. dist",
     "link:functional:app": "npm link && cd test/functional/app && npm link electron-broker"
   },
   "repository": {
