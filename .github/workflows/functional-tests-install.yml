@@ -33,11 +33,11 @@ jobs:
         node-version: 21.x
 
     - name: Install library packages
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.library-cache.outputs.cache-hit != 'true'
       run: npm ci
 
     - name: Install application packages
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.app-cache.outputs.cache-hit != 'true'
       run: npm --prefix test/functional/app ci test/functional/app
 
     - name: Install electron latest
