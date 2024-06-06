@@ -13,7 +13,7 @@ jobs:
   install:
     name: Install dependencies
     uses: ./.github/workflows/functional-tests-install.yml
-    
+
   electron-latest:
     name: electron@latest
     runs-on: ubuntu-latest
@@ -23,7 +23,9 @@ jobs:
     - name: Download install artifact
       uses: actions/download-artifact@v4
       with:
-       name: install
+        name: install
+    - name: Ensure Playwright Binaries are Executable
+      run: chmod +x ./node_modules/.bin/playwright      
     - name: Install playwright
       run: npx playwright install
     - name: Run tests
