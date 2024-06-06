@@ -1,0 +1,49 @@
+name: Install functional tests dependencies
+
+on:
+  workflow_call:
+    inputs:
+      electron_version:
+        required: false
+        type: number
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache library node modules
+      id: library-cache
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: cache-library-node-modules-${{ hashFiles('package-lock.json') }}
+
+    - uses: actions/checkout@v2
+    - name: Cache app node modules
+      id: app-cache
+      uses: actions/cache@v2
+      with:
+        path: test/functional/node_modules
+        key: cache-app-node-modules-${{ hashFiles('test/functional/app/package-lock.json') }}
+
+    - uses: actions/setup-node@v2
+      if: steps.app-cache.outputs.cache-hit != 'true'
+      with:
+        node-version: 21.x
+
+    - name: Install library packages
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Install application packages
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm --prefix test/functional/app ci test/functional/app
+
+    - name: Install specified electron version
+      if: ${{inputs.electron_version != null }}
+      run: npm install electron@${{ inputs.electron_version }}
+
+    - name: Install electron latest
+      if: ${{inputs.electron_version == null }}
+      run: npm install electron@latest
