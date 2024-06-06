@@ -11,8 +11,9 @@ env:
 
 jobs:
   electron@latest:
-    name: Functional tests with electron@latest
-    uses: ./.github/workflows/functional-tests-install.yml      
+    name: electron@latest
+    runs-on: ubuntu-latest
     steps:
+    - uses: ./.github/workflows/functional-tests-install.yml      
     - name: Run tests
       run: npm test:functional
