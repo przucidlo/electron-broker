@@ -10,7 +10,7 @@ env:
   CI: true
 
 jobs:
-  electron@latest:
+  electron-latest:
     name: electron@latest
     runs-on: ubuntu-latest
     steps:
