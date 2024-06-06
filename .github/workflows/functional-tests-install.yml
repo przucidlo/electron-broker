@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Cache library node modules
       id: library-cache
       uses: actions/cache@v2
       with:
         path: node_modules
         key: cache-library-node-modules-${{ hashFiles('package-lock.json') }}
-
-    - uses: actions/checkout@v2
+          
     - name: Cache app node modules
       id: app-cache
       uses: actions/cache@v2

@@ -15,7 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: ./../.github/workflows/functional-tests-install.yml
+      with:
+        fetch-depth: 0
+    - uses: ./.github/workflows/functional-tests-install.yml
       name: Install dependencies
     - name: Run tests
       run: npm test:functional
