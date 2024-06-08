@@ -25,6 +25,9 @@ jobs:
       with:
         name: install
 
+    - name: Debug
+      run: ls -a
+
     - name: Untar files
       run: tar -xvzf install.tar
 
