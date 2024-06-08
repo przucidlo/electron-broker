@@ -24,9 +24,5 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: install
-    - name: Ensure Playwright Binaries are Executable
-      run: chmod +x ./node_modules/.bin/playwright      
-    - name: Install playwright
-      run: npx playwright install
     - name: Run tests
       run: npm run test:functional

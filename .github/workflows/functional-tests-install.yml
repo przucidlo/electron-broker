@@ -43,10 +43,13 @@ jobs:
     - name: Install electron latest
       run: npm install electron@latest
 
+    - name: Tar files
+      run: tar -cvf install.tar ./
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: install
-        path: ./
+        path: install.tar
         retention-days: 1
         overwrite: true
