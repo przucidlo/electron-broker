@@ -9,16 +9,14 @@ export interface Fixtures {
 export const test = base.extend<Fixtures>({
   brokerPage: [
     async ({}, use) => {
+      const mainPath = process.env.CI
+        ? '../app/out/app-linux-x64/resources/app/.vite/build/main.js'
+        : '../app/out/app-darwin-arm64/app.app/Contents/Resources/app/.vite/build/main.js';
+
       const app = await electron.launch({
-        args: [
-          path.join(
-            __dirname,
-            '../app/out/app-darwin-arm64/app.app/Contents/Resources/app/.vite/build/main.js',
-          ),
-        ],
+        args: [path.join(__dirname, mainPath)],
         env: {
           ...process.env,
-          NODE_ENV: 'development',
         },
       });
 
