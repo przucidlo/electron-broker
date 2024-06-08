@@ -8,6 +8,7 @@ on:
 
 env:
   CI: true
+  DEBUG: 'pw:browser*'
 
 jobs:
   install:
