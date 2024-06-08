@@ -16,6 +16,10 @@ export const test = base.extend<Fixtures>({
             '../app/out/app-darwin-arm64/app.app/Contents/Resources/app/.vite/build/main.js',
           ),
         ],
+        env: {
+          ...process.env,
+          NODE_ENV: 'development',
+        },
       });
 
       const brokerPage = new BrokerPage(await app.firstWindow());
