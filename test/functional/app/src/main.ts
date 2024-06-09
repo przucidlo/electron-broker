@@ -33,10 +33,6 @@ const createWindow = () => {
     );
   }
 
-  mainWindow.once('ready-to-show', () => {
-    return;
-  });
-
   childProcess = fork(path.join(__dirname, 'child-process.js'), {
     silent: false,
     env: {

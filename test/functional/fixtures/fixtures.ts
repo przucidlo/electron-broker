@@ -1,20 +1,20 @@
 import { test as base, _electron as electron } from '@playwright/test';
 import { BrokerPage } from './broker-page';
 import path from 'path';
+import { findFilePath } from '../utilities/findFilePath';
 
 export interface Fixtures {
   brokerPage: BrokerPage;
 }
 
+const appOutPath = path.join(__dirname, '../app/out');
+const mainFilePath = findFilePath('main.js', appOutPath);
+
 export const test = base.extend<Fixtures>({
   brokerPage: [
     async ({}, use) => {
-      const mainPath = process.env.CI
-        ? '../app/out/app-linux-x64/resources/app/.vite/build/main.js'
-        : '../app/out/app-darwin-arm64/app.app/Contents/Resources/app/.vite/build/main.js';
-
       const app = await electron.launch({
-        args: [path.join(__dirname, mainPath)],
+        args: [path.join(appOutPath, mainFilePath)],
         env: {
           ...process.env,
         },
