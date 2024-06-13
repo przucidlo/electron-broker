@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures/fixtures';
+import { test, expect } from './fixtures/test';
 
 ['browser', 'renderer', 'childProcess'].forEach((process) => {
   test.describe(`Communication between renderer and ${process}`, () => {
