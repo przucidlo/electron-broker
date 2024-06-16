@@ -7,7 +7,8 @@
 
 <p align="center">
   <img src="https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I"/>
-  <img src="https://github.com/abbl/electron-dove/actions/workflows/automatic-unit-tests.yml/badge.svg"/>
+  <img src="https://github.com/abbl/electron-dove/actions/workflows/unit-tests.yml/badge.svg"/>
+  <img src="https://github.com/abbl/electron-dove/actions/workflows/functional-tests.yml/badge.svg"/>
 </p>
 
 # About
@@ -22,4 +23,4 @@ Learn more at project [documentation](https://przucidlo.github.io/electron-broke
 
 # License
 
-This project is published under [MIT](https://github.com/abbl/electron-broker/blob/master/LICENSE) license.
+This project is published under [MIT](https://github.com/przucidlo/electron-broker/blob/master/LICENSE) license.
