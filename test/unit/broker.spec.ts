@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Broker, BrokerClient, TransformableBrokerClient } from '../../lib';
+import { Broker, BrokerClient } from '../../lib';
 import { Symbols } from '../../lib/core/constants/symbols';
 import { ModuleMode } from '../../lib/core/interfaces/module-mode.interface';
 import { ModuleConfig } from '../../lib/core/types/module-config.type';
@@ -76,14 +76,6 @@ describe('Broker', () => {
   describe('getClient', () => {
     it('Should return instance of BrokerClient', () => {
       expect(broker.createClient() instanceof BrokerClient).toBe(true);
-    });
-  });
-
-  describe('getTransformableClient', () => {
-    it('Should return instance of TransformableBrokerClient', () => {
-      expect(
-        broker.createTransformableClient() instanceof TransformableBrokerClient,
-      ).toBe(true);
     });
   });
 
