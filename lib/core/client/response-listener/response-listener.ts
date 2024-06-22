@@ -13,7 +13,7 @@ export class ResponseListener {
     private timeoutInSeconds: number = 30,
   ) {}
 
-  public async listen(): Promise<BrokerEvent> {
+  public async listen<R extends unknown>(): Promise<BrokerEvent<R>> {
     try {
       return await new Promise((resolve, reject) => {
         this.listener.listen(

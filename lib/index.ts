@@ -1,7 +1,5 @@
 export * from './core/client/broker.client';
 export { default as BrokerClient } from './core/client/broker.client';
-export * from './core/client/transformable-broker.client';
-export { default as TransformableBrokerClient } from './core/client/transformable-broker.client';
 
 export * from './core/constants/decorators';
 export * from './core/constants/mode.enum';
