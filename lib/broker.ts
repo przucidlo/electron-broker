@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import { Middleware, TransformableBrokerClient } from '.';
+import { Middleware } from '.';
 import BrokerClient from './core/client/broker.client';
 import { Symbols } from './core/constants/symbols';
 import { ModuleMode } from './core/interfaces/module-mode.interface';
@@ -57,9 +57,5 @@ export default class Broker {
 
   public createClient(): BrokerClient {
     return this.container.get(BrokerClient);
-  }
-
-  public createTransformableClient(): TransformableBrokerClient {
-    return this.container.get(TransformableBrokerClient);
   }
 }
