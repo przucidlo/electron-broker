@@ -1,6 +1,6 @@
 import { BrokerEvent } from '../../../lib/core/interfaces/broker-event.interface';
 
-export function getMockBrokerEventData(): BrokerEvent {
+export function getMockBrokerEventData(): BrokerEvent<any> {
   return {
     type: 'REQUEST',
     data: {},

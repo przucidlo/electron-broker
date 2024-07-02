@@ -1,13 +1,11 @@
 jest.useFakeTimers();
-import { BrokerClient, ExecutionContext, Middleware } from '../../../lib';
+import { BrokerClient } from '../../../lib';
 import { BrokerEventSubscriber } from '../../../lib/core/client/event-subscriber/broker-event-subscriber';
 import { ListenerFactory } from '../../../lib/core/client/listener-adapter/factory/listener-factory';
 import { IpcListener } from '../../../lib/core/client/response-listener/ipc-listener';
 import { ResponseListener } from '../../../lib/core/client/response-listener/response-listener';
 import { BROKER_EVENT } from '../../../lib/core/constants/channels';
 import { IpcTransport } from '../../../lib/core/interfaces/ipc-transport.interface';
-import { MiddlewareExecutor } from '../../../lib/core/middleware/middleware-executor';
-import { MiddlewareExecutorFactory } from '../../../lib/core/types/middleware-executor-factory.type';
 import { getMockBrokerEventData } from '../__mocks__/get-mock-broker-event-data';
 import { getMockIpcTransport } from '../__mocks__/get-mock-ipc-transport';
 import { getMockListenerAdapter } from './__mocks__/get-mock-listener-adapter';
@@ -19,23 +17,16 @@ describe('BrokerClient', () => {
   let listenerAdapter: IpcListener;
   let brokerClient: BrokerClient;
   let ipcTransport: IpcTransport;
-  let mockMiddleware: Middleware;
 
   beforeEach(() => {
     listenerAdapter = getMockListenerAdapter() as IpcListener;
     ListenerFactory.createListener = () => listenerAdapter;
 
-    const middlewareExecutorFactory: MiddlewareExecutorFactory = (middleware) =>
-      new MiddlewareExecutor((middleware) => <any>middleware, middleware);
-
     ipcTransport = getMockIpcTransport();
-    mockMiddleware = { onRequest: jest.fn(), onResponse: jest.fn() };
     responseListener = new ResponseListener(brokerEvent, listenerAdapter);
 
     brokerClient = new BrokerClient(
       ipcTransport,
-      middlewareExecutorFactory,
-      (brokerEvent) => new ExecutionContext(undefined, brokerEvent),
       () => {
         return responseListener;
       },
@@ -81,48 +72,6 @@ describe('BrokerClient', () => {
         BROKER_EVENT,
         expect.objectContaining({ data: data, pattern: pattern }),
       );
-    });
-
-    it('Should execute middleware, but only onRequest part', () => {
-      brokerClient.setMiddleware([mockMiddleware]);
-
-      brokerClient.send('pattern', 'data');
-
-      expect(mockMiddleware.onRequest).toBeCalled();
-    });
-
-    it('Should execute middleware, but without onResponse part', () => {
-      brokerClient.setMiddleware([mockMiddleware]);
-
-      brokerClient.send('pattern', 'data');
-
-      expect(mockMiddleware.onResponse).not.toBeCalled();
-    });
-  });
-
-  describe('invokeRaw', () => {
-    const pattern = 'test';
-    const data = 'test';
-
-    it('Should send a BrokerEvent to Broker process', async () => {
-      brokerClient.invokeRaw(pattern, data);
-      jest.clearAllTimers();
-
-      await Promise.resolve();
-
-      expect(ipcTransport.send).toBeCalledWith(
-        BROKER_EVENT,
-        expect.objectContaining({ data: data, pattern: pattern }),
-      );
-    });
-
-    it('Should return a response from Broker process', async () => {
-      responseListener.listen = () =>
-        new Promise((resolve) => resolve(brokerEvent));
-
-      const result = await brokerClient.invokeRaw(pattern, data);
-
-      expect(result).toBe(brokerEvent);
     });
   });
 
