@@ -8,7 +8,7 @@ env:
 jobs:
   install:
     name: Install dependencies
-    uses: ./.github/workflows/functional-tests-install.yml
+    uses: ./.github/workflows/install.yml
 
   electron-latest:
     name: Test electron@latest
