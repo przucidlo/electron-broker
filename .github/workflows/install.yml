@@ -1,4 +1,4 @@
-name: Install functional tests dependencies
+name: Install dependencies
 
 on:
   workflow_call:

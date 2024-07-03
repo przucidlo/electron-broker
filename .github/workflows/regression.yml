@@ -1,0 +1,77 @@
+name: Regression
+
+on: workflow_dispatch
+
+env:
+  CI: true
+
+jobs:
+  install:
+    name: Install dependencies
+    uses: ./.github/workflows/functional-tests-install.yml
+
+  electron-latest:
+    name: Test electron@latest
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+      - name: Download install artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: install
+
+      - name: Untar files
+        run: tar -xf install.tar
+
+      - name: Run tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test:functional
+
+  electron-30:
+    name: Test electron@30
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+      - name: Download install artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: install
+
+      - name: Untar files
+        run: tar -xf install.tar
+
+      - name: Install electron@30
+        run: npm install electron@30
+
+      - name: Run tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test:functional
+
+  electron-29:
+    name: Test electron@29
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+      - name: Download install artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: install
+
+      - name: Untar files
+        run: tar -xf install.tar
+
+      - name: Install electron@29
+        run: npm install electron@29
+
+      - name: Run tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test:functional
+
+  clear:
+    name: Clear artifacts
+    runs-on: ubuntu-latest
+    needs: [electron-latest, electron-30, electron-29]
+    steps:
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: install

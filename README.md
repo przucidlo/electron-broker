@@ -7,8 +7,7 @@
 
 <p align="center">
   <img src="https://codecov.io/gh/abbl/electron-dove/branch/master/graph/badge.svg?token=FHETY9RA7I"/>
-  <img src="https://github.com/abbl/electron-dove/actions/workflows/unit-tests.yml/badge.svg"/>
-  <img src="https://github.com/abbl/electron-dove/actions/workflows/functional-tests.yml/badge.svg"/>
+  <img src="https://github.com/abbl/electron-broker/actions/workflows/regression.yml/badge.svg"/>
 </p>
 
 # About
