@@ -6,7 +6,9 @@ import { Message } from '../types/message.type';
 
 export default function MessagePattern<M extends Message>(
   pattern: M['pattern'],
-): GenericMethodDecorator<(...props: any) => M['response']> {
+): GenericMethodDecorator<
+  (...props: any) => M['response'] | Promise<M['response']>
+> {
   return (target, propertyKey, descriptor) => {
     Reflect.defineMetadata(HANDLER_PATTERN_METADATA, pattern, descriptor.value);
   };
